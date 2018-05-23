@@ -2,15 +2,14 @@
   <div class="login">
     <v-container justify-center  transition="scale-transition">
       <h1>用户登录</h1>
-      <v-form>
+      <v-form ref="login">
         <v-text-field
-          v-model="username"
-          label="用户名"
-          require
-        ></v-text-field>
-        <v-text-field
-          v-model="password"
-          label="密码"
+          v-for="field in formFields"
+          v-model="formData[field.key]"
+          :key="field.key"
+          :label="field.label"
+          :rules="field.rules || []"
+          :type="field.type || 'text'"
           required
         ></v-text-field>
       </v-form>
@@ -25,29 +24,46 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import EventBus, { Event } from '@/utils/EventBus';
+import { default as localforage } from 'localforage'
 import * as apis from "../../apis/index"
 
 @Component
 export default class Login extends Vue {
-  username: string = '';
-  password: string = '';
+  formData = {
+    username: '',
+    password: '',
+  }
 
-  login() {
-    try {
-      apis.postUserLogin({
-        username: this.username,
-        password: this.password,
-      })
-        .then(() => {
-          console.log('ok')
-        })
-        .catch(() => {
-          console.log('error')
-        })
-      // this.$router.push({ name: 'profile' });
-    } catch(e) {
+  formFields = [
+    {
+      key: 'username',
+      label: '用户名',
+      rules: [(v: any) => !!v || '请填写用户名'],
+    },
+    {
+      key: 'password',
+      label: '密码',
+      type: 'password',
+      rules: [(v: any) => !!v || '请填写密码'],
+    },
+  ]
 
+  async login() {
+    await (this.$refs.login as any).validate()
+
+    const postFormData: any = new FormData();
+    postFormData.set('username', this.formData.username);
+    postFormData.set('password', this.formData.password);
+
+    const resp = await apis.postUserLogin(postFormData)
+    if (resp.success) {
+      await localforage.setItem('ignite_token', resp.data)
+      this.$router.push({ name: 'profile' });
+    } else {
+      EventBus.$emit(Event.TOAST, {text: resp.message})
     }
+    // this.$router.push({ name: 'profile' });
   }
 }
 </script>

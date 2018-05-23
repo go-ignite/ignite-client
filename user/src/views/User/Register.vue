@@ -2,25 +2,14 @@
   <div class="register">
     <v-container justify-center  transition="scale-transition">
       <h1>用户注册</h1>
-      <v-form>
+      <v-form ref="register">
         <v-text-field
-          v-model="inviteCode"
-          label="邀请码"
-          require
-        ></v-text-field>
-        <v-text-field
-          v-model="username"
-          label="用户名"
-          require
-        ></v-text-field>
-        <v-text-field
-          v-model="password"
-          label="密码"
-          required
-        ></v-text-field>
-        <v-text-field
-          v-model="confirmPassword"
-          label="确认密码"
+          v-for="field in formFields"
+          :key="field.key"
+          :label="field.label"
+          :rules="field.rules || []"
+          :type="field.type || 'text'"
+          v-model="formData[field.key]"
           required
         ></v-text-field>
       </v-form>
@@ -42,31 +31,64 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import EventBus, { Event } from '@/utils/EventBus';
 import * as apis from '../../apis';
 
 @Component
 export default class Register extends Vue {
-  inviteCode: string = '';
-  username: string = '';
-  password: string = '';
-  confirmPassword: string = '';
   snackbar: boolean = false;
   jumpId: any = 0;
 
+  formData = {
+    'invite-code': '',
+    username: '',
+    password: '',
+    'confirm-password': '',
+  };
+
+  formFields = [
+    {
+      key: 'invite-code',
+      label: '邀请码',
+      rules: [(v: any) => !!v || '请填写邀请码'],
+    },
+    {
+      key: 'username',
+      label: '用户名',
+      rules: [(v: any) => !!v || '请填写用户名'],
+    },
+    {
+      key: 'password',
+      label: '密码',
+      type: 'password',
+      rules: [(v: any) => !!v || '请填写密码'],
+    },
+    {
+      key: 'confirm-password',
+      type: 'password',
+      label: '确认密码',
+      rules: [(v: any) => !!v || '请再输入一次密码'],
+    }
+  ]
+
   async submit() {
-    debugger
-    await apis.postUserSignup({
-      'invite-code': this.inviteCode,
-      username: this.username,
-      password: this.password,
-      confirmPassword: this.confirmPassword
+    await (this.$refs.register as any).validate()
+
+    const postFormData: any = new FormData();
+    this.formFields.forEach(e => {
+      postFormData.set(e.key, this.formData[e.key]);
     })
-    this.snackbar = true;
-    this.jumpId = setTimeout(() => {
-      this.$router.push({
-        name: 'login',
-      });
-    }, 2000);
+    const resp  = await apis.postUserSignup(postFormData);
+    if (resp.success) {
+      this.snackbar = true;
+      this.jumpId = setTimeout(() => {
+        this.$router.push({
+          name: 'login',
+        });
+      }, 2000);
+    } else {
+      EventBus.$emit(Event.TOAST, {text: resp.message})
+    }
   }
 
   beforeDestroy() {

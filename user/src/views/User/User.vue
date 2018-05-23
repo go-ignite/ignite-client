@@ -11,6 +11,22 @@
   </v-app>
 </template>
 
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import { default as localforage } from 'localforage'
+
+@Component
+export default class Login extends Vue {
+  async mounted() {
+    const token = await localforage.getItem('ignite_token')
+    if (token) {
+      this.$router.push({ name: 'profile' });
+    }
+  }
+}
+
+</script>
+
 <style lang="less">
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;

@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { BACK_API } from '@/config';
+import localforage from 'localforage';
 
 const $http = axios.create({
-  baseURL: BACK_API,
   timeout: 3 * 60 * 1000, // 3 minutes
   responseType: 'json',
   headers: {
@@ -12,11 +12,11 @@ const $http = axios.create({
 });
 
 $http.interceptors.request.use(
-  (config: any) => {
-    const token = localStorage.getItem('ignite_token');
+  async (config: any) => {
+    const token = await localforage.getItem('ignite_token');
     if (token) {
       Object.defineProperty(config.headers, 'Authorization', {
-        value: `Bearer ${token}`,
+        value: token,
         configurable: true,
         enumerable: true,
         writable: true,

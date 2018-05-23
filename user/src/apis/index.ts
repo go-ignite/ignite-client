@@ -5,5 +5,15 @@ export function postUserLogin(payload: any) {
 }
 
 export function postUserSignup(payload: any) {
-  return request.post('/api/user/signup/', payload);
+  return request.post('/api/user/signup', payload);
 }
+
+export function fetchUserInfo(payload: any) {
+  return request.get('/api/user/auth/info', payload);
+}
+
+export function fetchServiceConfig(payload: any) {
+  return request.get('/api/user/auth/service/config', payload);
+}
+
+

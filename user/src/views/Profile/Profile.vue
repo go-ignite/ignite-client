@@ -22,6 +22,15 @@
     <v-toolbar color="indigo" dark fixed app>
       <v-toolbar-side-icon @click.stop="toggleMenu"></v-toolbar-side-icon>
       <v-toolbar-title>我的服务</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-menu offset-y>
+        <v-icon slot="activator">account_circle</v-icon>
+        <v-list>
+          <v-list-tile @click="logout">
+            <v-list-tile-title>退出登录</v-list-tile-title>
+          </v-list-tile>
+        </v-list>
+      </v-menu>
     </v-toolbar>
     <v-content>
       <v-container fluid class="profile_container">
@@ -35,6 +44,8 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { default as localforage } from 'localforage'
+import * as apis from "../../apis/index"
 
 @Component
 export default class Profile extends Vue {
@@ -57,6 +68,19 @@ export default class Profile extends Vue {
       name,
     });
     this.drawer = false;
+  }
+
+  logout() {
+    localforage.removeItem('ignite_token')
+    this.$router.push({
+      name: 'home'
+    })
+  }
+
+  mounted() {
+    apis.fetchUserInfo()
+      .then(data => {
+      })
   }
 }
 </script>

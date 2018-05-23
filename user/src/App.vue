@@ -1,6 +1,21 @@
 <template>
-  <router-view />
+  <div>
+    <snack-bar></snack-bar>
+    <router-view />
+  </div>
 </template>
+
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import SnackBar from '@/components/SnackBar.vue';
+
+@Component({
+  components: {
+    SnackBar,
+  }
+})
+export default class App extends Vue {}
+</script>
 
 <style lang="less">
 #app {
