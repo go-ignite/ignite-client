@@ -34,7 +34,7 @@ export default {
   methods: {
     onSubmit() {
       request
-        .post('/api/auth/code_generate', {
+        .post('/api/admin/auth/code_generate', {
           amount: this.amount,
           limit: this.limit,
           available: this.available,

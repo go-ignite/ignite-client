@@ -55,7 +55,7 @@ export default {
   methods: {
     onSubmit() {
       request
-        .put(`/api/auth/${this.selectUser.Id}/renew`, {
+        .put(`/api/admin/auth/${this.selectUser.Id}/renew`, {
           expired: this.date.valueOf() / 1000,
         })
         .then((response) => {

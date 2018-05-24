@@ -102,7 +102,7 @@ export default {
   methods: {
     fetchCode(index = 1) {
       request
-        .get(`/api/auth/code_list?pageIndex=${index}&pageSize=${this.pagination.size}`)
+        .get(`/api/admin/auth/code_list?pageIndex=${index}&pageSize=${this.pagination.size}`)
         .then((response) => {
           if (response.success) {
             this.codeList = response.data.data
@@ -121,7 +121,7 @@ export default {
         .then(() => {
           const removeId = item.Id
           request
-            .put(`/api/auth/${removeId}/remove`)
+            .put(`/api/admin/auth/${removeId}/remove`)
             .then((response) => {
               if (response.success) {
                 const index = this.codeList.findIndex((e) => e.Id === removeId)

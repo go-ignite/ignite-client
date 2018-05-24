@@ -1624,7 +1624,7 @@ camelcase@^4.1.0:
 
 caniuse-api@^1.5.2:
   version "1.6.1"
-  resolved "http://registry.npm.taobao.org/caniuse-api/download/caniuse-api-1.6.1.tgz#b534e7c734c4f81ec5fbe8aca2ad24354b962c6c"
+  resolved "http://registry.npm.taobao.org/caniuse-api/admin/download/caniuse-api-1.6.1.tgz#b534e7c734c4f81ec5fbe8aca2ad24354b962c6c"
   dependencies:
     browserslist "^1.3.6"
     caniuse-db "^1.0.30000529"
@@ -6556,7 +6556,7 @@ vue-eslint-parser@^2.0.3:
 
 vue-hot-reload-api@^2.3.0:
   version "2.3.0"
-  resolved "http://registry.npm.taobao.org/vue-hot-reload-api/download/vue-hot-reload-api-2.3.0.tgz#97976142405d13d8efae154749e88c4e358cf926"
+  resolved "http://registry.npm.taobao.org/vue-hot-reload-api/admin/download/vue-hot-reload-api-2.3.0.tgz#97976142405d13d8efae154749e88c4e358cf926"
 
 vue-loader@^15.0.10:
   version "15.1.0"

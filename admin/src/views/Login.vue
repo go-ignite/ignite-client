@@ -27,7 +27,7 @@ export default {
   methods: {
     onLogin(event) {
       request
-        .post('/api/login', {
+        .post('/api/admin/login', {
           username: this.username,
           password: this.password,
         })

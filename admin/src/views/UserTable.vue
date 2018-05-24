@@ -126,7 +126,7 @@ export default {
   methods: {
     pageChanged(value) {
       request
-        .get(`/api/auth/status_list?pageIndex=${value.toString()}&pageSize=${this.pagination.size}`)
+        .get(`/api/admin/auth/status_list?pageIndex=${value.toString()}&pageSize=${this.pagination.size}`)
         .then((response) => {
           if (response.success) {
             this.statusList = response.data.data
@@ -142,7 +142,7 @@ export default {
         type: 'warning'
       }).then(() => {
           request
-            .put('/api/auth/' + item.Id.toString() + '/stop')
+            .put('/api/admin/auth/' + item.Id.toString() + '/stop')
             .then((response) => {
               if (response.success) {
                 this.statusList[index].Status = 2
@@ -164,7 +164,7 @@ export default {
         type: 'warning'
       }).then(() => {
           request
-            .put('/api/auth/' + item.Id.toString() + '/start')
+            .put('/api/admin/auth/' + item.Id.toString() + '/start')
             .then((response) => {
               if (response.success) {
                 this.statusList[index].Status = 1
@@ -186,7 +186,7 @@ export default {
         type: 'warning'
       }).then(() => {
           request
-            .put('/api/auth/' + item.Id.toString() + '/reset')
+            .put('/api/admin/auth/' + item.Id.toString() + '/reset')
             .then((response) => {
               if (response.success) {
                 this.statusList[index].PackageUsed = 0
@@ -208,7 +208,7 @@ export default {
         type: 'warning'
       }).then(() => {
           request
-            .put('/api/auth/' + item.Id.toString() + '/destroy')
+            .put('/api/admin/auth/' + item.Id.toString() + '/destroy')
             .then((response) => {
               if (response.success) {
                 this.statusList.splice(index, 1)
@@ -231,7 +231,7 @@ export default {
       this.showModal = false
     },
     fetchData() {
-      request.get(`/api/auth/status_list?pageIndex=1&pageSize=${this.pagination.size}`).then((response) => {
+      request.get(`/api/admin/auth/status_list?pageIndex=1&pageSize=${this.pagination.size}`).then((response) => {
         if (response.success) {
           this.statusList = response.data.data
           this.pagination.total = response.data.total
