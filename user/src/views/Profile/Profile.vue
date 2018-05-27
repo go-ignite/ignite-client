@@ -44,11 +44,15 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { default as localforage } from 'localforage'
-import * as apis from "../../apis/index"
+import { default as localforage } from 'localforage';
+import { Action } from 'vuex-class';
+import types from '@/store/types'
+import * as apis from '../../apis/index';
 
 @Component
 export default class Profile extends Vue {
+  @Action(types.GET_SERVICE_CONFIG) getServiceConfig: any
+
   drawer: boolean = false;
   aaa: string = '';
   navs = [
@@ -71,16 +75,14 @@ export default class Profile extends Vue {
   }
 
   logout() {
-    localforage.removeItem('ignite_token')
+    localforage.removeItem('ignite_token');
     this.$router.push({
-      name: 'home'
-    })
+      name: 'home',
+    });
   }
 
   mounted() {
-    apis.fetchUserInfo()
-      .then(data => {
-      })
+    this.getServiceConfig()
   }
 }
 </script>

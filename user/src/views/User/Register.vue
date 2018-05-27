@@ -31,7 +31,6 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import EventBus, { Event } from '@/utils/EventBus';
 import * as apis from '../../apis';
 
 @Component
@@ -79,16 +78,13 @@ export default class Register extends Vue {
       postFormData.set(e.key, this.formData[e.key]);
     })
     const resp  = await apis.postUserSignup(postFormData);
-    if (resp.success) {
-      this.snackbar = true;
-      this.jumpId = setTimeout(() => {
-        this.$router.push({
-          name: 'login',
-        });
-      }, 2000);
-    } else {
-      EventBus.$emit(Event.TOAST, {text: resp.message})
-    }
+
+    this.snackbar = true;
+    this.jumpId = setTimeout(() => {
+      this.$router.push({
+        name: 'login',
+      });
+    }, 2000);
   }
 
   beforeDestroy() {

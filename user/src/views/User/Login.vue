@@ -57,13 +57,9 @@ export default class Login extends Vue {
     postFormData.set('password', this.formData.password);
 
     const resp = await apis.postUserLogin(postFormData)
-    if (resp.success) {
-      await localforage.setItem('ignite_token', resp.data)
-      this.$router.push({ name: 'profile' });
-    } else {
-      EventBus.$emit(Event.TOAST, {text: resp.message})
-    }
-    // this.$router.push({ name: 'profile' });
+
+    await localforage.setItem('ignite_token', resp)
+    this.$router.push({ name: 'profile' });
   }
 }
 </script>

@@ -12,8 +12,8 @@ export function fetchUserInfo(payload: any) {
   return request.get('/api/user/auth/info', payload);
 }
 
-export function fetchServiceConfig(payload: any) {
-  return request.get('/api/user/auth/service/config', payload);
+export function fetchServiceConfig() {
+  return request.get('/api/user/auth/service/config');
 }
 
 
