@@ -64,68 +64,24 @@
         <v-icon>add</v-icon>
       </div>
     </v-btn>
-      <v-dialog
-        v-model="addServerDialogVis"
-        max-width="500px">
-        <v-card>
-          <v-card-title>
-            创建服务
-          </v-card-title>
-          <v-card-text>
-            <v-select
-              v-model="addServerForm.service"
-              :items="serviceTypeOptions"
-              label="请选择服务端类型"
-            ></v-select>
-            <v-select
-              v-model="addServerForm.secret"
-              :items="secretOptions"
-              label="请选择加密方式"
-            ></v-select>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn
-              @click.stop="serverCreate"
-              color="primary"
-              flat
-            >创建</v-btn>
-            <v-btn
-              @click.stop="addServerDialogVis = false"
-              flat
-            >取消</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+    <service-create :visible.sync="addServerDialogVis"></service-create>
   </div>
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { State } from 'vuex-class';
+import { StateType } from '@/store/state';
+import serviceCreate from '@/components/ServerCreate.vue';
 
-@Component
-export default class Detail extends Vue {
+@Component({
+  components: {
+    serviceCreate,
+  },
+})
+export default class Server extends Vue {
   servers: object[] = [{}];
   addServerDialogVis: boolean = false;
   loadingCreate: boolean = false;
-  addServerForm = {
-    service: '',
-    secret: '',
-  };
-  serviceTypeOptions = [
-    {
-      text: 'SS',
-      value: 'ss',
-    },
-    {
-      text: 'SSR',
-      value: 'ssr',
-    },
-  ];
-  secretOptions = [
-    {
-      text: 'aes-256-cfb',
-      value: 'aes-256-cfb',
-    },
-  ];
 
   items = [
     {
@@ -140,10 +96,6 @@ export default class Detail extends Vue {
       iron: '6%',
     },
   ];
-
-  serverCreate() {
-    this.loadingCreate = true;
-  }
 }
 </script>
 

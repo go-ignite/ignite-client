@@ -3,9 +3,10 @@ import Vuex, {ActionTree} from 'vuex';
 import {fetchServiceConfig} from '@/apis';
 import types from './types';
 
-export const state: State = {
+export const state: StateType = {
+  loading: false,
   userInfo: {},
-  serviceConfig: [],
+  serviceConfig: {},
 };
 
 export interface UserInfo {
@@ -25,7 +26,14 @@ export interface UserInfo {
   Expired?: string;
 }
 
-export interface State {
-  userInfo: UserInfo;
-  serviceConfig: object[];
+export interface ServiceConfig {
+  servers?: string[];
+  ssMethods?: string[];
+  ssrMethods?: string[];
+}
+
+export interface StateType {
+  userInfo?: UserInfo;
+  serviceConfig?: ServiceConfig;
+  loading: boolean;
 }

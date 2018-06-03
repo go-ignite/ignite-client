@@ -16,4 +16,7 @@ export function fetchServiceConfig() {
   return request.get('/api/user/auth/service/config');
 }
 
+export function postServiceCreate(payload: any) {
+  return request.post('/api/user/auth/service/create', payload);
+}
 

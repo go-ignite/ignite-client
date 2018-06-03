@@ -1,6 +1,7 @@
 <template>
   <div>
     <snack-bar></snack-bar>
+    <global-loading></global-loading>
     <router-view />
   </div>
 </template>
@@ -8,10 +9,12 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import SnackBar from '@/components/SnackBar.vue';
+import GlobalLoading from '@/components/GlobalLoading.vue';
 
 @Component({
   components: {
     SnackBar,
+    GlobalLoading,
   }
 })
 export default class App extends Vue {}
