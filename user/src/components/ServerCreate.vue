@@ -40,7 +40,7 @@ import { State, Action } from 'vuex-class';
 import { StateType } from '@/store/state';
 import { renameKey } from '@/utils/helper';
 import { POINT_CONVERSION_COMPRESSED } from 'constants';
-import { postServiceCreate } from '@/apis'
+// import { postServiceCreate } from '@/apis'
 import types from '@/store/types'
 import { setTimeout } from 'timers';
 
@@ -57,7 +57,7 @@ export default class ServerCreate extends Vue {
   @Action(types.LOADING) changeLoading: any
 
   @State((state) => state.serviceConfig)
-  serviceConfig;
+  serviceConfig: any;
 
   @Emit('update:visible')
   visibleChange(option: boolean) {}

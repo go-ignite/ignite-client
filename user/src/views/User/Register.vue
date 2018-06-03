@@ -31,7 +31,13 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { renameKey } from '@/utils/helper.ts';
 import * as apis from '../../apis';
+
+const RenameKeyMap = {
+  inviteCode: 'invite-code',
+  confirmPassword: 'confirm-password',
+};
 
 @Component
 export default class Register extends Vue {
@@ -39,15 +45,15 @@ export default class Register extends Vue {
   jumpId: any = 0;
 
   formData = {
-    'invite-code': '',
+    inviteCode: '',
     username: '',
     password: '',
-    'confirm-password': '',
+    confirmPassword: '',
   };
 
-  formFields = [
+  formFields: any = [
     {
-      key: 'invite-code',
+      key: 'inviteCode',
       label: '邀请码',
       rules: [(v: any) => !!v || '请填写邀请码'],
     },
@@ -63,7 +69,7 @@ export default class Register extends Vue {
       rules: [(v: any) => !!v || '请填写密码'],
     },
     {
-      key: 'confirm-password',
+      key: 'confirmPassword',
       type: 'password',
       label: '确认密码',
       rules: [(v: any) => !!v || '请再输入一次密码'],
@@ -72,10 +78,10 @@ export default class Register extends Vue {
 
   async submit() {
     await (this.$refs.register as any).validate()
-
+    const postData: {[index: string]: string;} = renameKey(this.formData, RenameKeyMap)
     const postFormData: any = new FormData();
-    this.formFields.forEach(e => {
-      postFormData.set(e.key, this.formData[e.key]);
+    Object.keys(postData).forEach(key => {
+      postFormData.set(key, postData[key])
     })
     const resp  = await apis.postUserSignup(postFormData);
 
