@@ -59,12 +59,8 @@ export default {
           expired: this.date.valueOf() / 1000,
         })
         .then((response) => {
-          if (response.success) {
-            this.$message.success('账号续期成功!')
-            this.$emit('renew-success')
-          } else {
-            this.$message.error(response.message)
-          }
+          this.$message.success('账号续期成功!')
+          this.$emit('renew-success')
           this.cancel()
         })
     },

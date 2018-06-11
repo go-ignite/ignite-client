@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { Notification } from 'element-ui'
 
 const $http = axios.create({
   timeout: 3 * 60 * 1000, // 3 minutes
@@ -14,7 +15,7 @@ $http.interceptors.request.use(
     const token = localStorage.getItem('ignite_admin_token')
     if (token) {
       Object.defineProperty(config.headers, 'Authorization', {
-        value: `Bearer ${token}`,
+        value: token,
         configurable: true,
         enumerable: true,
         writable: true,
@@ -28,7 +29,21 @@ $http.interceptors.request.use(
 )
 
 $http.interceptors.response.use(
-  (response) => response.data,
+  (response) => {
+    if (response.config.manualHandle) {
+      return response.data;
+    }
+
+    const {data, success, message} = response.data;
+    if (!success) {
+      Notification.error({
+        title: '错误',
+        message,
+      })
+      return Promise.reject(message);
+    }
+    return Promise.resolve(data);
+  },
   (error) => {
     if (error.response.status === 401) {
       localStorage.removeItem('ignite_admin_token')

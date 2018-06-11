@@ -32,13 +32,9 @@ export default {
           password: this.password,
         })
         .then((response) => {
-          if (response.success) {
-            localStorage.setItem('ignite_admin_token', response.data)
-            EventBus.$emit(Event.LOGIN_SUCCESS)
-            this.$router.push({ name: 'status' })
-          } else {
-            this.$message.error('用户名或密码不正确！')
-          }
+          localStorage.setItem('ignite_admin_token', response)
+          EventBus.$emit(Event.LOGIN_SUCCESS)
+          this.$router.push({ name: 'users' })
         })
     },
   },
@@ -46,7 +42,7 @@ export default {
     if (localStorage.getItem('ignite_admin_token')) {
       EventBus.$emit(Event.LOGIN_SUCCESS)
       this.$router.push({
-        name: 'status',
+        name: 'users',
       })
     }
   }

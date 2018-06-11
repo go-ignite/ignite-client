@@ -40,11 +40,7 @@ export default {
           available: this.available,
         })
         .then((response) => {
-          if (response.success) {
-            this.$message.success('生成邀请码成功!')
-          } else {
-            this.$message.error('生成邀请码失败!')
-          }
+          this.$message.success('生成邀请码成功!')
           this.$emit('closeModal')
         })
         .catch((error) => {

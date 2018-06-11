@@ -128,10 +128,8 @@ export default {
       request
         .get(`/api/admin/auth/status_list?pageIndex=${value.toString()}&pageSize=${this.pagination.size}`)
         .then((response) => {
-          if (response.success) {
-            this.statusList = response.data.data
-            this.pagination.total = response.data.total
-          }
+          this.statusList = response.data.data
+          this.pagination.total = response.data.total
         })
     },
     stop(item) {
@@ -144,12 +142,8 @@ export default {
           request
             .put('/api/admin/auth/' + item.Id.toString() + '/stop')
             .then((response) => {
-              if (response.success) {
-                this.statusList[index].Status = 2
-                this.$message('用户帐号对应服务已停止!')
-              } else {
-                this.$message('停止服务失败!')
-              }
+              this.statusList[index].Status = 2
+              this.$message('用户帐号对应服务已停止!')
             })
             .catch(() => {
               this.$message('停止服务失败!')
@@ -166,12 +160,8 @@ export default {
           request
             .put('/api/admin/auth/' + item.Id.toString() + '/start')
             .then((response) => {
-              if (response.success) {
-                this.statusList[index].Status = 1
-                this.$message('用户帐号对应服务已成功启动!')
-              } else {
-                this.$message.error(response.message)
-              }
+              this.statusList[index].Status = 1
+              this.$message('用户帐号对应服务已成功启动!')
             })
             .catch(() => {
               this.$message.error('启动服务失败')
@@ -188,12 +178,8 @@ export default {
           request
             .put('/api/admin/auth/' + item.Id.toString() + '/reset')
             .then((response) => {
-              if (response.success) {
-                this.statusList[index].PackageUsed = 0
-                this.$message('用户帐号本月流量已重置!')
-              } else {
-                this.$message('重置用户帐号本月流量失败!')
-              }
+              this.statusList[index].PackageUsed = 0
+              this.$message('用户帐号本月流量已重置!')
             })
             .catch(() => {
               this.$message('重置用户帐号本月流量失败!')
@@ -210,12 +196,8 @@ export default {
           request
             .put('/api/admin/auth/' + item.Id.toString() + '/destroy')
             .then((response) => {
-              if (response.success) {
-                this.statusList.splice(index, 1)
-                this.$message('用户帐号已销毁!')
-              } else {
-                this.$message('销毁用户帐号失败!')
-              }
+              this.statusList.splice(index, 1)
+              this.$message('用户帐号已销毁!')
             })
             .catch(() => {
               this.$message('销毁用户帐号失败!')
@@ -232,10 +214,8 @@ export default {
     },
     fetchData() {
       request.get(`/api/admin/auth/status_list?pageIndex=1&pageSize=${this.pagination.size}`).then((response) => {
-        if (response.success) {
-          this.statusList = response.data.data
-          this.pagination.total = response.data.total
-        }
+        this.statusList = response.data
+        this.pagination.total = response.total
       })
     },
     dateFilter: (value) => {

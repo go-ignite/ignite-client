@@ -104,10 +104,8 @@ export default {
       request
         .get(`/api/admin/auth/code_list?pageIndex=${index}&pageSize=${this.pagination.size}`)
         .then((response) => {
-          if (response.success) {
-            this.codeList = response.data.data
-            this.pagination.total = response.data.total
-          }
+          this.codeList = response.data
+          this.pagination.total = response.total
         })
     },
     remove(item, index) {
@@ -123,16 +121,12 @@ export default {
           request
             .put(`/api/admin/auth/${removeId}/remove`)
             .then((response) => {
-              if (response.success) {
-                const index = this.codeList.findIndex((e) => e.Id === removeId)
-                if (index > -1) {
-                  this.codeList.splice(index, 1)
-                  this.$message.success('邀请码已删除')
-                  this.removePaginationCheck()
-                  this.fetchCode(this.pagination.index)
-                }
-              } else {
-                this.$message.error('删除邀请码失败!')
+              const index = this.codeList.findIndex((e) => e.Id === removeId)
+              if (index > -1) {
+                this.codeList.splice(index, 1)
+                this.$message.success('邀请码已删除')
+                this.removePaginationCheck()
+                this.fetchCode(this.pagination.index)
               }
             })
             .catch(() => {
