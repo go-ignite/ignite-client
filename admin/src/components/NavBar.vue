@@ -7,7 +7,7 @@
         <el-menu-item v-show="!isLogin" index="/">首页</el-menu-item>
         <el-menu-item v-show="isLogin" index="/users">用户管理</el-menu-item>
         <el-menu-item v-show="isLogin" index="/nodes">节点管理</el-menu-item>
-        <el-menu-item v-show="isLogin" index="/servers">节点管理</el-menu-item>
+        <el-menu-item v-show="isLogin" index="/servers">服务管理</el-menu-item>
         <el-menu-item v-show="isLogin" index="/invite-code">邀请码管理</el-menu-item>
         <el-menu-item index="/about">关于</el-menu-item>
       </el-menu>

@@ -5,7 +5,16 @@
       :data="tableData"
       v-bind="tableConfig"
       style="width: 100%"
+      @selection-change="handleSelectionChange"
     >
+      <el-table-column
+        v-if="selectionChange"
+        type="selection"
+        width="50"
+        :resizable="false"
+        header-align="center"
+        align="center">
+      </el-table-column>
       <el-table-column
         v-if="showIndex"
         type="index"
@@ -26,15 +35,14 @@
       </el-table-column>
     </el-table>
     <el-pagination
-      v-if="pagination && pagination.total"
-      @current-change="pageChange"
-      :current-page="pagination.index"
-      :page-size="pagination.size"
-      :total="pagination.total"
-      layout="total, prev, pager, next"
       class="t_pagination"
+      v-if="pagination && pagination.total"
       background
-    >
+      layout="total, prev, pager, next"
+      :current-page="pagination.page"
+      @current-change="pageChange"
+      :page-size="pagination.size"
+      :total="pagination.total">
     </el-pagination>
   </div>
 </template>
@@ -56,6 +64,10 @@ export default {
       type: Object,
       default: null,
     },
+    selectionChange: {
+      type: Function,
+      default: null,
+    },
   },
 
   methods: {
@@ -69,20 +81,20 @@ export default {
       this.$emit('page-change', page)
     },
 
+    handleSelectionChange(row) {
+      if (this.selectionChange) {
+        this.selectionChange(row)
+      }
+    },
   },
 }
 </script>
-
 <style lang="less">
 .tcr {
-  th {
-    color: #333;
-  }
   .t_pagination {
     padding: 30px 50px 80px 0;
     text-align: right;
   }
 }
 </style>
-
 

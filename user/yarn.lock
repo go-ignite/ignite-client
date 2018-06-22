@@ -657,9 +657,9 @@
   version "9.6.15"
   resolved "http://registry.npm.taobao.org/@types/node/download/@types/node-9.6.15.tgz#8a5a313ea0a43a95277235841be5d3f5fb3dfeda"
 
-"@vue/babel-preset-app@^3.0.0-beta.15":
-  version "3.0.0-beta.15"
-  resolved "http://registry.npm.taobao.org/@vue/babel-preset-app/download/@vue/babel-preset-app-3.0.0-beta.15.tgz#8ea954f7ca3d10d1986ed767d9682cc8b5ffea4e"
+"@vue/babel-preset-app@^3.0.0-rc.3":
+  version "3.0.0-rc.3"
+  resolved "http://registry.npm.taobao.org/@vue/babel-preset-app/download/@vue/babel-preset-app-3.0.0-rc.3.tgz#e4f5f884448489b1b4651c986548639f3bec823f"
   dependencies:
     "@babel/plugin-syntax-jsx" "7.0.0-beta.47"
     "@babel/plugin-transform-runtime" "7.0.0-beta.47"
@@ -670,42 +670,43 @@
     babel-plugin-dynamic-import-node "^1.2.0"
     babel-plugin-transform-vue-jsx "^4.0.1"
 
-"@vue/cli-overlay@^3.0.0-beta.15":
-  version "3.0.0-beta.15"
-  resolved "http://registry.npm.taobao.org/@vue/cli-overlay/download/@vue/cli-overlay-3.0.0-beta.15.tgz#e4b477bcbeaede138ce191e27d2222fac09078ed"
+"@vue/cli-overlay@^3.0.0-rc.3":
+  version "3.0.0-rc.3"
+  resolved "http://registry.npm.taobao.org/@vue/cli-overlay/download/@vue/cli-overlay-3.0.0-rc.3.tgz#4ebb2236bd48a30b08e8b02e34331fd8a91c5437"
 
-"@vue/cli-plugin-babel@^3.0.0-beta.15":
-  version "3.0.0-beta.15"
-  resolved "http://registry.npm.taobao.org/@vue/cli-plugin-babel/download/@vue/cli-plugin-babel-3.0.0-beta.15.tgz#95becf4a1b4ff6e1f1ac865bcf6e354d0f48924e"
+"@vue/cli-plugin-babel@^3.0.0-beta.16":
+  version "3.0.0-rc.3"
+  resolved "http://registry.npm.taobao.org/@vue/cli-plugin-babel/download/@vue/cli-plugin-babel-3.0.0-rc.3.tgz#7da19b25e67b6d752b27d34a6b209928fcf9a3a6"
   dependencies:
     "@babel/core" "7.0.0-beta.47"
-    "@vue/babel-preset-app" "^3.0.0-beta.15"
+    "@vue/babel-preset-app" "^3.0.0-rc.3"
     babel-loader "^8.0.0-0"
 
-"@vue/cli-plugin-pwa@^3.0.0-beta.15":
-  version "3.0.0-beta.15"
-  resolved "http://registry.npm.taobao.org/@vue/cli-plugin-pwa/download/@vue/cli-plugin-pwa-3.0.0-beta.15.tgz#efd9394c275597baf512dc138c6b7480d008b6fd"
+"@vue/cli-plugin-pwa@^3.0.0-rc.3":
+  version "3.0.0-rc.3"
+  resolved "http://registry.npm.taobao.org/@vue/cli-plugin-pwa/download/@vue/cli-plugin-pwa-3.0.0-rc.3.tgz#53e5ead2595a83db0a4c92c294ced5138cce6481"
   dependencies:
+    launch-editor "^2.2.1"
     workbox-webpack-plugin "^3.2.0"
 
-"@vue/cli-plugin-typescript@^3.0.0-beta.15":
-  version "3.0.0-beta.15"
-  resolved "http://registry.npm.taobao.org/@vue/cli-plugin-typescript/download/@vue/cli-plugin-typescript-3.0.0-beta.15.tgz#087f8bdcad896a8c4c80f854ad7096f8049db404"
+"@vue/cli-plugin-typescript@^3.0.0-rc.3":
+  version "3.0.0-rc.3"
+  resolved "http://registry.npm.taobao.org/@vue/cli-plugin-typescript/download/@vue/cli-plugin-typescript-3.0.0-rc.3.tgz#09877621a394fbd26ba3b30cec4def5b6d9709a3"
   dependencies:
     "@types/node" "^9.3.0"
-    "@vue/cli-shared-utils" "^3.0.0-beta.15"
+    "@vue/cli-shared-utils" "^3.0.0-rc.3"
     fork-ts-checker-webpack-plugin "^0.4.1"
     globby "^8.0.1"
-    ts-loader "^4.3.0"
+    ts-loader "^4.3.1"
     tslint "^5.10.0"
-    typescript "^2.8.3"
+    typescript "~2.9.0"
 
-"@vue/cli-service@^3.0.0-beta.15":
-  version "3.0.0-beta.15"
-  resolved "http://registry.npm.taobao.org/@vue/cli-service/download/@vue/cli-service-3.0.0-beta.15.tgz#5779ab045414ac7b0ba6b88725bc65a483a7975d"
+"@vue/cli-service@^3.0.0-rc.3":
+  version "3.0.0-rc.3"
+  resolved "http://registry.npm.taobao.org/@vue/cli-service/download/@vue/cli-service-3.0.0-rc.3.tgz#8ffd2c707745c0cff5918ee56a6edb3d948f697c"
   dependencies:
-    "@vue/cli-overlay" "^3.0.0-beta.15"
-    "@vue/cli-shared-utils" "^3.0.0-beta.15"
+    "@vue/cli-overlay" "^3.0.0-rc.3"
+    "@vue/cli-shared-utils" "^3.0.0-rc.3"
     "@vue/preload-webpack-plugin" "^1.0.0"
     "@vue/web-component-wrapper" "^1.2.0"
     acorn "^5.5.3"
@@ -748,17 +749,17 @@
     vue-loader "^15.2.0"
     vue-template-compiler "^2.5.16"
     webpack "^4.8.2"
+    webpack-bundle-analyzer "^2.13.1"
     webpack-chain "^4.8.0"
     webpack-dev-server "^3.1.4"
     webpack-merge "^4.1.2"
     yorkie "^1.0.3"
 
-"@vue/cli-shared-utils@^3.0.0-beta.15":
-  version "3.0.0-beta.15"
-  resolved "http://registry.npm.taobao.org/@vue/cli-shared-utils/download/@vue/cli-shared-utils-3.0.0-beta.15.tgz#13916eb464b140a018b52479f559d09723db667c"
+"@vue/cli-shared-utils@^3.0.0-rc.3":
+  version "3.0.0-rc.3"
+  resolved "http://registry.npm.taobao.org/@vue/cli-shared-utils/download/@vue/cli-shared-utils-3.0.0-rc.3.tgz#5fa73945ad82fc8b6e1e88bd171225c8388a8801"
   dependencies:
     chalk "^2.3.0"
-    cmd-shim "^2.0.2"
     execa "^0.10.0"
     joi "^12.0.0"
     node-ipc "^9.1.1"
@@ -938,6 +939,10 @@ acorn-dynamic-import@^3.0.0:
 acorn@^5.0.0:
   version "5.5.3"
   resolved "http://registry.npm.taobao.org/acorn/download/acorn-5.5.3.tgz#f473dd47e0277a08e28e9bec5aeeb04751f0b8c9"
+
+acorn@^5.3.0:
+  version "5.7.1"
+  resolved "http://registry.npm.taobao.org/acorn/download/acorn-5.7.1.tgz#f095829297706a7c9776958c0afc8930a9b9d9d8"
 
 acorn@^5.5.3:
   version "5.6.1"
@@ -1146,6 +1151,10 @@ async-each@^1.0.0:
   version "1.0.1"
   resolved "http://registry.npm.taobao.org/async-each/download/async-each-1.0.1.tgz#19d386a1d9edc6e7c1c85d388aedbcc56d33602d"
 
+async-limiter@~1.0.0:
+  version "1.0.0"
+  resolved "http://registry.npm.taobao.org/async-limiter/download/async-limiter-1.0.0.tgz#78faed8c3d074ab81f22b4e985d79e8738f720f8"
+
 async@^1.5.2:
   version "1.5.2"
   resolved "http://registry.npm.taobao.org/async/download/async-1.5.2.tgz#ec6a61ae56480c0c3cb241c95618e20892f9672a"
@@ -1285,6 +1294,14 @@ bcrypt-pbkdf@^1.0.0:
   resolved "http://registry.npm.taobao.org/bcrypt-pbkdf/download/bcrypt-pbkdf-1.0.1.tgz#63bc5dcb61331b92bc05fd528953c33462a06f8d"
   dependencies:
     tweetnacl "^0.14.3"
+
+bfj-node4@^5.2.0:
+  version "5.3.1"
+  resolved "http://registry.npm.taobao.org/bfj-node4/download/bfj-node4-5.3.1.tgz#e23d8b27057f1d0214fc561142ad9db998f26830"
+  dependencies:
+    bluebird "^3.5.1"
+    check-types "^7.3.0"
+    tryer "^1.0.0"
 
 big.js@^3.1.3:
   version "3.2.0"
@@ -1586,6 +1603,10 @@ chalk@^2.0.0, chalk@^2.0.1, chalk@^2.1.0, chalk@^2.3.0, chalk@^2.3.1, chalk@^2.4
     escape-string-regexp "^1.0.5"
     supports-color "^5.3.0"
 
+check-types@^7.3.0:
+  version "7.4.0"
+  resolved "http://registry.npm.taobao.org/check-types/download/check-types-7.4.0.tgz#0378ec1b9616ec71f774931a3c6516fad8c152f4"
+
 chokidar@^1.7.0:
   version "1.7.0"
   resolved "http://registry.npm.taobao.org/chokidar/download/chokidar-1.7.0.tgz#798e689778151c8076b4b360e5edd28cda2bb468"
@@ -1700,13 +1721,6 @@ clone@^2.1.1:
   version "2.1.1"
   resolved "http://registry.npm.taobao.org/clone/download/clone-2.1.1.tgz#d217d1e961118e3ac9a4b8bba3285553bf647cdb"
 
-cmd-shim@^2.0.2:
-  version "2.0.2"
-  resolved "http://registry.npm.taobao.org/cmd-shim/download/cmd-shim-2.0.2.tgz#6fcbda99483a8fd15d7d30a196ca69d688a2efdb"
-  dependencies:
-    graceful-fs "^4.1.2"
-    mkdirp "~0.5.0"
-
 co@^4.6.0:
   version "4.6.0"
   resolved "http://registry.npm.taobao.org/co/download/co-4.6.0.tgz#6ea6bdf3d853ae54ccb8e47bfa0bf3f9031fb184"
@@ -1770,7 +1784,7 @@ combined-stream@1.0.6, combined-stream@^1.0.5, combined-stream@~1.0.5:
   dependencies:
     delayed-stream "~1.0.0"
 
-commander@2.15.x, commander@^2.12.1, commander@~2.15.0:
+commander@2.15.x, commander@^2.12.1, commander@^2.13.0, commander@~2.15.0:
   version "2.15.1"
   resolved "http://registry.npm.taobao.org/commander/download/commander-2.15.1.tgz#df46e867d0fc2aec66a34662b406a9ccafff5b0f"
 
@@ -2309,6 +2323,10 @@ dot-prop@^4.1.1:
   dependencies:
     is-obj "^1.0.0"
 
+duplexer@^0.1.1:
+  version "0.1.1"
+  resolved "http://registry.npm.taobao.org/duplexer/download/duplexer-0.1.1.tgz#ace6ff808c1ce66b57d1ebf97977acb02334cfc1"
+
 duplexify@^3.4.2, duplexify@^3.6.0:
   version "3.6.0"
   resolved "http://registry.npm.taobao.org/duplexify/download/duplexify-3.6.0.tgz#592903f5d80b38d037220541264d69a198fb3410"
@@ -2331,6 +2349,10 @@ ecc-jsbn@~0.1.1:
 ee-first@1.1.1:
   version "1.1.1"
   resolved "http://registry.npm.taobao.org/ee-first/download/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
+
+ejs@^2.5.7:
+  version "2.6.1"
+  resolved "http://registry.npm.taobao.org/ejs/download/ejs-2.6.1.tgz#498ec0d495655abc6f23cd61868d926464071aa0"
 
 electron-to-chromium@^1.2.7, electron-to-chromium@^1.3.45:
   version "1.3.45"
@@ -2693,6 +2715,10 @@ filename-regex@^2.0.0:
   version "2.0.1"
   resolved "http://registry.npm.taobao.org/filename-regex/download/filename-regex-2.0.1.tgz#c1c4b9bee3e09725ddb106b75c1e301fe2f18b26"
 
+filesize@^3.5.11:
+  version "3.6.1"
+  resolved "http://registry.npm.taobao.org/filesize/download/filesize-3.6.1.tgz#090bb3ee01b6f801a8a8be99d31710b3422bb317"
+
 fill-range@^2.1.0:
   version "2.2.4"
   resolved "http://registry.npm.taobao.org/fill-range/download/fill-range-2.2.4.tgz#eb1e773abb056dcd8df2bfdf6af59b8b3a936565"
@@ -3003,6 +3029,13 @@ globby@^8.0.1:
 graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.6:
   version "4.1.11"
   resolved "http://registry.npm.taobao.org/graceful-fs/download/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
+
+gzip-size@^4.1.0:
+  version "4.1.0"
+  resolved "http://registry.npm.taobao.org/gzip-size/download/gzip-size-4.1.0.tgz#8ae096257eabe7d69c45be2b67c448124ffb517c"
+  dependencies:
+    duplexer "^0.1.1"
+    pify "^3.0.0"
 
 handle-thing@^1.2.5:
   version "1.2.5"
@@ -3952,7 +3985,7 @@ lodash.uniq@^4.5.0:
   version "4.5.0"
   resolved "http://registry.npm.taobao.org/lodash.uniq/download/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
 
-lodash@^4.13.1, lodash@^4.14.0, lodash@^4.17.3, lodash@^4.17.5:
+lodash@^4.13.1, lodash@^4.14.0, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.17.5:
   version "4.17.10"
   resolved "http://registry.npm.taobao.org/lodash/download/lodash-4.17.10.tgz#1b7793cf7259ea38fb3661d4d38b3260af8ae4e7"
 
@@ -4528,6 +4561,10 @@ onetime@^2.0.0:
   resolved "http://registry.npm.taobao.org/onetime/download/onetime-2.0.1.tgz#067428230fd67443b2794b22bba528b6867962d4"
   dependencies:
     mimic-fn "^1.0.0"
+
+opener@^1.4.3:
+  version "1.4.3"
+  resolved "http://registry.npm.taobao.org/opener/download/opener-1.4.3.tgz#5c6da2c5d7e5831e8ffa3964950f8d6674ac90b8"
 
 opn@^5.1.0, opn@^5.2.0:
   version "5.3.0"
@@ -6221,9 +6258,13 @@ trim-right@^1.0.1:
   version "1.0.1"
   resolved "http://registry.npm.taobao.org/trim-right/download/trim-right-1.0.1.tgz#cb2e1203067e0c8de1f614094b9fe45704ea6003"
 
-ts-loader@^4.3.0:
-  version "4.3.0"
-  resolved "http://registry.npm.taobao.org/ts-loader/download/ts-loader-4.3.0.tgz#4e3ba172783d1256d3a23bdfadde011a795fae9e"
+tryer@^1.0.0:
+  version "1.0.0"
+  resolved "http://registry.npm.taobao.org/tryer/download/tryer-1.0.0.tgz#027b69fa823225e551cace3ef03b11f6ab37c1d7"
+
+ts-loader@^4.3.1:
+  version "4.4.1"
+  resolved "http://registry.npm.taobao.org/ts-loader/download/ts-loader-4.4.1.tgz#c93a46eea430ebce1f790dfe438caefb8670d365"
   dependencies:
     chalk "^2.3.0"
     enhanced-resolve "^4.0.0"
@@ -6283,9 +6324,9 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "http://registry.npm.taobao.org/typedarray/download/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typescript@^2.8.3:
-  version "2.8.3"
-  resolved "http://registry.npm.taobao.org/typescript/download/typescript-2.8.3.tgz#5d817f9b6f31bb871835f4edf0089f21abe6c170"
+typescript@~2.9.0:
+  version "2.9.2"
+  resolved "http://registry.npm.taobao.org/typescript/download/typescript-2.9.2.tgz#1cbf61d05d6b96269244eb6a3bce4bd914e0f00c"
 
 uglify-es@^3.3.4:
   version "3.3.9"
@@ -6591,6 +6632,23 @@ wcwidth@^1.0.1:
   dependencies:
     defaults "^1.0.3"
 
+webpack-bundle-analyzer@^2.13.1:
+  version "2.13.1"
+  resolved "http://registry.npm.taobao.org/webpack-bundle-analyzer/download/webpack-bundle-analyzer-2.13.1.tgz#07d2176c6e86c3cdce4c23e56fae2a7b6b4ad526"
+  dependencies:
+    acorn "^5.3.0"
+    bfj-node4 "^5.2.0"
+    chalk "^2.3.0"
+    commander "^2.13.0"
+    ejs "^2.5.7"
+    express "^4.16.2"
+    filesize "^3.5.11"
+    gzip-size "^4.1.0"
+    lodash "^4.17.4"
+    mkdirp "^0.5.1"
+    opener "^1.4.3"
+    ws "^4.0.0"
+
 webpack-chain@^4.8.0:
   version "4.8.0"
   resolved "http://registry.npm.taobao.org/webpack-chain/download/webpack-chain-4.8.0.tgz#06fc3dbb9f2707d4c9e899fc6250fbcf2afe6fd1"
@@ -6847,6 +6905,13 @@ wrap-ansi@^2.0.0:
 wrappy@1:
   version "1.0.2"
   resolved "http://registry.npm.taobao.org/wrappy/download/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
+
+ws@^4.0.0:
+  version "4.1.0"
+  resolved "http://registry.npm.taobao.org/ws/download/ws-4.1.0.tgz#a979b5d7d4da68bf54efe0408967c324869a7289"
+  dependencies:
+    async-limiter "~1.0.0"
+    safe-buffer "~5.1.0"
 
 xtend@^4.0.0, xtend@~4.0.1:
   version "4.0.1"
