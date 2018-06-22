@@ -1,7 +1,7 @@
 <template>
   <div class="detail">
     <v-data-iterator
-      :items="items"
+      :items="nodes"
       row
       wrap
       :hide-actions="true"
@@ -19,33 +19,26 @@
           <v-card-title><h4>{{ props.item.name }}</h4></v-card-title>
           <v-divider></v-divider>
           <v-list dense>
-            <v-list-tile v-if="props.index % 2 === 0">
-              <v-list-tile-content>Calories:</v-list-tile-content>
-              <v-list-tile-content class="align-end">{{ props.item.calories }}</v-list-tile-content>
+            <v-list-tile>
+              <v-list-tile-content>heart:</v-list-tile-content>
+              <v-list-tile-content class="align-end">{{ nodesHeart[props.item.id] ? 'Alive' : 'DEAD' }}</v-list-tile-content>
             </v-list-tile>
             <v-list-tile>
-              <v-list-tile-content>Fat:</v-list-tile-content>
-              <v-list-tile-content class="align-end">{{ props.item.fat }}</v-list-tile-content>
+              <v-list-tile-content>address:</v-list-tile-content>
+              <v-list-tile-content class="align-end">{{ props.item.address }}</v-list-tile-content>
             </v-list-tile>
             <v-list-tile>
-              <v-list-tile-content>Carbs:</v-list-tile-content>
-              <v-list-tile-content class="align-end">{{ props.item.carbs }}</v-list-tile-content>
+              <v-list-tile-content>connect_ip:</v-list-tile-content>
+              <v-list-tile-content class="align-end">{{ props.item.connect_ip }}</v-list-tile-content>
             </v-list-tile>
             <v-list-tile>
-              <v-list-tile-content>Protein:</v-list-tile-content>
-              <v-list-tile-content class="align-end">{{ props.item.protein }}</v-list-tile-content>
+              <v-list-tile-content>port_range:</v-list-tile-content>
+              <v-list-tile-content class="align-end">
+                {{ props.item.port_from }} ~ {{ props.item.port_to }} </v-list-tile-content>
             </v-list-tile>
             <v-list-tile>
-              <v-list-tile-content>Sodium:</v-list-tile-content>
-              <v-list-tile-content class="align-end">{{ props.item.sodium }}</v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile>
-              <v-list-tile-content>Calcium:</v-list-tile-content>
-              <v-list-tile-content class="align-end">{{ props.item.calcium }}</v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile>
-              <v-list-tile-content>Iron:</v-list-tile-content>
-              <v-list-tile-content class="align-end">{{ props.item.iron }}</v-list-tile-content>
+              <v-list-tile-content>comment:</v-list-tile-content>
+              <v-list-tile-content class="align-end">{{ props.item.comment }}</v-list-tile-content>
             </v-list-tile>
           </v-list>
         </v-card>
@@ -69,7 +62,7 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { State } from 'vuex-class';
+import { State, Action } from 'vuex-class';
 import { StateType } from '@/store/state';
 import serviceCreate from '@/components/ServerCreate.vue';
 
@@ -79,23 +72,17 @@ import serviceCreate from '@/components/ServerCreate.vue';
   },
 })
 export default class Server extends Vue {
+  @State('nodes') nodes: any;
+  @State('nodesHeart') nodesHeart: any;
+  @Action('fetchNodes') fetchNodes: any;
+
   servers: object[] = [{}];
   addServerDialogVis: boolean = false;
   loadingCreate: boolean = false;
 
-  items = [
-    {
-      value: false,
-      name: 'KitKat',
-      calories: 518,
-      fat: 26.0,
-      carbs: 65,
-      protein: 7,
-      sodium: 54,
-      calcium: '12%',
-      iron: '6%',
-    },
-  ];
+  mounted() {
+    this.fetchNodes()
+  }
 }
 </script>
 

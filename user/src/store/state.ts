@@ -7,7 +7,17 @@ export const state: StateType = {
   loading: false,
   userInfo: {},
   serviceConfig: {},
+  nodes: [],
+  nodesHeart: {},
 };
+
+export interface StateType {
+  userInfo?: UserInfo;
+  serviceConfig?: ServiceConfig;
+  loading: boolean;
+  nodes: object[];
+  nodesHeart: object;
+}
 
 export interface UserInfo {
   Id?: number;
@@ -32,8 +42,3 @@ export interface ServiceConfig {
   ssrMethods?: string[];
 }
 
-export interface StateType {
-  userInfo?: UserInfo;
-  serviceConfig?: ServiceConfig;
-  loading: boolean;
-}

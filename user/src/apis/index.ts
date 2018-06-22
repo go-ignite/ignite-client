@@ -13,10 +13,13 @@ export function fetchUserInfo(payload: any) {
 }
 
 export function fetchServiceConfig() {
-  return request.get('/api/user/auth/service/config');
+  return request.get('/api/user/auth/info');
 }
 
 export function postServiceCreate(payload: any) {
   return request.post('/api/user/auth/service/create', payload);
 }
 
+export function fetchServiceNodes() {
+  return request.get('/api/user/auth/nodes');
+}

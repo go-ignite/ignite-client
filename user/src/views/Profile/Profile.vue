@@ -46,13 +46,15 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { default as localforage } from 'localforage';
 import { Action } from 'vuex-class';
-import types from '@/store/types'
+import types from '@/store/types';
 import * as apis from '../../apis/index';
 
 @Component
 export default class Profile extends Vue {
-  @Action(types.GET_SERVICE_CONFIG) getServiceConfig: any
+  @Action(types.GET_SERVICE_CONFIG) getServiceConfig: any;
+  @Action(types.WS_NODES_HEART) patchNodesHeart: any;
 
+  ws: any = null;
   drawer: boolean = false;
   aaa: string = '';
   navs = [
@@ -81,8 +83,24 @@ export default class Profile extends Vue {
     });
   }
 
-  mounted() {
-    this.getServiceConfig()
+  async mounted() {
+    this.getServiceConfig();
+    const token = await localforage.getItem('ignite_token');
+    this.ws = new WebSocket('ws://localhost:5000/api/ws/nodes');
+    this.ws.onopen = () => {
+      this.ws.send(token);
+    };
+    this.ws.onerror = () => {
+      this.ws = new WebSocket('ws://localhost:5000/api/ws/nodes');
+      alert('连接错误');
+    };
+    this.ws.onclose = () => {
+      this.ws = new WebSocket('ws://localhost:5000/api/ws/nodes');
+      alert('连接关闭');
+    };
+    this.ws.onmessage = (event: any) => {
+      this.patchNodesHeart(JSON.parse(event.data) || {});
+    };
   }
 }
 </script>

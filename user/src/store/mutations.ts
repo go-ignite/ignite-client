@@ -11,6 +11,12 @@ const mutations = {
   [types.LOADING](state: StateType, loading: boolean) {
     state.loading = loading;
   },
+  [types.FETCH_NODES](state: StateType, nodes: any) {
+    state.nodes = nodes;
+  },
+  [types.WS_NODES_HEART](state: StateType, heart: any) {
+    state.nodesHeart = heart;
+  },
 };
 
 export default mutations;
