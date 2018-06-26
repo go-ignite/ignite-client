@@ -15,16 +15,6 @@ export default new Router({
           path: '/',
           component: () => import('./views/User/Home.vue'),
         },
-        {
-          name: 'login',
-          path: 'login',
-          component: () => import('./views/User/Login.vue'),
-        },
-        {
-          name: 'register',
-          path: 'register',
-          component: () => import('./views/User/Register.vue'),
-        },
       ],
     },
     {

@@ -2,8 +2,8 @@
   <v-container justify-center  transition="scale-transition">
     <div class="home">
       <img src="../../assets/logo.png">
-      <h1 class="home_title">ignite&nbsp;<span>v1</span></h1>
-      <h2>A dockernized service for <span>shadowsocks</span>.</h2>
+      <h1 class="home_title">ignite&nbsp;<span>v2</span></h1>
+      <h2 class="home_desc">A dockernized service for <span>shadowsocks</span>.</h2>
     </div>
   </v-container>
 </template>
@@ -21,10 +21,14 @@ export default class Home extends Vue {}
 </script>
 <style lang="less">
 .home {
-  text-align: center;
+  text-align: left;
 }
 .home_title {
-  font-size: 20px;
+  font-size: 40px;
+}
+.home_desc {
+  margin-top: 10px;
+  font-size: 22px;
 }
 
 </style>
