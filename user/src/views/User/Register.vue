@@ -1,23 +1,26 @@
 <template>
   <div class="register">
     <v-container justify-center  transition="scale-transition">
-      <h1>用户注册</h1>
-      <v-form ref="register">
-        <v-text-field
-          v-for="field in formFields"
-          :key="field.key"
-          :label="field.label"
-          :rules="field.rules || []"
-          :type="field.type || 'text'"
-          v-model="formData[field.key]"
-          required
-        ></v-text-field>
-      </v-form>
-      <div class="register_footer">
-        <v-btn
-          @click="submit"
-        >注册</v-btn>
-      </div>
+      <v-flex md8 offset-md2>
+        <h1>用户注册</h1>
+        <v-form ref="register">
+          <v-text-field
+            v-for="field in formFields"
+            :key="field.key"
+            :label="field.label"
+            :rules="field.rules || []"
+            :type="field.type || 'text'"
+            v-model="formData[field.key]"
+            required
+          ></v-text-field>
+        </v-form>
+        <div class="register_footer">
+          <v-btn
+            color="indigo white--text"
+            @click="submit"
+          >注册</v-btn>
+        </div>
+      </v-flex>
       <v-snackbar
         :timeout="2000"
         top
@@ -99,7 +102,10 @@ export default class Register extends Vue {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
+.bluebar {
+  background-color: #2f54eb;
+}
 .register_footer {
   text-align: left;
 }

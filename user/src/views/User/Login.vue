@@ -1,23 +1,26 @@
 <template>
   <div class="login">
     <v-container justify-center  transition="scale-transition">
-      <h1>用户登录</h1>
-      <v-form ref="login">
-        <v-text-field
-          v-for="field in formFields"
-          v-model="formData[field.key]"
-          :key="field.key"
-          :label="field.label"
-          :rules="field.rules || []"
-          :type="field.type || 'text'"
-          required
-        ></v-text-field>
-      </v-form>
-      <div class="login_footer">
-        <v-btn
-          @click="login"
-        >登录</v-btn>
-      </div>
+      <v-flex md8 offset-md2>
+        <h1>用户登录</h1>
+        <v-form ref="login">
+          <v-text-field
+            v-for="field in formFields"
+            v-model="formData[field.key]"
+            :key="field.key"
+            :label="field.label"
+            :rules="field.rules || []"
+            :type="field.type || 'text'"
+            required
+          ></v-text-field>
+        </v-form>
+        <div class="login_footer">
+          <v-btn
+            color="indigo white--text"
+            @click="login"
+          >登录</v-btn>
+        </div>
+      </v-flex>
     </v-container>
   </div>
 </template>
@@ -64,7 +67,7 @@ export default class Login extends Vue {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .login_footer {
   text-align: left;
 }

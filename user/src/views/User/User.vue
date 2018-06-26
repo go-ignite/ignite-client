@@ -38,11 +38,11 @@ export default class Login extends Vue {
   current: string = 'home'
 
   get barColor(): string {
-    return this.current === 'home' ? 'white' : 'bluebar'
+    return this.current === 'home' ? 'white' : 'indigo'
   }
 
   get btnColor(): string {
-    return this.current === 'home' ? 'grey' : 'white'
+    return this.current === 'home' ? 'indigo' : 'white'
   }
 
   async mounted() {
@@ -57,7 +57,7 @@ export default class Login extends Vue {
 
 <style lang="less" scoped>
 .bluebar {
-  background-color: #2f54eb;
+  background-color: #3f51b5;
 }
 .user {
   overflow: hidden;
@@ -72,7 +72,7 @@ export default class Login extends Vue {
   transition: all 500ms;
   width: 100%;
   height: 30vh;  
-  background-color: #2f54eb;
+  background-color: #3f51b5;
   flex: 0 0 auto;
   position: relative;
   &::before {
@@ -83,7 +83,7 @@ export default class Login extends Vue {
     top: -50%;
     width: 110%;
     transform: rotate(-5deg);
-    background-color: #2f54eb;
+    background-color: #3f51b5;
   }
 }
 .tshirt.login,
