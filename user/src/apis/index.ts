@@ -27,3 +27,7 @@ export function fetchNodes() {
 export function fetchServices() {
   return request.get('/api/user/auth/services');
 }
+
+export function deleteServices(id: number) {
+  return request.delete(`/api/user/auth/services/${id}`);
+}

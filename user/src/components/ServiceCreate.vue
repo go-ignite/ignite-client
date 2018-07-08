@@ -78,11 +78,11 @@ export default class ServerCreate extends Vue {
   loading: boolean = false
 
   get serviceTypes() {
-    const map = {
+    const map: { [key: number]: string } = {
       1: 'ss',
-      2: 'ssr'
+      2: 'ssr',
     }
-    return this.serviceConfig.map(({ type }) => {
+    return this.serviceConfig.map(({ type }: any) => {
       return {
         text: map[type],
         value: type
@@ -91,7 +91,7 @@ export default class ServerCreate extends Vue {
   }
 
   get serviceMethods() {
-    const config = this.serviceConfig.find(({type}) => {
+    const config = this.serviceConfig.find(({type}: any) => {
       return type === this.addServerForm.type
     })
     return config ? config.methods : []
@@ -115,7 +115,7 @@ export default class ServerCreate extends Vue {
     }
   }
 
-  nodeName({ name, address }) {
+  nodeName({ name, address }: any) {
     return `${name}(${address})`
   }
 
