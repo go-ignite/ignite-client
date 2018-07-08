@@ -21,12 +21,12 @@ export default new Router({
       name: 'profile',
       path: '/profile',
       component: () => import('./views/Profile/Profile.vue'),
-      redirect: {name: 'server'},
+      redirect: {name: 'services'},
       children: [
         {
-          name: 'server',
-          path: 'server',
-          component: () => import('./views/Profile/Server.vue'),
+          name: 'services',
+          path: 'services',
+          component: () => import('./views/Profile/Services.vue'),
         },
       ],
     },

@@ -1,7 +1,8 @@
 export default {
-  GET_SERVICE_CONFIG: 'getServiceConfig',
+  FETCH_SERVICE_CONFIG: 'fetchServiceConfig',
+  FETCH_NODES: 'fetchNodes',
+  FETCH_SERVICES: 'fetchServices',
   CREATE_SERVICE: 'createService',
   LOADING: 'loading',
-  FETCH_NODES: 'fetchNodes',
   WS_NODES_HEART: 'wsNodesHeart',
 };

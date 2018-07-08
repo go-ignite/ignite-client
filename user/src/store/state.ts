@@ -1,21 +1,18 @@
-import Vue from 'vue';
-import Vuex, {ActionTree} from 'vuex';
-import {fetchServiceConfig} from '@/apis';
-import types from './types';
-
 export const state: StateType = {
   loading: false,
   userInfo: {},
-  serviceConfig: {},
+  serviceConfig: [],
   nodes: [],
+  services: [],
   nodesHeart: {},
 };
 
 export interface StateType {
   userInfo?: UserInfo;
-  serviceConfig?: ServiceConfig;
+  serviceConfig?: object[];
   loading: boolean;
   nodes: object[];
+  services: object[];
   nodesHeart: object;
 }
 
@@ -35,10 +32,3 @@ export interface UserInfo {
   ServiceURL?: string;
   Expired?: string;
 }
-
-export interface ServiceConfig {
-  servers?: string[];
-  ssMethods?: string[];
-  ssrMethods?: string[];
-}
-

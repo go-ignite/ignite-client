@@ -4,10 +4,17 @@
       <t-c-r
         :tableData="tableData"
         :tableCols="tableCols"
-        @page-change="pageChanged"
       >
         <div slot="operator" slot-scope="scope">
-          <el-button type="primary" @click="editNode(scope.row)">编辑</el-button>
+          <el-dropdown>
+            <el-button type="primary" size="mini">
+              操作<i class="el-icon-arrow-down el-icon--right"></i>
+            </el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item @click.native="editNode(scope.row)">编辑</el-dropdown-item>
+              <el-dropdown-item @click.native="handleDelete(scope.row)">删除</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </div>
       </t-c-r>
       <el-dialog
@@ -22,8 +29,8 @@
           <el-form-item label="agent地址" prop="address">
             <el-input v-model="form.address"></el-input>
           </el-form-item>
-          <el-form-item label="ignite地址" prop="connect_ip">
-            <el-input v-model="form.connect_ip"></el-input>
+          <el-form-item label="ignite地址" prop="connection">
+            <el-input v-model="form.connection"></el-input>
           </el-form-item>
           <el-form-item label="端口范围">
             <el-col :span="6">
@@ -40,7 +47,6 @@
         </el-form>
         <div slot="footer" class="dialog-footer">
           <template v-if="isEdit">
-            <el-button type="primary" @click="handleDelete">删除</el-button>
             <el-button type="primary" @click="handleUpdate">修改</el-button>
           </template>
           <template v-else>
@@ -58,7 +64,7 @@ import TCR from '@/components/TableColumnRender.vue'
 const FormInit = {
   name: '',
   address: '',
-  connect_ip: '',
+  connection: '',
   port_from: '',
   port_to: '',
   comment: '',
@@ -67,7 +73,7 @@ const FormInit = {
 const rules = {
   name: [{ required: true, message: '请输入名称', trigger: 'blur' }],
   address: [{ required: true, message: '请输入address', trigger: 'blur' }],
-  connect_ip: [{ required: true, message: '请输入connect_ip', trigger: 'blur' }],
+  connection: [{ required: true, message: '请输入connection', trigger: 'blur' }],
   // port: [{ type: 'date', required: true, message: '请选择时间', trigger: 'change' }],
 }
 
@@ -105,7 +111,7 @@ export default {
         {
           raw: {
             label: 'ignite地址',
-            prop: 'connect_ip',
+            prop: 'connection',
           },
         },
         {
@@ -151,8 +157,8 @@ export default {
       })
     },
 
-    handleDelete() {
-      request.delete(`/api/admin/auth/nodes/${this.editId}`).then(() => {
+    handleDelete({ id }) {
+      request.delete(`/api/admin/auth/nodes/${id}`).then(() => {
         this.$message('删除成功')
         this.createNodeVis = false
         this.fetchNodes()

@@ -8,16 +8,30 @@
         创建服务
       </v-card-title>
       <v-card-text>
+        <v-radio-group v-model="nodeId" label="请选择服务节点">
+          <v-radio
+            v-for="node in nodes"
+            :key="node.id"
+            :label="nodeName(node)"
+            :value="node.id"
+          ></v-radio>
+        </v-radio-group>
         <v-select
-          v-model="addServerForm.method"
+          v-model="addServerForm.type"
           :items="serviceTypes"
           label="请选择服务端类型"
         ></v-select>
         <v-select
-          v-model="addServerForm.serverType"
+          v-model="addServerForm.method"
           :items="serviceMethods"
           label="请选择加密方式"
         ></v-select>
+        <v-text-field
+          v-model="addServerForm.password"
+          label="请输入服务密码"
+          type="password"
+          required
+        ></v-text-field>
       </v-card-text>
       <v-card-actions>
         <v-btn
@@ -40,13 +54,9 @@ import { State, Action } from 'vuex-class';
 import { StateType } from '@/store/state';
 import { renameKey } from '@/utils/helper';
 import { POINT_CONVERSION_COMPRESSED } from 'constants';
-// import { postServiceCreate } from '@/apis'
+import { postServiceCreate } from '@/apis'
 import types from '@/store/types'
 import { setTimeout } from 'timers';
-
-const RenameKeyMap = {
-  serverType: 'server-type',
-};
 
 @Component({
   props: {
@@ -55,41 +65,62 @@ const RenameKeyMap = {
 })
 export default class ServerCreate extends Vue {
   @Action(types.LOADING) changeLoading: any
+  @Action('fetchServices') fetchServices: any;
+  @Action('fetchServiceConfig') fetchServiceConfig: any
 
-  @State((state) => state.serviceConfig)
-  serviceConfig: any;
+  @State((state) => state.serviceConfig) serviceConfig: any;
+  @State('nodes') nodes: any;
 
   @Emit('update:visible')
   visibleChange(option: boolean) {}
   
+  nodeId: string = ''
   loading: boolean = false
 
   get serviceTypes() {
-    return this.serviceConfig.servers || [];
+    const map = {
+      1: 'ss',
+      2: 'ssr'
+    }
+    return this.serviceConfig.map(({ type }) => {
+      return {
+        text: map[type],
+        value: type
+      }
+    });
   }
 
   get serviceMethods() {
-    if (this.addServerForm.method === 'SS') {
-      return this.serviceConfig.ssMethods || [];
-    } else if (this.addServerForm.method === 'SSR') {
-      return this.serviceConfig.ssrMethods || [];
-    } else {
-      return [];
-    }
+    const config = this.serviceConfig.find(({type}) => {
+      return type === this.addServerForm.type
+    })
+    return config ? config.methods : []
   }
 
   addServerForm = {
+    type: '',
     method: '',
-    serverType: '',
+    password: '',
   };
 
   async serverCreate() {
     this.changeLoading(true)
-    // await postServiceCreate(renameKey(this.addServerForm, RenameKeyMap))
-    setTimeout(() => {
+    try {
+      await postServiceCreate(this.nodeId, this.addServerForm)
+      this.fetchServices()
       this.changeLoading(false)
       this.visibleChange(false)
-    }, 2000)
+    } catch(e) {
+      this.changeLoading(false)
+    }
+  }
+
+  nodeName({ name, address }) {
+    return `${name}(${address})`
+  }
+
+  mounted() {
+    this.fetchServiceConfig()
   }
 }
 </script>

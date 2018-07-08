@@ -21,19 +21,14 @@ const router = new Router({
           component: () => import('./views/nodes'),
         },
         {
-          path: 'servers',
-          name: 'servers',
-          component: () => import('./views/servers'),
+          path: 'services',
+          name: 'services',
+          component: () => import('./views/services'),
         },
         {
           path: 'invite-code',
           name: 'inviteCode',
           component: () => import('./views/invite-code'),
-        },
-        {
-          path: 'servers',
-          name: 'servers',
-          component: () => import('./views/servers'),
         },
         {
           path: 'users',

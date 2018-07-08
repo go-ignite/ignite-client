@@ -2,12 +2,12 @@ import { StateType } from './state';
 import types from './types';
 
 const mutations = {
-  [types.GET_SERVICE_CONFIG](state: StateType, serviceConfig: any) {
+  [types.FETCH_SERVICE_CONFIG](state: StateType, serviceConfig: any) {
     state.serviceConfig = serviceConfig;
   },
-  [types.GET_SERVICE_CONFIG](state: StateType, serviceConfig: any) {
-    state.serviceConfig = serviceConfig;
-  },
+  // [types.GET_SERVICE_CONFIG](state: StateType, serviceConfig: any) {
+  //   state.serviceConfig = serviceConfig;
+  // },
   [types.LOADING](state: StateType, loading: boolean) {
     state.loading = loading;
   },
@@ -16,6 +16,9 @@ const mutations = {
   },
   [types.WS_NODES_HEART](state: StateType, heart: any) {
     state.nodesHeart = heart;
+  },
+  [types.FETCH_SERVICES](state: StateType, services: any) {
+    state.services = services;
   },
 };
 

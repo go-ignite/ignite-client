@@ -51,7 +51,6 @@ import * as apis from '../../apis/index';
 
 @Component
 export default class Profile extends Vue {
-  @Action(types.GET_SERVICE_CONFIG) getServiceConfig: any;
   @Action(types.WS_NODES_HEART) patchNodesHeart: any;
 
   ws: any = null;
@@ -84,7 +83,6 @@ export default class Profile extends Vue {
   }
 
   async mounted() {
-    this.getServiceConfig();
     const token = await localforage.getItem('ignite_token');
     this.ws = new WebSocket('ws://localhost:5000/api/ws/nodes');
     this.ws.onopen = () => {

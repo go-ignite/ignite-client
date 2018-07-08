@@ -1,10 +1,11 @@
 <template>
   <div class="detail">
     <v-data-iterator
-      :items="nodes"
+      :items="services"
+      :hide-actions="true"
       row
       wrap
-      :hide-actions="true"
+      no-data-text="您暂无可用的服务"
     >
       <v-flex
         slot="item"
@@ -64,17 +65,19 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { State, Action } from 'vuex-class';
 import { StateType } from '@/store/state';
-import serviceCreate from '@/components/ServerCreate.vue';
+import serviceCreate from '@/components/ServiceCreate.vue';
 
 @Component({
   components: {
     serviceCreate,
   },
 })
-export default class Server extends Vue {
+export default class Services extends Vue {
   @State('nodes') nodes: any;
+  @State('services') services: any;
   @State('nodesHeart') nodesHeart: any;
   @Action('fetchNodes') fetchNodes: any;
+  @Action('fetchServices') fetchServices: any;
 
   servers: object[] = [{}];
   addServerDialogVis: boolean = false;
@@ -82,6 +85,7 @@ export default class Server extends Vue {
 
   mounted() {
     this.fetchNodes()
+    this.fetchServices()
   }
 }
 </script>
