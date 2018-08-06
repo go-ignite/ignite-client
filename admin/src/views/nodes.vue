@@ -22,14 +22,14 @@
         @close="handleClose"
         title="创建节点"
         width="600px">
-        <el-form label-width="100px" :model="form" :rules="rules" ref="form">
+        <el-form label-width="150px" :model="form" :rules="rules" ref="form">
           <el-form-item label="节点名称" prop="name">
             <el-input v-model="form.name"></el-input>
           </el-form-item>
-          <el-form-item label="agent地址" prop="address">
+          <el-form-item label="address(agent)" prop="address">
             <el-input v-model="form.address"></el-input>
           </el-form-item>
-          <el-form-item label="ignite地址" prop="connection">
+          <el-form-item label="connection(ignite)" prop="connection">
             <el-input v-model="form.connection"></el-input>
           </el-form-item>
           <el-form-item label="端口范围">
@@ -118,7 +118,7 @@ export default {
           raw: {
             label: '端口范围',
           },
-          formatter: (data, row) => `${row.port_from}:${row.port_to}`,
+          formatter: (data, row) => `${row.port_from} ~ ${row.port_to}`,
         },
         {
           raw: {

@@ -10,7 +10,7 @@
       <v-card-text>
         <v-radio-group v-model="nodeId" label="请选择服务节点">
           <v-radio
-            v-for="node in nodes"
+            v-for="node in avaliableNodes"
             :key="node.id"
             :label="nodeName(node)"
             :value="node.id"
@@ -50,7 +50,7 @@
 
 <script lang="ts">
 import { Component, Vue, Emit } from 'vue-property-decorator';
-import { State, Action } from 'vuex-class';
+import { State, Action, Getter } from 'vuex-class';
 import { StateType } from '@/store/state';
 import { renameKey } from '@/utils/helper';
 import { POINT_CONVERSION_COMPRESSED } from 'constants';
@@ -66,10 +66,14 @@ import { setTimeout } from 'timers';
 export default class ServerCreate extends Vue {
   @Action(types.LOADING) changeLoading: any
   @Action('fetchServices') fetchServices: any;
+  @Action('fetchNodes') fetchNodes: any;
   @Action('fetchServiceConfig') fetchServiceConfig: any
 
   @State((state) => state.serviceConfig) serviceConfig: any;
   @State('nodes') nodes: any;
+  @State('services') services: any;
+
+  @Getter('avaliableNodes') avaliableNodes: any;
 
   @Emit('update:visible')
   visibleChange(option: boolean) {}
@@ -108,9 +112,9 @@ export default class ServerCreate extends Vue {
     try {
       await postServiceCreate(this.nodeId, this.addServerForm)
       this.fetchServices()
-      this.changeLoading(false)
+      this.fetchNodes()
       this.visibleChange(false)
-    } catch(e) {
+    } finally {
       this.changeLoading(false)
     }
   }

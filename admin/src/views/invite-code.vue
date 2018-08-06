@@ -12,14 +12,14 @@
           :visible.sync="showModal"
           title="批量生成邀请码"
           width="360">
-          <modal-form @closeModal="showModal = false"></modal-form>
+          <gen-invite-code @success="genCodeSuccess" @closeModal="showModal = false"></gen-invite-code>
         </el-dialog>
     </div>
 </template>
 
 <script>
 import TCR from '@/components/TableColumnRender.vue'
-import ModalForm from '@/components/ModalForm.vue'
+import GenInviteCode from '@/components/GenInviteCode.vue'
 import request from '../apis/request'
 
 export default {
@@ -150,13 +150,17 @@ export default {
         this.pagination.index -= 1
       }
     },
+    genCodeSuccess() {
+      this.pagination.index = 1
+      this.fetchCode()
+    },
   },
   created() {
     this.fetchCode()
   },
   components: {
     TCR,
-    ModalForm,
+    GenInviteCode,
   },
 }
 </script>

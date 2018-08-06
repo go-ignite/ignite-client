@@ -1,7 +1,7 @@
 <template>
   <div class="detail">
     <v-data-iterator
-      :items="services"
+      :items="nodes"
       :hide-actions="true"
       row
       wrap
@@ -18,8 +18,8 @@
       >
         <v-card>
           <v-card-title class="card_title">
-            <h4>{{ getNodeConfig(props.item).name }}</h4>
-            <div class="text-xs-center">
+            <h4>{{ props.item.name }}</h4>
+            <div class="text-xs-center" v-if="nodeMap.get(props.item)">
               <v-menu offset-y>
                 <v-btn
                   slot="activator"
@@ -32,7 +32,7 @@
                   <v-list-tile>
                     <v-list-tile-title>查看二维码</v-list-tile-title>
                   </v-list-tile>
-                  <v-list-tile @click="handleDeleteService(props.item)">
+                  <v-list-tile @click="handleDeleteService(getServiceConfig(props.item))">
                     <v-list-tile-title>删除</v-list-tile-title>
                   </v-list-tile>
                 </v-list>
@@ -43,37 +43,46 @@
           <v-list dense>
             <v-list-tile>
               <v-list-tile-content>心跳:</v-list-tile-content>
-              <v-list-tile-content class="align-end">{{ nodesHeart[props.item.node_id] ? '在线' : '离线' }}</v-list-tile-content>
+              <v-list-tile-content class="align-end">{{ nodesHeart[props.item.id] ? '在线' : '离线' }}</v-list-tile-content>
             </v-list-tile>
             <v-list-tile>
-              <v-list-tile-content>类型</v-list-tile-content>
-              <v-list-tile-content class="align-end">{{typeMap[props.item.type]}}</v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile>
-              <v-list-tile-content>加密方式</v-list-tile-content>
-              <v-list-tile-content class="align-end">{{props.item.method}}</v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile>
-              <v-list-tile-content>地址</v-list-tile-content>
+              <v-list-tile-content>connection</v-list-tile-content>
               <v-list-tile-content class="align-end">
-                {{getNodeConfig(props.item).address}}
+                {{props.item.connection}}
               </v-list-tile-content>
             </v-list-tile>
             <v-list-tile>
-              <v-list-tile-content>端口号</v-list-tile-content>
-              <v-list-tile-content class="align-end">{{props.item.port}}</v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile>
-              <v-list-tile-content>密码</v-list-tile-content>
+              <v-list-tile-content>address</v-list-tile-content>
               <v-list-tile-content class="align-end">
-                {{props.item.password}}
+                {{props.item.address}}
               </v-list-tile-content>
             </v-list-tile>
+            <template v-if="nodeMap.get(props.item)">
+              <v-list-tile>
+                <v-list-tile-content>类型</v-list-tile-content>
+                <v-list-tile-content class="align-end">{{typeMap[nodeMap.get(props.item).type]}}</v-list-tile-content>
+              </v-list-tile>
+              <v-list-tile>
+                <v-list-tile-content>加密方式</v-list-tile-content>
+                <v-list-tile-content class="align-end">{{nodeMap.get(props.item).method}}</v-list-tile-content>
+              </v-list-tile>
+              <v-list-tile>
+                <v-list-tile-content>端口号</v-list-tile-content>
+                <v-list-tile-content class="align-end">{{nodeMap.get(props.item).port}}</v-list-tile-content>
+              </v-list-tile>
+              <v-list-tile>
+                <v-list-tile-content>密码</v-list-tile-content>
+                <v-list-tile-content class="align-end">
+                  {{nodeMap.get(props.item).password}}
+                </v-list-tile-content>
+              </v-list-tile>
+            </template>
           </v-list>
         </v-card>
       </v-flex>
     </v-data-iterator>
     <v-btn
+      v-if="avaliableNodes.length"
       @click="addServerDialogVis = true"
       absolute
       dark
@@ -91,7 +100,7 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { State, Action } from 'vuex-class';
+import { State, Action, Getter } from 'vuex-class';
 import { StateType } from '@/store/state';
 import serviceCreate from '@/components/ServiceCreate.vue';
 import { deleteServices } from '@/apis';
@@ -109,21 +118,29 @@ export default class Services extends Vue {
   @Action('fetchNodes') fetchNodes: any;
   @Action('fetchServices') fetchServices: any;
 
+  @Getter('avaliableNodes') avaliableNodes: any;
+
   typeMap = {
     1: 'SS',
     2: 'SSR',
   };
+
   servers: object[] = [{}];
   addServerDialogVis: boolean = false;
   loadingCreate: boolean = false;
+
+  get nodeMap() {
+    return new Map(this.nodes.map(node => [node, this.services.find((e: any) => e.node_id === node.id)]))
+  }
 
   mounted() {
     this.fetchNodes();
     this.fetchServices();
   }
 
-  getNodeConfig({ node_id: nodeId }: any) {
-    return this.nodes.find((e: any) => e.id === nodeId) || {};
+  getServiceConfig({ id }: any) {
+    console.log('count')
+    return this.services.find((e: any) => e.node_id === id) || {};
   }
 
   handleDeleteService(item: any) {

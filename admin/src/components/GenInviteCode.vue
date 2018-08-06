@@ -41,6 +41,7 @@ export default {
         })
         .then((response) => {
           this.$message.success('生成邀请码成功!')
+          this.$emit('success')
           this.$emit('closeModal')
         })
         .catch((error) => {
