@@ -1,9 +1,9 @@
 {
-  "name": "fe",
+  "name": "ignite-client-user",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve --open",
+    "serve": "vue-cli-service serve",
     "start": "yarn serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
@@ -24,17 +24,13 @@
     "vuex-class": "^0.3.1"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.0.0-beta.16",
-    "@vue/cli-plugin-pwa": "^3.0.0-rc.3",
-    "@vue/cli-plugin-typescript": "^3.0.0-rc.3",
-    "@vue/cli-service": "^3.0.0-rc.3",
-    "less": "^2.7.3",
-    "less-loader": "^4.0.5",
-    "vue-template-compiler": "^2.5.13"
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
-  ]
+    "@vue/cli-plugin-babel": "^3.0.0-rc.10",
+    "@vue/cli-plugin-pwa": "^3.0.0-rc.10",
+    "@vue/cli-plugin-typescript": "^3.0.0-rc.10",
+    "@vue/cli-service": "^3.0.0-rc.10",
+    "less": "^3.0.4",
+    "less-loader": "^4.1.0",
+    "typescript": "^3.0.0",
+    "vue-template-compiler": "^2.5.16"
+  }
 }
