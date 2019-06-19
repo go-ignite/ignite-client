@@ -8,7 +8,7 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      component: () => import('./views/Entry'),
+      component: () => import('./views/entry'),
       children: [
         {
           path: '',

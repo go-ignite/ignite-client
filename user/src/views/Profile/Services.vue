@@ -130,7 +130,7 @@ export default class Services extends Vue {
   loadingCreate: boolean = false;
 
   get nodeMap() {
-    return new Map(this.nodes.map(node => [node, this.services.find((e: any) => e.node_id === node.id)]))
+    return new Map(this.nodes.map((node: any) => [node, this.services.find((e: any) => e.node_id === node.id)]))
   }
 
   mounted() {
