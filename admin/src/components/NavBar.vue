@@ -18,6 +18,7 @@
 
 <script>
 import EventBus, { Event } from '../utils/EventBus'
+import { LOGIN_PAGE } from '../config'
 
 export default {
   data() {
@@ -34,7 +35,7 @@ export default {
   methods: {
     onLogout() {
       localStorage.removeItem('ignite_admin_token')
-      location.href = '/'
+      location.href = LOGIN_PAGE
     },
     toggleBurger() {
       this.buggerActive = !this.buggerActive

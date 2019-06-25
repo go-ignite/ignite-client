@@ -35,7 +35,7 @@ $http.interceptors.response.use(
     }
 
     const {data, success, message} = response.data;
-    if (!success) {
+    if (success === false) {
       Notification.error({
         title: '错误',
         message,

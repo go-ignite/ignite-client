@@ -3,6 +3,7 @@ const path = require('path')
 module.exports = {
   lintOnSave: false,
   devServer: {
+    port: 10002,
     proxy: {
       '/api': {
         target: process.env.DEV_SERVER || 'http://localhost:5000',

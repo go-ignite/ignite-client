@@ -11,9 +11,17 @@ const router = new Router({
       component: () => import('./views/entry'),
       children: [
         {
-          path: '',
+          path: 'login',
           name: 'login',
-          component: () => import('./views/login'),
+          beforeEnter:  (to, from, next) => {
+            const {
+              query: { token },
+            } = to
+            if (token) {
+              localStorage.setItem('ignite_admin_token', token)
+              next({ name: 'users' })
+            }
+          },
         },
         {
           path: 'nodes',

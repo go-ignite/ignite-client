@@ -1,9 +1,11 @@
-const nodeEnv: any = process.env.NODE_ENV;
+const nodeEnv: 'development' | 'production' = process.env.NODE_ENV;
 
-const backServer = {
+export const ADMIN_LOGIN = {
+  development: 'http://127.0.0.1:10002/login',
+  production: '/admin/login',
+}[nodeEnv];
+
+export const BACK_API: string = {
   development: process.env.DEV_SERVER || 'http://127.0.0.1:5000',
-  testbuild: 'https://wwwapi.qixincha.com',
-  production: 'https://wwwapi.qixincha.com',
-};
-
-export const BACK_API: string = (backServer as any)[nodeEnv];
+  production: '/',
+}[nodeEnv];

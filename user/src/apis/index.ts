@@ -1,7 +1,16 @@
 import request from './request';
 
-export function postUserLogin(payload: any) {
+export interface LoginPayload {
+  username: string;
+  password: string;
+}
+
+export function postUserLogin(payload: LoginPayload) {
   return request.post('/api/user/login', payload);
+}
+
+export function postAdminLogin(payload: LoginPayload) {
+  return request.post('/api/admin/login', payload);
 }
 
 export function postUserSignup(payload: any) {

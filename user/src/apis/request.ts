@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { BACK_API } from '@/config';
 import localforage from 'localforage';
 import EventBus, { Event } from '@/utils/EventBus';
 
@@ -30,24 +29,14 @@ $http.interceptors.request.use(
 );
 
 $http.interceptors.response.use(
-  (response: any) => {
-    if (response.config.manualHandle) {
-      return response.data;
-    }
-
-    const {data, success, message} = response.data;
-    if (!success) {
-      EventBus.$emit(Event.TOAST, {text: message});
-      return Promise.reject(message);
-    }
-    return Promise.resolve(data);
-  },
+  (response: any) => response.data,
   (error: any) => {
     if (error.response.status === 401) {
       localforage.removeItem('ignite_token');
       location.href = '/';
     }
     return Promise.reject(error);
-});
+  }
+);
 
 export default $http;
