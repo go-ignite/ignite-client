@@ -1,12 +1,14 @@
-## Build Setup
-
-``` bash
-# install dependencies
+## Project setup
+```
 yarn
+```
 
-# default devServer is localhost:8000, use DEV_SERVER to modify port.
-yarn serve
+### Compiles and hot-reloads for development
+```
+yarn dev
+```
 
+### Compiles and minifies for production
+```
 yarn build
-
 ```
