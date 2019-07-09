@@ -1,2 +1,4 @@
 .git/
-/node_modules
+homepage/node_modules
+admin/node_modules
+user/node_modules

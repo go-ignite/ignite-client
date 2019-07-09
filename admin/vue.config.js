@@ -13,7 +13,7 @@ module.exports = {
   publicPath: process.env.NODE_ENV === 'production'
   ? '/admin/'
   : '/',
-  outputDir: '../dist/admin',
+  outputDir: './dist',
   configureWebpack: config => {
     // if (process.env.NODE_ENV === 'production') {
     //   config.output.publicPath = '/admin/'
