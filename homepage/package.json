@@ -1,5 +1,5 @@
 {
-  "name": "ignite-client-homepage",
+  "name": "ignite-client-index",
   "private": true,
   "description": "A simple starter to get up and developing quickly with Gatsby",
   "version": "0.1.0",
@@ -36,7 +36,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "gatsby develop -p 10000",
-    "build": "gatsby build",
+    "build": "gatsby build --prefix-paths",
     "format": "prettier --write src/**/*.{js,jsx}",
     "serve": "gatsby serve",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\""

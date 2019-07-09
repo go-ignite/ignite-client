@@ -10,6 +10,9 @@ module.exports = {
       }
     }
   },
+  publicPath: process.env.NODE_ENV === 'production'
+  ? '/admin/'
+  : '/',
   outputDir: '../dist/admin',
   configureWebpack: config => {
     // if (process.env.NODE_ENV === 'production') {

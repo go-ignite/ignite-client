@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import { ROUTE_BASE } from './config'
 
 Vue.use(Router)
 
 const router = new Router({
   mode: 'history',
+  base: ROUTE_BASE,
   routes: [
     {
       path: '/',
@@ -13,7 +15,7 @@ const router = new Router({
         {
           path: 'login',
           name: 'login',
-          beforeEnter:  (to, from, next) => {
+          beforeEnter: (to, from, next) => {
             const {
               query: { token },
             } = to

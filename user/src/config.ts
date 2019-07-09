@@ -5,7 +5,12 @@ export const ADMIN_LOGIN = {
   production: '/admin/login',
 }[nodeEnv];
 
-export const BACK_API: string = {
+export const BACK_API = {
   development: process.env.DEV_SERVER || 'http://127.0.0.1:5000',
   production: '/',
+}[nodeEnv];
+
+export const ROUTE_BASE = {
+  development: '/',
+  production: '/user',
 }[nodeEnv];

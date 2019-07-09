@@ -1,4 +1,5 @@
 module.exports = {
+  pathPrefix: `/index`,
   proxy: {
     prefix: "/api",
     url: "http://localhost:5000",
