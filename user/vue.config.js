@@ -1,5 +1,3 @@
-const path = require('path')
-const {ROUTE_BASE} = require('./src/config')
 
 module.exports = {
   lintOnSave: false,
@@ -12,11 +10,6 @@ module.exports = {
     }
   },
   outputDir: '../dist/user',
-  publicPath: ROUTE_BASE,
-  configureWebpack: config => {
-    // if (process.env.NODE_ENV === 'production') {
-    //   config.output.publicPath = '/admin/'
-    // }
-  }
+  publicPath: process.env.NODE_ENV === 'production' ? '/user' : '/',
 }
 
