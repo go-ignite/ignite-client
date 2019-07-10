@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Notification } from 'element-ui'
+import { LOGIN_PAGE } from '../config'
 
 const $http = axios.create({
   timeout: 3 * 60 * 1000, // 3 minutes
@@ -29,25 +29,11 @@ $http.interceptors.request.use(
 )
 
 $http.interceptors.response.use(
-  (response) => {
-    if (response.config.manualHandle) {
-      return response.data;
-    }
-
-    const {data, success, message} = response.data;
-    if (success === false) {
-      Notification.error({
-        title: '错误',
-        message,
-      })
-      return Promise.reject(message);
-    }
-    return Promise.resolve(data);
-  },
+  (response) => response.data,
   (error) => {
     if (error.response.status === 401) {
       localStorage.removeItem('ignite_admin_token')
-      location.href = '/'
+      location.href = LOGIN_PAGE
     }
 
     return Promise.reject(error)

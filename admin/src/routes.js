@@ -36,19 +36,14 @@ const router = new Router({
           component: () => import('./views/services'),
         },
         {
-          path: 'invite-code',
-          name: 'inviteCode',
-          component: () => import('./views/invite-code'),
+          path: 'codes',
+          name: 'codes',
+          component: () => import('./views/codes'),
         },
         {
           path: 'users',
           name: 'users',
           component: () => import('./views/users'),
-        },
-        {
-          path: 'about',
-          name: 'about',
-          component: () => import('./views/about'),
         },
       ],
     },

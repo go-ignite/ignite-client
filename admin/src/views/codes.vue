@@ -1,26 +1,25 @@
 <template>
-    <div class="iadmin_codetable g_wrap">
-        <el-button @click="showModal = true" type="primary">批量生成</el-button>
-        <t-c-r
-          :tableData="codeList"
-          :tableCols="tableCols"
-          :pagination="pagination"
-          @page-change="pageChanged"
-        >
-        </t-c-r>
-        <el-dialog
-          :visible.sync="showModal"
-          title="批量生成邀请码"
-          width="360">
-          <gen-invite-code @success="genCodeSuccess" @closeModal="showModal = false"></gen-invite-code>
-        </el-dialog>
-    </div>
+  <div class="iadmin_codetable g_wrap">
+    <el-button @click="showModal = true" type="primary">批量生成</el-button>
+    <t-c-r
+      :tableData="codeList"
+      :tableCols="tableCols"
+      :pagination="pagination"
+      @page-change="pageChanged"
+    >
+    </t-c-r>
+    <el-dialog :visible.sync="showModal" title="批量生成邀请码" width="360">
+      <gen-invite-code @success="genCodeSuccess" @closeModal="showModal = false"></gen-invite-code>
+    </el-dialog>
+  </div>
 </template>
 
 <script>
 import TCR from '@/components/TableColumnRender.vue'
 import GenInviteCode from '@/components/GenInviteCode.vue'
+import { format } from 'date-fns'
 import request from '../apis/request'
+import { getCodes, postCodes, deleteCodes } from '../apis'
 
 export default {
   computed: {
@@ -30,27 +29,27 @@ export default {
         {
           raw: {
             label: '邀请码',
-            prop: 'InviteCode',
+            prop: 'invite_code',
           },
         },
         {
           raw: {
             label: '创建时间',
-            prop: 'Created',
+            prop: 'created_at',
           },
-          formatter: (v) => this.dateFilter(v),
+          formatter: (v) => `${format(v, 'YYYY-MM-DD')}`,
         },
         {
           raw: {
-            label: '有效期限',
-            prop: 'AvailableLimit',
+            label: '过期时间',
+            prop: 'expired_at',
           },
-          formatter: (v) => `${v}个月`,
+          formatter: (v) => `${format(v, 'YYYY-MM-DD')}`,
         },
         {
           raw: {
             label: '总流量',
-            prop: 'PackageLimit',
+            prop: 'limit',
           },
           formatter: (v) => `${v} GB`,
         },
@@ -100,13 +99,13 @@ export default {
     },
   },
   methods: {
-    fetchCode(index = 1) {
-      request
-        .get(`/api/admin/auth/code_list?pageIndex=${index}&pageSize=${this.pagination.size}`)
-        .then((response) => {
-          this.codeList = response.data
-          this.pagination.total = response.total
-        })
+    async fetchCode(index = 1) {
+      const response = await getCodes({
+        page_index: index,
+        page_size: this.pagination.size,
+      })
+      this.codeList = response.list
+      this.pagination.total = response.total
     },
     remove(item, index) {
       // TODO: FIX remove effect page
@@ -116,22 +115,15 @@ export default {
         cancelButtonText: '取消',
         type: 'warning',
       })
-        .then(() => {
-          const removeId = item.Id
-          request
-            .put(`/api/admin/auth/${removeId}/remove`)
-            .then((response) => {
-              const index = this.codeList.findIndex((e) => e.Id === removeId)
-              if (index > -1) {
-                this.codeList.splice(index, 1)
-                this.$message.success('邀请码已删除')
-                this.removePaginationCheck()
-                this.fetchCode(this.pagination.index)
-              }
-            })
-            .catch(() => {
-              this.$message.error('删除邀请码失败!')
-            })
+        .then(async () => {
+          await deleteCodes(null, { urlParam: { id: item.id } })
+          const index = this.codeList.findIndex((e) => e.id === item.id)
+          if (index > -1) {
+            this.codeList.splice(index, 1)
+            this.$message.success('邀请码已删除')
+            this.removePaginationCheck()
+            this.fetchCode(this.pagination.index)
+          }
         })
         .catch(() => {})
     },

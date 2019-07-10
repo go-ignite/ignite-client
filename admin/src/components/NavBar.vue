@@ -4,14 +4,12 @@
       <img src="../assets/img/favicon-96x96.png" class="nav_logo" alt="ignite">
       <el-menu :default-active="activePath" class="nav_items" mode="horizontal" @select="handleSelect">
         <!-- use v-show for active. -->
-        <el-menu-item v-show="!isLogin" index="/">首页</el-menu-item>
-        <el-menu-item v-show="isLogin" index="/users">用户管理</el-menu-item>
-        <el-menu-item v-show="isLogin" index="/nodes">节点管理</el-menu-item>
-        <el-menu-item v-show="isLogin" index="/services">服务管理</el-menu-item>
-        <el-menu-item v-show="isLogin" index="/invite-code">邀请码管理</el-menu-item>
-        <el-menu-item index="/about">关于</el-menu-item>
+        <el-menu-item index="/users">用户管理</el-menu-item>
+        <el-menu-item index="/nodes">节点管理</el-menu-item>
+        <!-- <el-menu-item index="/services">服务管理</el-menu-item> -->
+        <el-menu-item index="/codes">邀请码管理</el-menu-item>
       </el-menu>
-      <span v-if="isLogin" class="h_fr h_csp" @click="onLogout">退出</span>
+      <span class="h_fr h_csp" @click="onLogout">退出</span>
     </div>
   </div>
 </template>
@@ -23,7 +21,6 @@ import { LOGIN_PAGE } from '../config'
 export default {
   data() {
     return {
-      isLogin: false,
       buggerActive: false,
     }
   },
@@ -47,12 +44,6 @@ export default {
     },
   },
   created() {
-    EventBus.$on(Event.LOGIN_SUCCESS, () => {
-      this.isLogin = true
-    })
-    if (localStorage.getItem('ignite_admin_token')) {
-      this.isLogin = true
-    }
   },
 }
 </script>

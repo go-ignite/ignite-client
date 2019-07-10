@@ -3,7 +3,7 @@ import styled from "styled-components"
 import MenuIcon from "@material-ui/icons/Menu"
 import CloseIcon from "@material-ui/icons/Close"
 import MediaQuery from "react-responsive"
-import LoginBtn from "./button"
+// import LoginBtn from "./button"
 import Register from "./register"
 import logoUrl from "../images/ignite-icon.png"
 import { Wrap } from "./base"
@@ -22,11 +22,11 @@ export default () => {
               <NavRight>
                 <Ul>
                   <Li onClick={() => ctx.setVisRegister(true)}>注册</Li>
-                  <LiSplit></LiSplit>
+                  {/* <LiSplit></LiSplit> */}
                 </Ul>
-                <LoginBtn white={true} onClick={() => ctx.setVisLogin(true)}>
+                {/* <LoginBtn white={true} onClick={() => ctx.setVisLogin(true)}>
                   登陆
-                </LoginBtn>
+                </LoginBtn> */}
               </NavRight>
             </NavCenter>
           ) : (
