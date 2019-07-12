@@ -1,38 +1,28 @@
 <template>
   <div class="detail">
     <v-data-iterator
-      :items="nodes"
+      :items="services"
       :hide-actions="true"
       row
       wrap
       no-data-text="您暂无可用的服务"
     >
-      <v-flex
-        slot="item"
-        slot-scope="props"
-        xs12
-        sm6
-        md6
-        lg4
-        class="detail_server_item"
-      >
+      <v-flex slot="item" slot-scope="props" xs12 sm6 md6 lg4 class="detail_server_item">
         <v-card>
           <v-card-title class="card_title">
-            <h4>{{ props.item.name }}</h4>
-            <div class="text-xs-center" v-if="nodeMap.get(props.item)">
+            <h4>{{ props.item.node.name }}</h4>
+            <div class="text-xs-center">
               <v-menu offset-y>
-                <v-btn
-                  slot="activator"
-                  small
-                  icon
-                >
-                  <v-icon>more_vert</v-icon> 
+                <v-btn slot="activator" small icon>
+                  <v-icon>more_vert</v-icon>
                 </v-btn>
                 <v-list>
-                  <v-list-tile>
+                  <v-list-tile @click="showQrCode(props.item)">
                     <v-list-tile-title>查看二维码</v-list-tile-title>
                   </v-list-tile>
-                  <v-list-tile @click="handleDeleteService(getServiceConfig(props.item))">
+                  <v-list-tile
+                    @click="handleDeleteService(getServiceConfig(props.item.service.id))"
+                  >
                     <v-list-tile-title>删除</v-list-tile-title>
                   </v-list-tile>
                 </v-list>
@@ -42,41 +32,35 @@
           <v-divider></v-divider>
           <v-list dense>
             <v-list-tile>
-              <v-list-tile-content>心跳:</v-list-tile-content>
-              <v-list-tile-content class="align-end">{{ nodesHeart[props.item.id] ? '在线' : '离线' }}</v-list-tile-content>
+              <v-list-tile-content>用户访问地址</v-list-tile-content>
+              <v-list-tile-content class="align-end">{{
+                props.item.node.connection_address
+              }}</v-list-tile-content>
             </v-list-tile>
             <v-list-tile>
-              <v-list-tile-content>connection</v-list-tile-content>
-              <v-list-tile-content class="align-end">
-                {{props.item.connection}}
-              </v-list-tile-content>
+              <v-list-tile-content>类型</v-list-tile-content>
+              <v-list-tile-content class="align-end">{{
+                props.item.service.type
+              }}</v-list-tile-content>
             </v-list-tile>
             <v-list-tile>
-              <v-list-tile-content>address</v-list-tile-content>
+              <v-list-tile-content>加密方式</v-list-tile-content>
+              <v-list-tile-content class="align-end">{{
+                props.item.service.encryption_method
+              }}</v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile>
+              <v-list-tile-content>端口号</v-list-tile-content>
+              <v-list-tile-content class="align-end">{{
+                props.item.service.port
+              }}</v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile>
+              <v-list-tile-content>密码</v-list-tile-content>
               <v-list-tile-content class="align-end">
-                {{props.item.address}}
+                {{ props.item.service.password }}
               </v-list-tile-content>
             </v-list-tile>
-            <template v-if="nodeMap.get(props.item)">
-              <v-list-tile>
-                <v-list-tile-content>类型</v-list-tile-content>
-                <v-list-tile-content class="align-end">{{typeMap[nodeMap.get(props.item).type]}}</v-list-tile-content>
-              </v-list-tile>
-              <v-list-tile>
-                <v-list-tile-content>加密方式</v-list-tile-content>
-                <v-list-tile-content class="align-end">{{nodeMap.get(props.item).method}}</v-list-tile-content>
-              </v-list-tile>
-              <v-list-tile>
-                <v-list-tile-content>端口号</v-list-tile-content>
-                <v-list-tile-content class="align-end">{{nodeMap.get(props.item).port}}</v-list-tile-content>
-              </v-list-tile>
-              <v-list-tile>
-                <v-list-tile-content>密码</v-list-tile-content>
-                <v-list-tile-content class="align-end">
-                  {{nodeMap.get(props.item).password}}
-                </v-list-tile-content>
-              </v-list-tile>
-            </template>
           </v-list>
         </v-card>
       </v-flex>
@@ -96,26 +80,29 @@
       </div>
     </v-btn>
     <service-create :visible.sync="addServerDialogVis"></service-create>
+    <qrcode-dialog :visible.sync="qrcodeVis" :url="currentUrl"></qrcode-dialog>
   </div>
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { State, Action, Getter } from 'vuex-class';
+import QRCode from 'qrcode'
 import { StateType } from '@/store/state';
 import serviceCreate from '@/components/ServiceCreate.vue';
+import QrcodeDialog from '@/components/QrcodeDialog.vue';
 import { deleteServices } from '@/apis';
 import EventBus, { Event } from '@/utils/EventBus';
 
 @Component({
   components: {
     serviceCreate,
+    QrcodeDialog
   },
 })
 export default class Services extends Vue {
-  @State('nodes') nodes: any;
   @State('services') services: any;
   @State('nodesHeart') nodesHeart: any;
-  @Action('fetchNodes') fetchNodes: any;
+  // @Action('fetchNodes') fetchNodes: any;
   @Action('fetchServices') fetchServices: any;
 
   @Getter('avaliableNodes') avaliableNodes: any;
@@ -128,27 +115,32 @@ export default class Services extends Vue {
   servers: object[] = [{}];
   addServerDialogVis: boolean = false;
   loadingCreate: boolean = false;
+  qrcodeVis: boolean = false;
+  currentUrl: string = ''; 
 
-  get nodeMap() {
-    return new Map(this.nodes.map((node: any) => [node, this.services.find((e: any) => e.node_id === node.id)]))
+  get nodes() {
+    return this.services.map((service: any) => service.node);
   }
 
   mounted() {
-    this.fetchNodes();
+    // this.fetchNodes();
     this.fetchServices();
   }
 
   getServiceConfig({ id }: any) {
-    console.log('count')
+    console.log('count');
     return this.services.find((e: any) => e.node_id === id) || {};
   }
 
   handleDeleteService(item: any) {
-    deleteServices(item.id)
-      .then(() => {
-        EventBus.$emit(Event.TOAST, { text: '删除成功' });
-        this.fetchServices()
-      })
+    deleteServices(item.id).then(() => {
+      EventBus.$emit(Event.TOAST, { text: '删除成功' });
+      this.fetchServices();
+    });
+  }
+  showQrCode(item: any) {
+    this.qrcodeVis = true;
+    this.currentUrl = item.service.url
   }
 }
 </script>

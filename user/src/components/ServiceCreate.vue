@@ -8,11 +8,11 @@
         创建服务
       </v-card-title>
       <v-card-text>
-        <v-radio-group v-model="nodeId" label="请选择服务节点">
+        <v-radio-group v-model="addServerForm.node_id" label="请选择服务节点">
           <v-radio
             v-for="node in avaliableNodes"
             :key="node.id"
-            :label="nodeName(node)"
+            :label="node.name"
             :value="node.id"
           ></v-radio>
         </v-radio-group>
@@ -22,16 +22,10 @@
           label="请选择服务端类型"
         ></v-select>
         <v-select
-          v-model="addServerForm.method"
+          v-model="addServerForm.encryption_method"
           :items="serviceMethods"
           label="请选择加密方式"
         ></v-select>
-        <v-text-field
-          v-model="addServerForm.password"
-          label="请输入服务密码"
-          type="password"
-          required
-        ></v-text-field>
       </v-card-text>
       <v-card-actions>
         <v-btn
@@ -53,7 +47,7 @@ import { Component, Vue, Emit } from 'vue-property-decorator';
 import { State, Action, Getter } from 'vuex-class';
 import { StateType } from '@/store/state';
 import { renameKey } from '@/utils/helper';
-import { postServiceCreate } from '@/apis'
+import { postServiceCreate, postServices } from '@/apis'
 import types from '@/store/types'
 
 @Component({
@@ -65,11 +59,11 @@ export default class ServerCreate extends Vue {
   @Action(types.LOADING) changeLoading: any
   @Action('fetchServices') fetchServices: any;
   @Action('fetchNodes') fetchNodes: any;
-  @Action('fetchServiceConfig') fetchServiceConfig: any
 
   @State((state) => state.serviceConfig) serviceConfig: any;
   @State('nodes') nodes: any;
   @State('services') services: any;
+  @State('servicesOptions') servicesOptions: any;
 
   @Getter('avaliableNodes') avaliableNodes: any;
 
@@ -80,37 +74,25 @@ export default class ServerCreate extends Vue {
   loading: boolean = false
 
   get serviceTypes() {
-    const map: { [key: number]: string } = {
-      1: 'ss',
-      2: 'ssr',
-    }
-    return this.serviceConfig.map(({ type }: any) => {
-      return {
-        text: map[type],
-        value: type
-      }
-    });
+    return this.servicesOptions.map((option: any) => option.type)
   }
 
   get serviceMethods() {
-    const config = this.serviceConfig.find(({type}: any) => {
-      return type === this.addServerForm.type
-    })
-    return config ? config.methods : []
+    const item = this.servicesOptions.find((option: any) => option.type === this.addServerForm.type)
+    return item ? item.encryption_methods : []
   }
 
   addServerForm = {
+    node_id: '',
     type: '',
-    method: '',
-    password: '',
+    encryption_method: '',
   };
 
   async serverCreate() {
     this.changeLoading(true)
     try {
-      await postServiceCreate(this.nodeId, this.addServerForm)
+      await postServices(this.addServerForm)
       this.fetchServices()
-      this.fetchNodes()
       this.visibleChange(false)
     } finally {
       this.changeLoading(false)
@@ -119,10 +101,6 @@ export default class ServerCreate extends Vue {
 
   nodeName({ name, address }: any) {
     return `${name}(${address})`
-  }
-
-  mounted() {
-    this.fetchServiceConfig()
   }
 }
 </script>

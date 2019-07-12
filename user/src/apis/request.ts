@@ -1,6 +1,7 @@
 import axios from 'axios';
 import localforage from 'localforage';
 import EventBus, { Event } from '@/utils/EventBus';
+import { LOGIN_PAGE } from '@/config';
 
 const $http = axios.create({
   timeout: 3 * 60 * 1000, // 3 minutes
@@ -25,7 +26,7 @@ $http.interceptors.request.use(
   },
   (error: any) => {
     return Promise.reject(error);
-  },
+  }
 );
 
 $http.interceptors.response.use(
@@ -33,7 +34,7 @@ $http.interceptors.response.use(
   (error: any) => {
     if (error.response.status === 401) {
       localforage.removeItem('ignite_token');
-      location.href = '/';
+      location.href = LOGIN_PAGE;
     }
     return Promise.reject(error);
   }

@@ -1,6 +1,5 @@
 export default {
-  FETCH_SERVICE_CONFIG: 'fetchServiceConfig',
-  FETCH_NODES: 'fetchNodes',
+  FETCH_SERVICES_OPTIONS: 'FETCH_SERVICES_OPTIONS',
   FETCH_SERVICES: 'fetchServices',
   CREATE_SERVICE: 'createService',
   LOADING: 'loading',

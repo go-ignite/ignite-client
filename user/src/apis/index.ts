@@ -34,9 +34,19 @@ export function fetchNodes() {
 }
 
 export function fetchServices() {
-  return request.get('/api/user/auth/services');
+  return request.get('/api/user/services');
 }
 
 export function deleteServices(id: number) {
   return request.delete(`/api/user/auth/services/${id}`);
+}
+
+// 服务器配置信息
+export function fetchServicesOptions() {
+  return request.get('/api/user/services/options');
+}
+
+// 创建服务
+export function postServices(payload: any) {
+  return request.post('/api/user/services', payload);
 }

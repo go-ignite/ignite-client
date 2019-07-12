@@ -1,8 +1,8 @@
 const nodeEnv: 'development' | 'production' = process.env.NODE_ENV;
 
-export const ADMIN_LOGIN = {
-  development: 'http://127.0.0.1:10002/login',
-  production: '/admin/login',
+export const LOGIN_PAGE = {
+  development: 'http://127.0.0.1:10000',
+  production: '/',
 }[nodeEnv];
 
 export const BACK_API = {

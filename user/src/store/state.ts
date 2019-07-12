@@ -2,6 +2,7 @@ export const state: StateType = {
   loading: false,
   userInfo: {},
   serviceConfig: [],
+  servicesOptions: [],
   nodes: [],
   services: [],
   nodesHeart: {},
@@ -9,6 +10,7 @@ export const state: StateType = {
 
 export interface StateType {
   userInfo?: UserInfo;
+  servicesOptions?: object[];
   serviceConfig?: object[];
   loading: boolean;
   nodes: object[];

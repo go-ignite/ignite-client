@@ -1,16 +1,13 @@
-import { fetchServiceConfig, fetchNodes, fetchServices } from '@/apis';
+import { fetchServices, fetchServicesOptions } from '@/apis';
 import { StateType } from './state';
 import { ActionTree } from 'vuex';
 import types from './types';
 
 const actions: ActionTree<StateType, any> = {
-  async [types.FETCH_SERVICE_CONFIG]({ commit }) {
-    const resData = await fetchServiceConfig();
-    commit(types.FETCH_SERVICE_CONFIG, resData);
-  },
-  async [types.FETCH_NODES]({ commit }) {
-    const resData = await fetchNodes();
-    commit(types.FETCH_NODES, resData);
+  async [types.FETCH_SERVICES_OPTIONS]({ commit }) {
+    const resData = await fetchServicesOptions();
+    commit(types.FETCH_SERVICES_OPTIONS, resData);
+
   },
   async [types.FETCH_SERVICES]({ commit }) {
     const resData = await fetchServices();
