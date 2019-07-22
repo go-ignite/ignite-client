@@ -1,10 +1,10 @@
 import React, { useState } from "react"
+import { toast } from 'react-toastify';
 import Button from "@material-ui/core/Button"
 import TextField from "@material-ui/core/TextField"
 import Dialog from "@material-ui/core/Dialog"
 import DialogActions from "@material-ui/core/DialogActions"
 import DialogContent from "@material-ui/core/DialogContent"
-import DialogContentText from "@material-ui/core/DialogContentText"
 import DialogTitle from "@material-ui/core/DialogTitle"
 import get from 'lodash.get'
 
@@ -16,9 +16,6 @@ export default function FormDialog({ open, setOpen }) {
     password: "",
     invite_code: "",
   })
-  function handleClickOpen() {
-    setOpen(true)
-  }
 
   function handleClose() {
     setOpen(false)
@@ -38,11 +35,14 @@ export default function FormDialog({ open, setOpen }) {
     console.log(form)
     try {
       const data = await postUserRegister(form)
-      alert('注册成功')
+      toast.success('注册成功，您随时可以登陆系统 ~')
 
     } catch(err) {
-      if (get(err, 'response.data.code') === 1) {
-        alert('邀请码不存在或已失效')
+      const code = get(err, 'response.data.code')
+      if (code === 1000) {
+        toast.error('邀请码不存在或已失效')
+      } else if (code === 400) {
+        alert('请正确的填写表单信息')
       }
     }
   }
@@ -61,7 +61,7 @@ export default function FormDialog({ open, setOpen }) {
             margin="dense"
             id="name"
             label="用户名"
-            type="email"
+            type="text"
             fullWidth
             value={form.username}
             onChange={handleInputChange("username")}
@@ -71,7 +71,7 @@ export default function FormDialog({ open, setOpen }) {
             margin="dense"
             id="name"
             label="密码"
-            type="email"
+            type="password"
             fullWidth
             value={form.password}
             onChange={handleInputChange("password")}
@@ -81,7 +81,7 @@ export default function FormDialog({ open, setOpen }) {
             margin="dense"
             id="name"
             label="邀请码"
-            type="email"
+            type="text"
             fullWidth
             value={form.invite_code}
             onChange={handleInputChange("invite_code")}

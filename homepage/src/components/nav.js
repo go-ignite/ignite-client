@@ -22,7 +22,7 @@ export default () => {
               <NavRight>
                 <Ul>
                   <Li onClick={() => ctx.setVisRegister(true)}>注册</Li>
-                  {/* <LiSplit></LiSplit> */}
+                  <Li onClick={() => ctx.setVisRegister(true)}>关于我们</Li>
                 </Ul>
                 {/* <LoginBtn white={true} onClick={() => ctx.setVisLogin(true)}>
                   登陆
@@ -99,16 +99,6 @@ const Li = styled.li`
   color: rgb(255, 255, 255);
   padding: 0.4rem 0px 0.2rem;
 `
-
-const LiSplit = styled.div`
-  height: 2rem;
-  width: 1px;
-  position: relative;
-  top: 1px;
-  background: rgb(255, 255, 255);
-  margin: 0px -0.5rem 0px 3rem;
-`
-
 const MobileHeader = styled.header`
   display: flex;
   align-items: center;

@@ -1,14 +1,13 @@
 import React from "react"
 import styled from "styled-components"
-import PropTypes, { nominalTypeHack } from "prop-types"
 
 const button = ({ children, ...rest }) => {
   return <StyledBtn {...rest}>{children}</StyledBtn>
 }
 
-button.propTypes = {
-  children: PropTypes.bool,
-}
+// button.propTypes = {
+//   children: PropTypes.element,
+// }
 
 const StyledBtn = styled.button`
   outline: none;
@@ -42,7 +41,7 @@ const StyledBtn = styled.button`
   color: rgb(255, 255, 255);
   margin: 0px;
   padding: 0px 1.8rem;
-  border-radius: 0.8rem;
+  border-radius: 8px;
   text-decoration: none;
   transition: all 0.2s;
 `
