@@ -1,4 +1,5 @@
-const nodeEnv: 'development' | 'production' = process.env.NODE_ENV;
+type NodeEnv = 'development' | 'production';
+const nodeEnv =  process.env.NODE_ENV as NodeEnv;
 
 export const LOGIN_PAGE = {
   development: 'http://127.0.0.1:10000',

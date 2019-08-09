@@ -51,12 +51,11 @@ export default class QrcodeDialog extends Vue {
     this.QRUrl = await this.generateQR(val);
   }
 
-  clipboardSuccessHandler({ value, event }) {
+  clipboardSuccessHandler() {
       EventBus.$emit(Event.TOAST, { text: '复制成功' });
   }
 
-  clipboardErrorHandler({ value, event }) {
-
+  clipboardErrorHandler() {
       EventBus.$emit(Event.TOAST, { text: '复制失败' });
   }
 
