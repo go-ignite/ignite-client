@@ -14,13 +14,13 @@
         </el-dropdown>
       </div>
     </t-c-r>
-    <el-dialog :visible.sync="createNodeVis" @close="handleClose" title="创建节点" width="600px">
+    <el-dialog :visible.sync="createNodeVis" @close="handleClose" :title="dialogTitle" width="600px">
       <el-form label-width="150px" :model="form" :rules="rules" ref="form">
         <el-form-item label="节点名称" prop="name">
           <el-input v-model="form.name"></el-input>
         </el-form-item>
         <el-form-item label="节点连接地址" prop="request_address">
-          <el-input v-model="form.request_address"></el-input>
+          <el-input :disabled="isEdit" v-model="form.request_address"></el-input>
         </el-form-item>
         <el-form-item label="用户访问地址" prop="connection_address">
           <el-input v-model="form.connection_address"></el-input>
@@ -127,6 +127,10 @@ export default {
           slot: 'operator',
         },
       ]
+    },
+
+    dialogTitle() {
+      return this.isEdit ? '编辑节点' : '创建节点'
     },
   },
 
