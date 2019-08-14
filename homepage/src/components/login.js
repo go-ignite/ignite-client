@@ -5,6 +5,10 @@ import FormControlLabel from "@material-ui/core/FormControlLabel"
 import Checkbox from "@material-ui/core/Checkbox"
 import Dialog from "@material-ui/core/Dialog"
 import Slide from "@material-ui/core/Slide"
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import IconButton from '@material-ui/core/IconButton';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import closeIcon from "../images/close.svg"
 import Button from "../components/button"
 import { Wrap } from "../components/base"
@@ -41,11 +45,24 @@ const Login = () => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [isAdmin, setIsAdmin] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
+  const reset = () => {
+    setUsername('')
+    setPassword('')
+    setIsAdmin(false)
+    setShowPassword(false)
+    ctx.setVisLogin(false)
+  }
+
+  const handleMouseDownPassword = event => {
+    event.preventDefault();
+  };
+
   return (
     <Dialog
       fullScreen
       open={ctx.visLogin}
-      onClose={() => ctx.setVisLogin(false)}
+      onClose={() => reset()}
       TransitionComponent={Transition}
     >
       <div className="login">
@@ -54,7 +71,7 @@ const Login = () => {
             <img src={logoUrl} alt="" />
             <img
               className="login-close"
-              onClick={() => ctx.setVisLogin(false)}
+              onClick={() => reset()}
               src={closeIcon}
               alt=""
             />{" "}
@@ -71,10 +88,25 @@ const Login = () => {
             />
             <TextField
               variant="outlined"
+              type={showPassword ? 'text' : 'password'}
               label="密码"
               margin="normal"
               value={password}
               onChange={event => setPassword(event.target.value)}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      edge="end"
+                      aria-label="toggle password visibility"
+                      onClick={() => setShowPassword(!showPassword)}
+                      onMouseDown={handleMouseDownPassword}
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
             <FormControlLabel
               control={

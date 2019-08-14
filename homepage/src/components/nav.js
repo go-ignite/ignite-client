@@ -17,18 +17,20 @@ export default () => {
       <MediaQuery minDeviceWidth={1224}>
         {matches =>
           matches ? (
-            <NavCenter>
-              <NavLogo src={logoUrl}></NavLogo>
-              <NavRight>
-                <Ul>
-                  <Li onClick={() => ctx.setVisRegister(true)}>注册</Li>
-                  <Li onClick={() => ctx.setVisRegister(true)}>关于我们</Li>
-                </Ul>
-                {/* <LoginBtn white={true} onClick={() => ctx.setVisLogin(true)}>
-                  登陆
-                </LoginBtn> */}
-              </NavRight>
-            </NavCenter>
+            <Wrap>
+              <NavCenter>
+                <NavLogo src={logoUrl}></NavLogo>
+                <NavRight>
+                  <Ul>
+                    <Li onClick={() => ctx.setVisRegister(true)}>注册</Li>
+                    <Li onClick={() => ctx.setVisRegister(true)}>关于我们</Li>
+                  </Ul>
+                  {/* <LoginBtn white={true} onClick={() => ctx.setVisLogin(true)}>
+                    登陆
+                  </LoginBtn> */}
+                </NavRight>
+              </NavCenter>
+            </Wrap>
           ) : (
             <div>
               <MobileHeader>
@@ -68,7 +70,7 @@ const Nav = styled.nav`
   z-index: 5;
   padding: 0 15px 15px;
 `
-const NavCenter = styled(Wrap)`
+const NavCenter = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;

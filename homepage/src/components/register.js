@@ -1,23 +1,25 @@
 import React, { useState } from "react"
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify"
 import Button from "@material-ui/core/Button"
 import TextField from "@material-ui/core/TextField"
 import Dialog from "@material-ui/core/Dialog"
 import DialogActions from "@material-ui/core/DialogActions"
 import DialogContent from "@material-ui/core/DialogContent"
 import DialogTitle from "@material-ui/core/DialogTitle"
-import get from 'lodash.get'
+import get from "lodash.get"
 
-import {postUserRegister} from '../utils/request'
+import { postUserRegister } from "../utils/request"
 
+const FORM_INIT = {
+  username: "",
+  password: "",
+  invite_code: "",
+}
 export default function FormDialog({ open, setOpen }) {
-  const [form, setForm] = useState({
-    username: "",
-    password: "",
-    invite_code: "",
-  })
+  const [form, setForm] = useState({ ...FORM_INIT })
 
   function handleClose() {
+    setForm(FORM_INIT)
     setOpen(false)
   }
 
@@ -32,17 +34,15 @@ export default function FormDialog({ open, setOpen }) {
   }
 
   async function handleSubmit() {
-    console.log(form)
     try {
       const data = await postUserRegister(form)
-      toast.success('注册成功，您随时可以登陆系统 ~')
-
-    } catch(err) {
-      const code = get(err, 'response.data.code')
+      toast.success("注册成功，您随时可以登陆系统 ~")
+    } catch (err) {
+      const code = get(err, "response.data.code")
       if (code === 1000) {
-        toast.error('邀请码不存在或已失效')
+        toast.error("邀请码不存在或已失效")
       } else if (code === 400) {
-        alert('请正确的填写表单信息')
+        alert("请正确的填写表单信息")
       }
     }
   }
@@ -57,7 +57,6 @@ export default function FormDialog({ open, setOpen }) {
         <DialogTitle id="form-dialog-title">注册</DialogTitle>
         <DialogContent>
           <TextField
-            autoFocus
             margin="dense"
             id="name"
             label="用户名"
@@ -67,7 +66,6 @@ export default function FormDialog({ open, setOpen }) {
             onChange={handleInputChange("username")}
           />
           <TextField
-            autoFocus
             margin="dense"
             id="name"
             label="密码"
@@ -77,7 +75,6 @@ export default function FormDialog({ open, setOpen }) {
             onChange={handleInputChange("password")}
           />
           <TextField
-            autoFocus
             margin="dense"
             id="name"
             label="邀请码"
