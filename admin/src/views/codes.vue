@@ -1,6 +1,7 @@
 <template>
   <div class="iadmin_codetable g_wrap">
     <el-button @click="showModal = true" type="primary">批量生成</el-button>
+    <el-button @click="handleClearExpired" type="info">清理过期邀请码</el-button>
     <t-c-r
       :tableData="codeList"
       :tableCols="tableCols"
@@ -19,7 +20,7 @@ import TCR from '@/components/TableColumnRender.vue'
 import GenInviteCode from '@/components/GenInviteCode.vue'
 import { format } from 'date-fns'
 import request from '../apis/request'
-import { getCodes, postCodes, deleteCodes } from '../apis'
+import { getCodes, postCodes, deleteCodes, postCodesExpired } from '../apis'
 
 export default {
   computed: {
@@ -145,6 +146,16 @@ export default {
     genCodeSuccess() {
       this.pagination.index = 1
       this.fetchCode()
+    },
+    async handleClearExpired() {
+      await this.$confirm('是否清除所有过期邀请码?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      })
+      this.pagination.index = 1
+      await postCodesExpired()
+      await this.fetchCode()
     },
   },
   created() {

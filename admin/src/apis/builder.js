@@ -23,6 +23,6 @@ export default {
   },
   put(url) {
     return (body, { urlParam, config } = {}) =>
-    request.put(replaceUrlParam(url, urlParam), body, config)
-  }
+      request.put(replaceUrlParam(url, urlParam), body, config)
+  },
 }

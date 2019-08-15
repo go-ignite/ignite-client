@@ -11,3 +11,4 @@ export const putNodes = builder.put('/api/admin/nodes/:id') // 修改节点
 export const getCodes = builder.get('/api/admin/codes') // 获取邀请码列表
 export const postCodes = builder.post('/api/admin/codes_batch') // 创建邀请码
 export const deleteCodes = builder.delete('/api/admin/codes/:id') // 删除邀请码
+export const postCodesExpired = builder.post('/api/admin/codes_prune') // 清理过期code
