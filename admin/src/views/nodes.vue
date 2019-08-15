@@ -14,16 +14,42 @@
         </el-dropdown>
       </div>
     </t-c-r>
-    <el-dialog :visible.sync="createNodeVis" @close="handleClose" :title="dialogTitle" width="600px">
-      <el-form label-width="150px" :model="form" :rules="rules" ref="form">
+    <el-dialog
+      :visible.sync="createNodeVis"
+      @close="handleClose"
+      :title="dialogTitle"
+      width="600px"
+    >
+      <el-form
+        class="create-node-form"
+        label-width="150px"
+        label-position="right"
+        :model="form"
+        :rules="rules"
+        ref="form"
+      >
         <el-form-item label="节点名称" prop="name">
           <el-input v-model="form.name"></el-input>
         </el-form-item>
         <el-form-item label="节点连接地址" prop="request_address">
           <el-input :disabled="isEdit" v-model="form.request_address"></el-input>
+          <el-tooltip
+            content="面板与节点的通信地址，格式为 ip:端口，单节点模式下，ip 一般为 localhost，如果面板与节点在同一网络，ip 可以配置为内网 ip 地址，若不在同一网络，ip 为节点公网 ip 地址。"
+            placement="top"
+            popper-class="help-popper"
+          >
+            <i class="help-tip el-icon-warning-outline"></i>
+          </el-tooltip>
         </el-form-item>
         <el-form-item label="用户访问地址" prop="connection_address">
           <el-input v-model="form.connection_address"></el-input>
+          <el-tooltip
+            content="用户通过该地址访问 ss/ssr 服务，一般为节点的公网 ip 地址。"
+            placement="top"
+            popper-class="help-popper"
+          >
+            <i class="help-tip el-icon-warning-outline"></i>
+          </el-tooltip>
         </el-form-item>
         <el-form-item label="端口范围">
           <el-col :span="6">
@@ -190,4 +216,19 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.create-node-form {
+  /deep/ .el-form-item__label {
+    padding-right: 30px;
+  }
+  .help-tip {
+    position: absolute;
+    left: -20px;
+    top: 13px;
+    bottom: 0;
+    margin: auto;
+  }
+}
+/deep/ .help-popper {
+  max-width: 500px;
+}
 </style>
