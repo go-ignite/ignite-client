@@ -33,11 +33,6 @@ export default new Router({
           path: 'services',
           component: () => import('./views/Profile/Services.vue'),
         },
-        {
-          name: 'nodes',
-          path: 'nodes',
-          component: () => import('./views/Profile/Nodes.vue'),
-        },
       ],
     },
   ],

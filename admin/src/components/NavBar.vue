@@ -6,7 +6,6 @@
         <!-- use v-show for active. -->
         <el-menu-item index="/users">用户管理</el-menu-item>
         <el-menu-item index="/nodes">节点管理</el-menu-item>
-        <!-- <el-menu-item index="/services">服务管理</el-menu-item> -->
         <el-menu-item index="/codes">邀请码管理</el-menu-item>
       </el-menu>
       <span class="h_fr h_csp" @click="onLogout">退出</span>

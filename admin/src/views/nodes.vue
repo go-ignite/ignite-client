@@ -163,7 +163,7 @@ export default {
   methods: {
     async fetchNodes(page = 1) {
       const data = await getNodes({
-        pageIndex: page,
+        page_index: page,
         page_size: 10,
       })
       this.tableData = data

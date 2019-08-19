@@ -92,7 +92,7 @@ export default {
   methods: {
     fetchNodes(page = 1) {
       request
-        .get(`/api/admin/auth/services?pageIndex=${page}pageSize=12`)
+        .get(`/api/admin/auth/services?page_index=${page}page_size=12`)
         .then((response) => {
           this.tableData = response
         })

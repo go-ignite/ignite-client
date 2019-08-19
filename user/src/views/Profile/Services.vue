@@ -1,5 +1,17 @@
 <template>
   <div class="detail">
+    <v-data-table :headers="tableHeaders" :items="nodes" hide-actions class="elevation-1">
+      <template v-slot:items="props">
+        <td>{{ props.item.name }}</td>
+        <td>{{ props.item.connection_address }}</td>
+        <td>{{ props.item.request_address }}</td>
+        <td>{{ props.item.port_from }} ~ {{ props.item.port_to }}</td>
+        <td>{{ props.item.comment }}</td>
+        <td>
+          <v-btn v-if="!props.item.service" color="primary" @click="handleCreateService(props.item.id)">创建服务</v-btn>
+        </td>
+      </template>
+    </v-data-table>
     <v-data-iterator
       :items="services"
       :hide-actions="true"
@@ -65,38 +77,24 @@
         </v-card>
       </v-flex>
     </v-data-iterator>
-    <v-btn
-      v-if="avaliableNodes.length"
-      @click="addServerDialogVis = true"
-      absolute
-      dark
-      fab
-      right
-      color="pink"
-      class="detail_add_btn"
-    >
-      <div>
-        <v-icon>add</v-icon>
-      </div>
-    </v-btn>
-    <service-create :visible.sync="addServerDialogVis"></service-create>
+    <ServiceCreate :nodeId="createNodeId" :visible.sync="addServerDialogVis"></ServiceCreate>
     <qrcode-dialog :visible.sync="qrcodeVis" :url="currentUrl"></qrcode-dialog>
   </div>
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { State, Action, Getter } from 'vuex-class';
-import QRCode from 'qrcode'
+import QRCode from 'qrcode';
 import { StateType } from '@/store/state';
-import serviceCreate from '@/components/ServiceCreate.vue';
+import ServiceCreate from '@/components/ServiceCreate.vue';
 import QrcodeDialog from '@/components/QrcodeDialog.vue';
 import { deleteServices } from '@/apis';
 import EventBus, { Event } from '@/utils/EventBus';
 
 @Component({
   components: {
-    serviceCreate,
-    QrcodeDialog
+    ServiceCreate,
+    QrcodeDialog,
   },
 })
 export default class Services extends Vue {
@@ -112,11 +110,25 @@ export default class Services extends Vue {
     2: 'SSR',
   };
 
+  tableHeaders = [
+    {
+      text: '名称',
+      value: 'name',
+    },
+    { text: '用户访问地址', value: 'connection_address' },
+    { text: '节点连接地址', value: 'request_address' },
+    { text: '端口范围', value: 'port_from' },
+    { text: '备注', value: 'comment' },
+    { text: '服务信息' },
+  ];
+
   servers: object[] = [{}];
   addServerDialogVis: boolean = false;
   loadingCreate: boolean = false;
   qrcodeVis: boolean = false;
-  currentUrl: string = ''; 
+  currentUrl: string = '';
+
+  createNodeId: string = '';
 
   get nodes() {
     return this.services.map((service: any) => service.node);
@@ -138,9 +150,13 @@ export default class Services extends Vue {
       this.fetchServices();
     });
   }
+  handleCreateService(id: string) {
+    this.createNodeId = id
+    this.addServerDialogVis = true;
+  }
   showQrCode(item: any) {
     this.qrcodeVis = true;
-    this.currentUrl = item.service.url
+    this.currentUrl = item.service.url;
   }
 }
 </script>
@@ -149,9 +165,6 @@ export default class Services extends Vue {
 .detail {
   position: relative;
   width: 100%;
-}
-.detail_add_btn {
-  bottom: 0;
 }
 .detail_server_item {
   padding: 10px;

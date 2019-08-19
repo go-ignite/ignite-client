@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import format from 'date-fns/format'
 import TCR from '@/components/TableColumnRender.vue'
 import RenewForm from '@/components/RenewForm.vue'
 import request from '@/apis/request'
@@ -42,55 +43,15 @@ export default {
         {
           raw: {
             label: '用户名',
-            prop: 'Username',
-          },
-        },
-        {
-          raw: {
-            label: '服务类型',
-            prop: 'ServiceType',
+            prop: 'name',
           },
         },
         {
           raw: {
             label: '创建时间',
-            prop: 'Created',
+            prop: 'created_at',
           },
           formatter: (v) => this.dateFilter(v),
-        },
-        {
-          raw: {
-            label: '过期时间',
-            prop: 'Expired',
-          },
-          formatter: (v) => this.dateFilter(v),
-        },
-        {
-          raw: {
-            label: '总流量',
-            prop: 'PackageLimit',
-          },
-          formatter: (v) => `${v} GB`,
-        },
-        {
-          raw: {
-            label: '已使用',
-            prop: 'PackageUsed',
-          },
-          formatter: (v) => this.bandwidth(v),
-        },
-        {
-          raw: {
-            label: '端口号',
-            prop: 'ServicePort',
-          },
-        },
-        {
-          raw: {
-            label: '状态',
-            prop: 'Status',
-          },
-          formatter: (v) => this.statusFormat(v),
         },
         {
           raw: {
@@ -119,17 +80,12 @@ export default {
       return value.toFixed(2).toString() + ' GB'
     },
     dateFilter: (value) => {
-      return value.split('T')[0]
+      return format(value, 'YYYY-MM-DD')
     },
   },
   methods: {
-    async pageChanged(value) {
-      const response = await getAccounts({
-        pageIndex: value.toString(),
-        pageSize: this.pagination.size,
-      })
-      this.statusList = response.data.data
-      this.pagination.total = response.data.total
+    pageChanged(value) {
+      this.fetchData(value)
     },
     stop(item) {
       const index = this.statusList.findIndex((e) => e.Id === item.Id)
@@ -213,14 +169,14 @@ export default {
     },
     async fetchData(index = 1) {
       const response = await getAccounts({
-        pageIndex: index.toString(),
-        pageSize: this.pagination.size,
+        page_index: index.toString(),
+        page_size: this.pagination.size,
       })
       this.statusList = response.list
       this.pagination.total = response.total
     },
     dateFilter: (value) => {
-      return value.split('T')[0]
+      return format(value, 'YYYY-MM-DD')
     },
     bandwidth: (value) => {
       return value.toFixed(2).toString() + ' GB'

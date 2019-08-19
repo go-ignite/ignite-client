@@ -35,14 +35,18 @@ export default function FormDialog({ open, setOpen }) {
 
   async function handleSubmit() {
     try {
-      const data = await postUserRegister(form)
+      await postUserRegister(form)
       toast.success("注册成功，您随时可以登陆系统 ~")
+      setForm(FORM_INIT)
+      setOpen(false)
     } catch (err) {
       const code = get(err, "response.data.code")
       if (code === 1000) {
         toast.error("邀请码不存在或已失效")
       } else if (code === 400) {
         alert("请正确的填写表单信息")
+      } else if (code === 1002) {
+        toast.error("用户名已存在")
       }
     }
   }

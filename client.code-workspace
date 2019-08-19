@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "user"
+		},
+		{
+			"path": "admin"
+		},
+		{
+			"path": "homepage"
+		}
+	],
+	"settings": {}
+}
