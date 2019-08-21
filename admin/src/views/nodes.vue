@@ -34,7 +34,7 @@
         <el-form-item label="节点连接地址" prop="request_address">
           <el-input :disabled="isEdit" v-model="form.request_address"></el-input>
           <el-tooltip
-            content="面板与节点的通信地址，格式为 ip:端口，单节点模式下，ip 一般为 localhost，如果面板与节点在同一网络，ip 可以配置为内网 ip 地址，若不在同一网络，ip 为节点公网 ip 地址。"
+            content="面板与节点的通信地址，格式为 ip:端口，单节点模式下，ip 一般为 localhost，如果面板与节点在同一网络，ip 可以配置为内网 ip 地址，若不在同一网络，ip 为节点公网 ip 地址。eg：localhost:4000"
             placement="top"
             popper-class="help-popper"
           >

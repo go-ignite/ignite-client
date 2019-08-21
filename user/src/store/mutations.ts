@@ -8,7 +8,7 @@ const mutations = {
   [types.LOADING](state: StateType, loading: boolean) {
     state.loading = loading;
   },
-  [types.WS_NODES_HEART](state: StateType, heart: any) {
+  [types.NODES_HEART](state: StateType, heart: any) {
     state.nodesHeart = heart;
   },
   [types.FETCH_SERVICES](state: StateType, services: any) {

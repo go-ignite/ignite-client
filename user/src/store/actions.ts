@@ -16,8 +16,8 @@ const actions: ActionTree<StateType, any> = {
   async [types.LOADING]({ commit }, loading) {
     commit(types.LOADING, loading);
   },
-  async [types.WS_NODES_HEART]({ commit }, heart) {
-    commit(types.WS_NODES_HEART, heart);
+  async [types.NODES_HEART]({ commit }, heart) {
+    commit(types.NODES_HEART, heart);
   },
 };
 

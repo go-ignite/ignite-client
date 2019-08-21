@@ -1,5 +1,6 @@
 <template>
   <div class="detail">
+    <UserStatus></UserStatus>
     <v-data-table :headers="tableHeaders" :items="nodes" hide-actions class="elevation-1">
       <template v-slot:items="props">
         <td>{{ props.item.name }}</td>
@@ -8,11 +9,16 @@
         <td>{{ props.item.port_from }} ~ {{ props.item.port_to }}</td>
         <td>{{ props.item.comment }}</td>
         <td>
-          <v-btn v-if="!props.item.service" color="primary" @click="handleCreateService(props.item.id)">创建服务</v-btn>
+          <v-btn
+            v-if="!props.item.service"
+            color="primary"
+            @click="handleCreateService(props.item.id)"
+            >创建服务</v-btn
+          >
         </td>
       </template>
     </v-data-table>
-    <v-data-iterator
+    <!-- <v-data-iterator
       :items="services"
       :hide-actions="true"
       row
@@ -76,7 +82,7 @@
           </v-list>
         </v-card>
       </v-flex>
-    </v-data-iterator>
+    </v-data-iterator> -->
     <ServiceCreate :nodeId="createNodeId" :visible.sync="addServerDialogVis"></ServiceCreate>
     <qrcode-dialog :visible.sync="qrcodeVis" :url="currentUrl"></qrcode-dialog>
   </div>
@@ -88,6 +94,7 @@ import QRCode from 'qrcode';
 import { StateType } from '@/store/state';
 import ServiceCreate from '@/components/ServiceCreate.vue';
 import QrcodeDialog from '@/components/QrcodeDialog.vue';
+import UserStatus from '@/components/UserStatus.vue';
 import { deleteServices } from '@/apis';
 import EventBus, { Event } from '@/utils/EventBus';
 
@@ -95,6 +102,7 @@ import EventBus, { Event } from '@/utils/EventBus';
   components: {
     ServiceCreate,
     QrcodeDialog,
+    UserStatus,
   },
 })
 export default class Services extends Vue {
@@ -104,11 +112,6 @@ export default class Services extends Vue {
   @Action('fetchServices') fetchServices: any;
 
   @Getter('avaliableNodes') avaliableNodes: any;
-
-  typeMap = {
-    1: 'SS',
-    2: 'SSR',
-  };
 
   tableHeaders = [
     {
@@ -134,6 +137,8 @@ export default class Services extends Vue {
     return this.services.map((service: any) => service.node);
   }
 
+  created() {
+  }
   mounted() {
     // this.fetchNodes();
     this.fetchServices();
@@ -151,7 +156,7 @@ export default class Services extends Vue {
     });
   }
   handleCreateService(id: string) {
-    this.createNodeId = id
+    this.createNodeId = id;
     this.addServerDialogVis = true;
   }
   showQrCode(item: any) {

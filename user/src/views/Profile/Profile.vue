@@ -38,9 +38,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { default as localforage } from 'localforage';
-import { Action } from 'vuex-class';
 import Clipboard from 'v-clipboard';
-import types from '../../store/types';
 import * as apis from '../../apis/index';
 import { LOGIN_PAGE } from '@/config';
 
@@ -48,27 +46,12 @@ Vue.use(Clipboard);
 
 @Component
 export default class Profile extends Vue {
-  @Action(types.WS_NODES_HEART) patchNodesHeart: any;
-  @Action(types.FETCH_SERVICES_OPTIONS) fetchServicesOptions: any;
-
-  // ws: any = null;
   drawer: boolean = false;
-  aaa: string = '';
   navs = [
     {
       title: '我的服务',
       icon: 'cast',
       routeName: 'services',
-    },
-    {
-      title: '节点信息',
-      icon: 'computer',
-      routeName: 'nodes',
-    },
-    {
-      title: '个人中心',
-      icon: 'person',
-      routeName: 'personal',
     },
   ];
 
@@ -93,25 +76,10 @@ export default class Profile extends Vue {
     location.href = LOGIN_PAGE;
   }
 
-  async mounted() {
-    this.fetchServicesOptions();
-    // const token = await localforage.getItem('ignite_token');
-    // this.ws = new WebSocket('ws://localhost:5000/api/ws/nodes');
-    // this.ws.onopen = () => {
-    //   this.ws.send(token);
-    // };
-    // this.ws.onerror = () => {
-    //   this.ws = new WebSocket('ws://localhost:5000/api/ws/nodes');
-    //   alert('连接错误');
-    // };
-    // this.ws.onclose = () => {
-    //   this.ws = new WebSocket('ws://localhost:5000/api/ws/nodes');
-    //   alert('连接关闭');
-    // };
-    // this.ws.onmessage = (event: any) => {
-    //   this.patchNodesHeart(JSON.parse(event.data) || {});
-    // };
+  mouted() {
+
   }
+
 }
 </script>
   

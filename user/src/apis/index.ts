@@ -5,18 +5,6 @@ export interface LoginPayload {
   password: string;
 }
 
-export function postUserLogin(payload: LoginPayload) {
-  return request.post('/api/user/login', payload);
-}
-
-export function postAdminLogin(payload: LoginPayload) {
-  return request.post('/api/admin/login', payload);
-}
-
-export function postUserSignup(payload: any) {
-  return request.post('/api/user/signup', payload);
-}
-
 export function fetchUserInfo(payload: any) {
   return request.get('/api/user/auth/info', payload);
 }
