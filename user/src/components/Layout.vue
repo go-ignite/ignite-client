@@ -2,29 +2,31 @@
   <v-app>
     <v-navigation-drawer fixed v-model="drawer" app>
       <v-list dense>
-        <v-list-tile v-for="nav in navs" @click="routeJump(nav.routeName)" :key="nav.routeName">
-          <v-list-tile-action>
-            <v-icon>{{ nav.icon }}</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>{{ nav.title }}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
+        <v-list-item v-for="nav in navs" @click="routeJump(nav.routeName)" :key="nav.routeName">
+          <v-list-item-icon>
+            <v-icon v-text="nav.icon"></v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title v-text="nav.title"></v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar color="indigo" dark fixed app>
-      <v-toolbar-side-icon @click.stop="toggleMenu"></v-toolbar-side-icon>
+    <v-app-bar color="indigo" dark fixed app>
+      <v-app-bar-nav-icon @click.stop="toggleMenu"></v-app-bar-nav-icon>
       <v-toolbar-title>{{ navTitle }}</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-menu offset-y>
-        <v-icon slot="activator">account_circle</v-icon>
+        <template v-slot:activator="{ on, attrs }">
+          <v-icon slot="activator" v-bind="attrs" v-on="on">account_circle</v-icon>
+        </template>
         <v-list>
           <v-list-tile @click="logout">
             <v-list-tile-title>退出登录</v-list-tile-title>
           </v-list-tile>
         </v-list>
       </v-menu>
-    </v-toolbar>
+    </v-app-bar>
     <v-content>
       <v-container fluid class="profile_container">
         <router-view></router-view>
@@ -57,7 +59,7 @@ export default class Profile extends Vue {
 
   get navTitle() {
     const navItem: any = this.navs.find((nav) => nav.routeName === this.$route.name);
-    return navItem.title;
+    return navItem ? navItem.title : '';
   }
 
   toggleMenu() {
@@ -76,10 +78,7 @@ export default class Profile extends Vue {
     location.href = LOGIN_PAGE;
   }
 
-  mouted() {
-
-  }
-
+  mouted() {}
 }
 </script>
   

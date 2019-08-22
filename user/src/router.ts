@@ -25,13 +25,13 @@ export default new Router({
     },
     {
       name: '',
-      path: '',
-      component: () => import('./views/Profile/Profile.vue'),
+      path: '/services',
+      component: () => import('./components/Layout.vue'),
       children: [
         {
           name: 'services',
-          path: 'services',
-          component: () => import('./views/Profile/Services.vue'),
+          path: '',
+          component: () => import('./views/Service'),
         },
       ],
     },
