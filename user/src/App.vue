@@ -31,6 +31,7 @@ export default class App extends Vue {
   async mounted() {
     this.fetchServicesOptions();
     const Authorization = await localforage.getItem('ignite_token');
+    if (!Authorization) return;
     const sse = new eventsource('/api/user/sync', {
       headers: {
         Authorization,

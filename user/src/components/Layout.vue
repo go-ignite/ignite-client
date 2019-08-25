@@ -21,9 +21,12 @@
           <v-icon slot="activator" v-bind="attrs" v-on="on">account_circle</v-icon>
         </template>
         <v-list>
-          <v-list-tile @click="logout">
-            <v-list-tile-title>退出登录</v-list-tile-title>
-          </v-list-tile>
+          <v-list-item @click="resetPassVis = true">
+            <v-list-item-title>修改密码</v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="logout">
+            <v-list-item-title>退出登录</v-list-item-title>
+          </v-list-item>
         </v-list>
       </v-menu>
     </v-app-bar>
@@ -35,20 +38,27 @@
     <v-footer color="indigo" app inset class="profile_footer">
       <span class="white--text">&copy; 2018 ignite</span>
     </v-footer>
+    <ResetPasswordDialog :visible.sync="resetPassVis"></ResetPasswordDialog>
   </v-app>
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { default as localforage } from 'localforage';
 import Clipboard from 'v-clipboard';
-import * as apis from '../../apis/index';
+import * as apis from '../apis/index';
+import ResetPasswordDialog from './ResetPasswordDialog.vue';
 import { LOGIN_PAGE } from '@/config';
 
 Vue.use(Clipboard);
 
-@Component
+@Component({
+  components: {
+    ResetPasswordDialog,
+  },
+})
 export default class Profile extends Vue {
   drawer: boolean = false;
+  resetPassVis: boolean = false;
   navs = [
     {
       title: '我的服务',
@@ -77,6 +87,8 @@ export default class Profile extends Vue {
     localforage.removeItem('ignite_token');
     location.href = LOGIN_PAGE;
   }
+
+  changePassword() {}
 
   mouted() {}
 }

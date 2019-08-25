@@ -1,29 +1,18 @@
 <template>
   <div class="iadmin_usertable g_wrap">
-    <el-dialog @close="cancelRenew" :visible.sync="showModal" title="服务续期" width="380">
-      <renew-form
-        @renew-success="fetchData"
-        :showModal="showModal"
-        :selectUser="selectUser"
-        :cancel="cancelRenew"
-      ></renew-form>
+    <el-dialog @close="cancelResetPassword" :visible.sync="showModal" title="重置密码" width="400px">
+      <el-form :model="form" ref="ruleForm" :rules="rules" label-width="100px" class="demo-ruleForm">
+        <el-form-item label="输入新的密码" prop="new_password">
+          <el-input type="password" v-model="form.new_password" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer">
+        <el-button type="primary" @click="doResetPassword">提交</el-button>
+      </span>
     </el-dialog>
     <t-c-r :tableData="statusList" :tableCols="tableCols" :pagination="pagination">
       <template slot="operator" slot-scope="{ col, row }">
-        <el-dropdown>
-          <el-button type="primary" size="mini">
-            操作<i class="el-icon-arrow-down el-icon--right"></i>
-          </el-button>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item v-if="row.Status !== 1" @click.native="start(row)"
-              >启动服务</el-dropdown-item
-            >
-            <el-dropdown-item v-else @click.native="stop(row)">停止服务</el-dropdown-item>
-            <el-dropdown-item @click.native="reset(row)" divided>重置流量</el-dropdown-item>
-            <el-dropdown-item @click.native="renew(row)">服务续期</el-dropdown-item>
-            <el-dropdown-item @click.native="destroy(row)">一键销毁</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
+        <el-button size="mini" @click.native="handleResetPassword(row)">重置密码</el-button>
       </template>
     </t-c-r>
   </div>
@@ -34,7 +23,7 @@ import format from 'date-fns/format'
 import TCR from '@/components/TableColumnRender.vue'
 import RenewForm from '@/components/RenewForm.vue'
 import request from '@/apis/request'
-import { getAccounts } from '../apis'
+import { getAccounts, putResetPassword } from '../apis'
 
 export default {
   computed: {
@@ -73,6 +62,25 @@ export default {
       isSimple: false,
       showModal: false,
       selectUser: {},
+      form: {
+        new_password: '',
+      },
+      rules: {
+        new_password: [
+          {
+            trigger: 'blur',
+            validator: (rule, value, callback) => {
+              if (!value) {
+                callback(new Error('请输入密码'))
+              }
+              if (value.length < 6 || value.length > 12) {
+                callback(new Error('请输入长度为 6 ~ 12 位的密码'))
+              }
+              callback()
+            },
+          },
+        ],
+      },
     }
   },
   filters: {
@@ -86,86 +94,6 @@ export default {
   methods: {
     pageChanged(value) {
       this.fetchData(value)
-    },
-    stop(item) {
-      const index = this.statusList.findIndex((e) => e.Id === item.Id)
-      this.$confirm(`是否确定停止用户${item.Username}的服务?`, '停止服务', {
-        confirmButtonText: '停止服务',
-        cancelButtonText: '取消',
-        type: 'warning',
-      }).then(() => {
-        request
-          .put('/api/admin/auth/' + item.Id.toString() + '/stop')
-          .then((response) => {
-            this.statusList[index].Status = 2
-            this.$message('用户帐号对应服务已停止!')
-          })
-          .catch(() => {
-            this.$message('停止服务失败!')
-          })
-      })
-    },
-    start(item) {
-      const index = this.statusList.findIndex((e) => e.Id === item.Id)
-      this.$confirm(`是否确定启动用户${item.Username}的服务?`, '启动服务', {
-        confirmButtonText: '启动服务',
-        cancelButtonText: '取消',
-        type: 'warning',
-      }).then(() => {
-        request
-          .put('/api/admin/auth/' + item.Id.toString() + '/start')
-          .then((response) => {
-            this.statusList[index].Status = 1
-            this.$message('用户帐号对应服务已成功启动!')
-          })
-          .catch(() => {
-            this.$message.error('启动服务失败')
-          })
-      })
-    },
-    reset(item) {
-      const index = this.statusList.findIndex((e) => e.Id === item.Id)
-      this.$confirm(`是否确定重置用户账号${item.Username}的本月流量?`, '重置流量', {
-        confirmButtonText: '重置',
-        cancelButtonText: '取消',
-        type: 'warning',
-      }).then(() => {
-        request
-          .put('/api/admin/auth/' + item.Id.toString() + '/reset')
-          .then((response) => {
-            this.statusList[index].PackageUsed = 0
-            this.$message('用户帐号本月流量已重置!')
-          })
-          .catch(() => {
-            this.$message('重置用户帐号本月流量失败!')
-          })
-      })
-    },
-    destroy(item) {
-      const index = this.statusList.findIndex((e) => e.Id === item.Id)
-      this.$confirm(`是否确定销毁用户账号${item.Username}?该操作将不可逆转`, '销毁账号', {
-        confirmButtonText: '销毁账号',
-        cancelButtonText: '取消',
-        type: 'warning',
-      }).then(() => {
-        request
-          .put('/api/admin/auth/' + item.Id.toString() + '/destroy')
-          .then((response) => {
-            this.statusList.splice(index, 1)
-            this.$message('用户帐号已销毁!')
-          })
-          .catch(() => {
-            this.$message('销毁用户帐号失败!')
-          })
-      })
-    },
-    renew(item) {
-      this.selectUser = item
-      this.showModal = true
-    },
-    cancelRenew() {
-      this.selectUser = {}
-      this.showModal = false
     },
     async fetchData(index = 1) {
       const response = await getAccounts({
@@ -186,12 +114,30 @@ export default {
       if (v === 1) return '运行中'
       return '已停止'
     },
+    handleResetPassword(item) {
+      this.selectUser = item
+      this.showModal = true
+    },
+    cancelResetPassword() {
+      this.form.new_password = ''
+      this.selectUser = {}
+      this.showModal = false
+    },
+    async doResetPassword() {
+      await this.$refs.ruleForm.validate()
+      await putResetPassword(this.form, {
+        urlParam: {
+          id: this.selectUser.id,
+        },
+      })
+      this.$message.success('重置密码成功')
+      this.cancelResetPassword()
+    },
   },
   created() {
     this.fetchData()
   },
   components: {
-    RenewForm,
     TCR,
   },
 }

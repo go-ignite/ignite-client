@@ -4,7 +4,7 @@
       v-model="show"
     >
       {{ config.text }}
-      <v-btn flat color="pink" @click.native="snackbar = false">Close</v-btn>
+      <v-btn text @click.native="snackbar = false">关闭</v-btn>
     </v-snackbar>
 </template>
 
@@ -16,7 +16,7 @@ import EventBus, { Event } from '@/utils/EventBus';
 const INIT_CONFIG = {
   direction: 'top',
   timeout: 2000,
-  mode: 'vertical',
+  vertical: false,
   show: false,
   top: true,
 };

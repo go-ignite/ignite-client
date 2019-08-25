@@ -38,3 +38,8 @@ export function fetchServicesOptions() {
 export function postServices(payload: any) {
   return request.post('/api/user/services', payload);
 }
+
+// 修改密码
+export function postChangePassword(payload: any) {
+  return request.put('/api/user/change_password', payload);
+}
