@@ -12,9 +12,6 @@ import { Component, Vue } from 'vue-property-decorator';
 import localforage from 'localforage';
 import SnackBar from '@/components/SnackBar.vue';
 import GlobalLoading from '@/components/GlobalLoading.vue';
-import types from '@/store/types';
-import { Action } from 'vuex-class';
-import { fetchNodes } from './apis';
 
 @Component({
   components: {
@@ -23,37 +20,6 @@ import { fetchNodes } from './apis';
   },
 })
 export default class App extends Vue {
-  @Action(types.FETCH_SERVICES_OPTIONS) fetchServicesOptions: any;
-  @Action(types.NODES_HEART) fetchNodesHeart: any;
-
-  ws: any = null;
-
-  async mounted() {
-    this.fetchServicesOptions();
-    const Authorization = await localforage.getItem('ignite_token');
-    if (!Authorization) return;
-    const sse = new eventsource('/api/user/sync', {
-      headers: {
-        Authorization,
-      },
-      https: { rejectUnauthorized: false },
-    });
-    sse.onopen = () => {
-      console.log('打开连接');
-    };
-    sse.onerror = (e) => {
-      console.log('发生错误', e);
-    };
-    sse.close = () => {
-      console.log('连接关闭');
-    };
-    sse.addEventListener('user_sync', (res: any) => {
-      const data = JSON.parse(res.data)[0];
-      console.log(data);
-      this.fetchNodesHeart(data);
-    });
-    this.ws = sse;
-  }
 }
 </script>
 

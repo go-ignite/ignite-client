@@ -7500,11 +7500,6 @@ uuid@^3.3.2:
   resolved "https://registry.npm.taobao.org/uuid/download/uuid-3.3.2.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fuuid%2Fdownload%2Fuuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
   integrity sha1-G0r0lV6zB3xQHCOHL8ZROBFYcTE=
 
-v-clipboard@^2.2.2:
-  version "2.2.2"
-  resolved "https://registry.npm.taobao.org/v-clipboard/download/v-clipboard-2.2.2.tgz#6144e3c5b895ead35463386aa660360a9f88fabf"
-  integrity sha1-YUTjxbiV6tNUYzhqpmA2Cp+I+r8=
-
 validate-npm-package-license@^3.0.1:
   version "3.0.3"
   resolved "http://registry.npm.taobao.org/validate-npm-package-license/download/validate-npm-package-license-3.0.3.tgz#81643bcbef1bdfecd4623793dc4648948ba98338"

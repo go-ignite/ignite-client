@@ -25,66 +25,18 @@
                 <td>{{ props.item.node.comment }}</td>
                 <td>
                   <v-btn
+                    small
                     v-if="!props.item.service"
                     color="primary"
                     @click="handleCreateService(props.item.id)"
                     >创建服务</v-btn
                   >
-                  <v-card>
-                    <v-card-title class="card_title">
-                      <h4>{{ props.item.node.name }}</h4>
-                      <div class="text-xs-center">
-                        <v-menu offset-y>
-                          <v-btn slot="activator" small icon>
-                            <v-icon>more_vert</v-icon>
-                          </v-btn>
-                          <v-list>
-                            <v-list-item @click="showQrCode(props.item)">
-                              <v-list-item-title>查看二维码</v-list-item-title>
-                            </v-list-item>
-                            <v-list-item
-                              @click="handleDeleteService(getServiceConfig(props.item.service.id))"
-                            >
-                              <v-list-item-title>删除</v-list-item-title>
-                            </v-list-item>
-                          </v-list>
-                        </v-menu>
-                      </div>
-                    </v-card-title>
-                    <v-divider></v-divider>
-                    <v-list dense>
-                      <v-list-item>
-                        <v-list-item-content>用户访问地址</v-list-item-content>
-                        <v-list-item-content class="align-end">{{
-                          props.item.node.connection_address
-                        }}</v-list-item-content>
-                      </v-list-item>
-                      <v-list-item>
-                        <v-list-item-content>类型</v-list-item-content>
-                        <v-list-item-content class="align-end">{{
-                          props.item.service.type
-                        }}</v-list-item-content>
-                      </v-list-item>
-                      <v-list-item>
-                        <v-list-item-content>加密方式</v-list-item-content>
-                        <v-list-item-content class="align-end">{{
-                          props.item.service.encryption_method
-                        }}</v-list-item-content>
-                      </v-list-item>
-                      <v-list-item>
-                        <v-list-item-content>端口号</v-list-item-content>
-                        <v-list-item-content class="align-end">{{
-                          props.item.service.port
-                        }}</v-list-item-content>
-                      </v-list-item>
-                      <v-list-item>
-                        <v-list-item-content>密码</v-list-item-content>
-                        <v-list-item-content class="align-end">
-                          {{ props.item.service.password }}
-                        </v-list-item-content>
-                      </v-list-item>
-                    </v-list>
-                  </v-card>
+                  <template v-else>
+                    <v-btn small @click="handleSeeService(props.item)">
+                      详情
+                    </v-btn>
+                    <v-btn small>删除</v-btn>
+                  </template>
                 </td>
               </template>
             </v-data-table>
@@ -93,24 +45,26 @@
       </v-expansion-panels>
     </v-row>
     <ServiceCreate :nodeId="createNodeId" :visible.sync="addServerDialogVis"></ServiceCreate>
-    <qrcode-dialog :visible.sync="qrcodeVis" :url="currentUrl"></qrcode-dialog>
+    <ServiceInfo :data="serviceInfo" :visible.sync="serviceInfoVis"></ServiceInfo>
   </div>
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { State, Action, Getter } from 'vuex-class';
-import QRCode from 'qrcode';
 import { StateType } from '@/store/state';
-import QrcodeDialog from '@/components/QrcodeDialog.vue';
 import { deleteServices } from '@/apis';
 import EventBus, { Event } from '@/utils/EventBus';
+import types from '@/store/types';
+import eventsource from 'eventsource';
+import localforage from 'localforage';
 import ServiceCreate from './ServiceCreate.vue';
+import ServiceInfo from './ServiceInfo.vue';
 import UserStatus from './UserStatus.vue';
 
 @Component({
   components: {
     ServiceCreate,
-    QrcodeDialog,
+    ServiceInfo,
     UserStatus,
   },
 })
@@ -121,6 +75,8 @@ export default class Services extends Vue {
   @Action('fetchServices') fetchServices: any;
 
   @Getter('avaliableNodes') avaliableNodes: any;
+  @Action(types.FETCH_SERVICES_OPTIONS) fetchServicesOptions: any;
+  @Action(types.NODES_HEART) fetchNodesHeart: any;
 
   tableHeaders = [
     {
@@ -136,9 +92,9 @@ export default class Services extends Vue {
 
   servers: object[] = [{}];
   addServerDialogVis: boolean = false;
-  loadingCreate: boolean = false;
-  qrcodeVis: boolean = false;
-  currentUrl: string = '';
+  serviceInfoVis: boolean = false;
+  serviceInfo: any = null;
+  ws: any = null;
 
   createNodeId: string = '';
 
@@ -147,9 +103,32 @@ export default class Services extends Vue {
   }
 
   created() {}
-  mounted() {
+  async mounted() {
+    this.fetchServicesOptions();
     // this.fetchNodes();
     this.fetchServices();
+    const Authorization = await localforage.getItem('ignite_token');
+    const sse = new eventsource('/api/user/sync', {
+      headers: {
+        Authorization,
+      },
+      https: { rejectUnauthorized: false },
+    });
+    sse.onopen = () => {
+      console.log('打开连接');
+    };
+    sse.onerror = (e) => {
+      console.log('发生错误', e);
+    };
+    sse.close = () => {
+      console.log('连接关闭');
+    };
+    sse.addEventListener('user_sync', (res: any) => {
+      const data = JSON.parse(res.data)[0];
+      console.log(data);
+      this.fetchNodesHeart(data);
+    });
+    this.ws = sse;
   }
 
   getServiceConfig({ id }: any) {
@@ -166,9 +145,9 @@ export default class Services extends Vue {
     this.createNodeId = id;
     this.addServerDialogVis = true;
   }
-  showQrCode(item: any) {
-    this.qrcodeVis = true;
-    this.currentUrl = item.service.url;
+  handleSeeService(item: any) {
+    this.serviceInfo = item;
+    this.serviceInfoVis = true;
   }
 }
 </script>

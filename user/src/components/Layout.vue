@@ -44,12 +44,9 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { default as localforage } from 'localforage';
-import Clipboard from 'v-clipboard';
 import * as apis from '../apis/index';
 import ResetPasswordDialog from './ResetPasswordDialog.vue';
 import { LOGIN_PAGE } from '@/config';
-
-Vue.use(Clipboard);
 
 @Component({
   components: {
