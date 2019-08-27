@@ -108,7 +108,7 @@ export default class Services extends Vue {
     // this.fetchNodes();
     this.fetchServices();
     const Authorization = await localforage.getItem('ignite_token');
-    const sse = new eventsource('/api/user/sync', {
+    const sse = new eventsource('/api/user/services/sync', {
       headers: {
         Authorization,
       },
