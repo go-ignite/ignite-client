@@ -1,7 +1,18 @@
 <template>
   <div class="iadmin_usertable g_wrap">
-    <el-dialog @close="cancelResetPassword" :visible.sync="showModal" title="重置密码" width="400px">
-      <el-form :model="form" ref="ruleForm" :rules="rules" label-width="100px" class="demo-ruleForm">
+    <el-dialog
+      @close="cancelResetPassword"
+      :visible.sync="showModal"
+      title="重置密码"
+      width="400px"
+    >
+      <el-form
+        :model="form"
+        ref="ruleForm"
+        :rules="rules"
+        label-width="100px"
+        class="demo-ruleForm"
+      >
         <el-form-item label="输入新的密码" prop="new_password">
           <el-input type="password" v-model="form.new_password" autocomplete="off"></el-input>
         </el-form-item>
@@ -13,6 +24,7 @@
     <t-c-r :tableData="statusList" :tableCols="tableCols" :pagination="pagination">
       <template slot="operator" slot-scope="{ col, row }">
         <el-button size="mini" @click.native="handleResetPassword(row)">重置密码</el-button>
+        <el-button size="mini" @click.native="handleViewService(row)">查看服务</el-button>
       </template>
     </t-c-r>
   </div>
@@ -45,7 +57,6 @@ export default {
         {
           raw: {
             label: '',
-            width: '150px',
           },
           slot: 'operator',
         },
@@ -132,6 +143,14 @@ export default {
       })
       this.$message.success('重置密码成功')
       this.cancelResetPassword()
+    },
+    handleViewService({ id }) {
+      this.$router.push({
+        name: 'services',
+        query: {
+          user_id: id,
+        },
+      })
     },
   },
   created() {

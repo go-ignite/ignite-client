@@ -8,6 +8,7 @@
             操作<i class="el-icon-arrow-down el-icon--right"></i>
           </el-button>
           <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item @click.native="jumpNode(scope.row)">查看服务</el-dropdown-item>
             <el-dropdown-item @click.native="editNode(scope.row)">编辑</el-dropdown-item>
             <el-dropdown-item @click.native="handleDelete(scope.row)">删除</el-dropdown-item>
           </el-dropdown-menu>
@@ -206,6 +207,15 @@ export default {
       this.form = { ...FormInit }
       this.isEdit = false
       this.editId = null
+    },
+
+    jumpNode({ id }) {
+      this.$router.push({
+        name: 'services',
+        query: {
+          node_id: id,
+        },
+      })
     },
   },
 
