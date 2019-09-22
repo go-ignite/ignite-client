@@ -106,12 +106,6 @@ export default {
         },
         {
           raw: {
-            label: '服务类型',
-            prop: 'type',
-          },
-        },
-        {
-          raw: {
             label: '二维码url',
             prop: 'url',
           },

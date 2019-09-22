@@ -52,7 +52,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { State, Action, Getter } from 'vuex-class';
 import { StateType } from '@/store/state';
-import { deleteServices } from '@/apis';
+import { deleteServices, fetchUserInfo } from '@/apis';
 import EventBus, { Event } from '@/utils/EventBus';
 import types from '@/store/types';
 import eventsource from 'eventsource';
@@ -137,7 +137,7 @@ export default class Services extends Vue {
 
   handleDeleteService(item: any) {
     deleteServices(item.id).then(() => {
-      EventBus.$emit(Event.TOAST, { text: '删除成功' });
+      EventBus.emit(Event.TOAST, { text: '删除成功' });
       this.fetchServices();
     });
   }

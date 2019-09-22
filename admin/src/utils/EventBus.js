@@ -1,5 +1,7 @@
-import Vue from 'vue'
+import EventCycle from 'event-cycle';
+
 export const Event = {
   LOGIN_SUCCESS: 'login_success',
-}
-export default new Vue()
+};
+
+export default new EventCycle();

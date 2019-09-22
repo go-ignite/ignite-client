@@ -72,12 +72,12 @@ export default class QrcodeDialog extends Vue {
 
     try {
       await postChangePassword(this.form);
-      EventBus.$emit(Event.TOAST, { text: '修改成功' });
+      EventBus.emit(Event.TOAST, { text: '修改成功' });
       this.visibleChange(true);
     } catch (e) {
       const code = get(e, 'response.data.code');
       if (code === 1106) {
-        EventBus.$emit(Event.TOAST, { text: '用户密码填写错误' });
+        EventBus.emit(Event.TOAST, { text: '用户密码填写错误' });
       }
     }
   }

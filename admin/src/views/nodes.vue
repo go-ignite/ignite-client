@@ -2,18 +2,11 @@
   <div class="nodes g_wrap">
     <el-button @click="createNodeVis = true" type="primary">创建节点</el-button>
     <t-c-r :tableData="tableData" :tableCols="tableCols">
-      <div slot="operator" slot-scope="scope">
-        <el-dropdown>
-          <el-button type="primary" size="mini">
-            操作<i class="el-icon-arrow-down el-icon--right"></i>
-          </el-button>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item @click.native="jumpNode(scope.row)">查看服务</el-dropdown-item>
-            <el-dropdown-item @click.native="editNode(scope.row)">编辑</el-dropdown-item>
-            <el-dropdown-item @click.native="handleDelete(scope.row)">删除</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-      </div>
+      <template slot="operator" slot-scope="{ col, row }">
+        <el-button size="mini" @click.native="jumpNode(row)">查看服务</el-button>
+        <el-button size="mini" @click.native="editNode(row)">编辑</el-button>
+        <el-button size="mini" @click.native="handleDelete(row)">删除</el-button>
+      </template>
     </t-c-r>
     <el-dialog
       :visible.sync="createNodeVis"
@@ -150,6 +143,7 @@ export default {
         {
           raw: {
             label: '操作',
+            width: '300px',
           },
           slot: 'operator',
         },

@@ -5,8 +5,9 @@ export interface LoginPayload {
   password: string;
 }
 
-export function fetchUserInfo(payload: any) {
-  return request.get('/api/user/auth/info', payload);
+// 获取用户信息
+export function fetchUserInfo() {
+  return request.get('/api/user/info');
 }
 
 export function fetchServiceConfig() {

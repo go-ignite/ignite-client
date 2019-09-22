@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import EventBus, { Event } from '../utils/EventBus'
 import { LOGIN_PAGE } from '../config'
 
 export default {

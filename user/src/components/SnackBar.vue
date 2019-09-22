@@ -29,12 +29,9 @@ export default class Register extends Vue {
 
   config = { ...INIT_CONFIG };
 
-  // listenClose(v) {
-  //   alert(v);
-  // }
 
   created() {
-    EventBus.$on(Event.TOAST, (config: object) => {
+    EventBus.on(Event.TOAST, (config: object) => {
       this.config = Object.assign(this.config, config);
       this.show = true
     });

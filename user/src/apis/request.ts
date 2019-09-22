@@ -1,6 +1,5 @@
 import axios from 'axios';
 import localforage from 'localforage';
-import EventBus, { Event } from '@/utils/EventBus';
 import { LOGIN_PAGE } from '@/config';
 
 const $http = axios.create({

@@ -3265,6 +3265,11 @@ etag@~1.8.1:
   resolved "https://registry.npm.taobao.org/etag/download/etag-1.8.1.tgz#41ae2eeb65efa62268aebfea83ac7d79299b0887"
   integrity sha1-Qa4u62XvpiJorr/qg6x9eSmbCIc=
 
+event-cycle@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.npm.taobao.org/event-cycle/download/event-cycle-0.5.0.tgz#ef50fe6192f3fa715627291689b764ada18dca34"
+  integrity sha1-71D+YZLz+nFWJykWibdkraGNyjQ=
+
 event-pubsub@4.3.0:
   version "4.3.0"
   resolved "https://registry.npm.taobao.org/event-pubsub/download/event-pubsub-4.3.0.tgz#f68d816bc29f1ec02c539dc58c8dd40ce72cb36e"

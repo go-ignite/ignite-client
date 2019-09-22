@@ -1,6 +1,7 @@
-import Vue from 'vue';
+import EventCycle from 'event-cycle';
 
 export const Event = {
   TOAST: 'show_toast',
 };
-export default new Vue();
+
+export default new EventCycle();

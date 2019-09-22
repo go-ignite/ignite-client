@@ -3,6 +3,7 @@ import builder from './builder'
 
 export const getAccounts = builder.get('/api/admin/accounts') // 获取用户列表
 export const putResetPassword = builder.put('/api/admin/accounts/:id/reset_password') // 获取用户列表
+export const deleteAccounts = builder.delete('/api/admin/accounts/:id') // 删除用户
 
 export const getNodes = builder.get('/api/admin/nodes') // 获取节点列表
 export const postNodes = builder.post('/api/admin/nodes') // 创建节点

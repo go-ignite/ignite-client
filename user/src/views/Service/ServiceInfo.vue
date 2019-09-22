@@ -61,7 +61,6 @@ import { postServiceCreate, postServices } from '@/apis';
 import types from '@/store/types';
 import get from 'lodash/get';
 import QRCode from 'qrcode';
-import EventBus, { Event } from '@/utils/EventBus';
 
 @Component({
   props: {
