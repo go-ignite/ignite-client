@@ -5,14 +5,11 @@
         创建服务
       </v-card-title>
       <v-card-text>
-        <v-radio-group v-model="addServerForm.node_id" label="请选择服务节点">
-          <v-radio
-            v-for="node in avaliableNodes"
-            :key="node.id"
-            :label="node.name"
-            :value="node.id"
-          ></v-radio>
-        </v-radio-group>
+        <v-select
+          v-model="addServerForm.node_id"
+          :items="avaliableNodes.map(node => ({text: node.name, value: node.id}))"
+          label="请选择服务节点"
+        ></v-select>
         <v-select
           v-model="addServerForm.type"
           :items="serviceTypes"
@@ -25,8 +22,8 @@
         ></v-select>
       </v-card-text>
       <v-card-actions>
-        <v-btn @click.stop="serverCreate" color="primary" flat>创建</v-btn>
-        <v-btn @click.stop="visibleChange(false)" flat>取消</v-btn>
+        <v-btn @click.stop="serverCreate" color="primary">创建</v-btn>
+        <v-btn @click.stop="visibleChange(false)">取消</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

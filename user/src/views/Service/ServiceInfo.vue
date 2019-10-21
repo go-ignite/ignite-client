@@ -12,6 +12,10 @@
       <v-divider></v-divider>
       <v-list dense v-if="!showQrcode">
         <v-list-item>
+          <v-list-item-content>服务状态</v-list-item-content>
+          <v-list-item-content class="align-end">{{ getServiceStatus(service.id) }}</v-list-item-content>
+        </v-list-item>
+        <v-list-item>
           <v-list-item-content>用户访问地址</v-list-item-content>
           <v-list-item-content class="align-end">{{ node.connection_address }}</v-list-item-content>
         </v-list-item>
@@ -69,6 +73,7 @@ import QRCode from 'qrcode';
   components: {},
 })
 export default class ServerCreate extends Vue {
+  @State('nodesHeart') nodesHeart: any;
   @Emit('update:visible')
   visibleChange(option: boolean) {}
 
@@ -93,6 +98,13 @@ export default class ServerCreate extends Vue {
   async generateQR(url: string) {
     if (!url) return '';
     return await QRCode.toDataURL(url, { errorCorrectionLevel: 'H', width: 150 });
+  }
+
+  getServiceStatus(id: string) {
+    const item = this.nodesHeart.find((node: any) => node.service.id === id)
+    if (item) {
+      return item.service.status === 'RUNNING' ? '正常' : '异常'
+    }
   }
 
   @Watch('service.url')

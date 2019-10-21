@@ -19,7 +19,7 @@
         label-width="150px"
         label-position="right"
         :model="form"
-        :rules="rules"
+        :rules="getRules"
         ref="form"
       >
         <el-form-item label="节点名称" prop="name">
@@ -27,12 +27,18 @@
         </el-form-item>
         <el-form-item label="节点连接地址" prop="request_address">
           <el-input :disabled="isEdit" v-model="form.request_address"></el-input>
-          <el-tooltip
-            content="面板与节点的通信地址，格式为 ip:端口，单节点模式下，ip 一般为 localhost，如果面板与节点在同一网络，ip 可以配置为内网 ip 地址，若不在同一网络，ip 为节点公网 ip 地址。eg：localhost:4000"
-            placement="top"
-            popper-class="help-popper"
-          >
+          <el-tooltip placement="top" popper-class="help-popper">
             <i class="help-tip el-icon-warning-outline"></i>
+            <div slot="content">
+              <p>
+                面板与节点的通信地址，格式为 ip:端口，单节点模式下，ip 一般为
+                localhost，eg：localhost:4000
+              </p>
+              <p>
+                如果面板与节点在同一网络，ip 可以配置为内网 ip 地址，若不在同一网络，ip 为节点公网
+                ip 地址。
+              </p>
+            </div>
           </el-tooltip>
         </el-form-item>
         <el-form-item label="用户访问地址" prop="connection_address">
@@ -45,7 +51,7 @@
             <i class="help-tip el-icon-warning-outline"></i>
           </el-tooltip>
         </el-form-item>
-        <el-form-item label="端口范围">
+        <el-form-item label="端口范围" prop="port_range">
           <el-col :span="6">
             <el-input v-model.number="form.port_from" placeholder="起始端口"></el-input>
           </el-col>
@@ -84,13 +90,6 @@ const FormInit = {
   comment: '',
 }
 
-const rules = {
-  name: [{ required: true, message: '请输入名称', trigger: 'blur' }],
-  request_address: [{ required: true, message: '请输入address', trigger: 'blur' }],
-  connection_address: [{ required: true, message: '请输入connection', trigger: 'blur' }],
-  // port: [{ type: 'date', required: true, message: '请选择时间', trigger: 'change' }],
-}
-
 export default {
   components: {
     TCR,
@@ -99,7 +98,6 @@ export default {
   data() {
     return {
       form: { ...FormInit },
-      rules,
       tableData: [],
       createNodeVis: false,
       isEdit: false,
@@ -108,6 +106,29 @@ export default {
   },
 
   computed: {
+    getRules() {
+      return {
+        name: [{ required: true, message: '请输入名称', trigger: 'blur' }],
+        request_address: [{ required: true, message: '请输入节点连接地址', trigger: 'blur' }],
+        connection_address: [{ required: true, message: '请输入用户访问地址', trigger: 'blur' }],
+        port_range: [
+          {
+            validator: (_, value, callback, source, options) => {
+              if (!this.form.port_from) {
+                callback('请输入开始端口')
+              } else if (!this.form.port_to) {
+                callback('请输入结束端口')
+              } else if (this.form.port_from >= this.form.port_to) {
+                callback('开始端口号需小于结束端口')
+              } else {
+                callback()
+              }
+            },
+          },
+        ],
+        // port: [{ type: 'date', required: true, message: '请选择时间', trigger: 'change' }],
+      }
+    },
     tableCols() {
       return [
         {

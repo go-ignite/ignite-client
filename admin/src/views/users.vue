@@ -7,7 +7,7 @@
         <el-button size="mini" @click.native="handleRemoveService(row)">删除用户</el-button>
       </template>
     </t-c-r>
-    <reset-password-modal :user="selectUser" :visible.sync="visResetPassword"></reset-password-modal>
+    <ResetPasswordModal :user="selectUser" :visible.sync="visResetPassword" />
   </div>
 </template>
 
@@ -130,7 +130,6 @@ export default {
       await deleteAccounts(null, { urlParam: { id } })
       const index = this.statusList.findIndex((e) => e.id === id)
       if (index > -1) {
-        this.statusList.splice(index, 1)
         this.$message.success('用户已删除')
         this.fetchData()
       }

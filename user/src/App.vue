@@ -7,7 +7,6 @@
 </template>
 
 <script lang="ts">
-import eventsource from 'eventsource';
 import { Component, Vue } from 'vue-property-decorator';
 import localforage from 'localforage';
 import SnackBar from '@/components/SnackBar.vue';

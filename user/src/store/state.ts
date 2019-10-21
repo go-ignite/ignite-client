@@ -5,7 +5,7 @@ export const state: StateType = {
   servicesOptions: [],
   nodes: [],
   services: [],
-  nodesHeart: {},
+  nodesHeart: [],
 };
 
 export interface StateType {
@@ -15,7 +15,7 @@ export interface StateType {
   loading: boolean;
   nodes: object[];
   services: object[];
-  nodesHeart: object;
+  nodesHeart: object[];
 }
 
 export interface UserInfo {

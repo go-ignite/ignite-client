@@ -19,6 +19,7 @@
             >
               <template v-slot:item="props">
                 <td>{{ props.item.node.name }}</td>
+                <td>{{ getNodesStatus(props.item.node.id) }}</td>
                 <td>{{ props.item.node.connection_address }}</td>
                 <td>{{ props.item.node.request_address }}</td>
                 <td>{{ props.item.node.port_from }} ~ {{ props.item.node.port_to }}</td>
@@ -33,9 +34,8 @@
                   >
                   <template v-else>
                     <v-btn small @click="handleSeeService(props.item)">
-                      详情
+                      查看详情
                     </v-btn>
-                    <v-btn small>删除</v-btn>
                   </template>
                 </td>
               </template>
@@ -44,7 +44,7 @@
         </v-expansion-panel>
       </v-expansion-panels>
     </v-row>
-    <ServiceCreate :nodeId="createNodeId" :visible.sync="addServerDialogVis"></ServiceCreate>
+    <ServiceCreateDialog :nodeId="createNodeId" :visible.sync="visServiceCreateDialog" />
     <ServiceInfo :data="serviceInfo" :visible.sync="serviceInfoVis"></ServiceInfo>
   </div>
 </template>
@@ -57,13 +57,13 @@ import EventBus, { Event } from '@/utils/EventBus';
 import types from '@/store/types';
 import eventsource from 'eventsource';
 import localforage from 'localforage';
-import ServiceCreate from './ServiceCreate.vue';
+import ServiceCreateDialog from './ServiceCreateDialog.vue';
 import ServiceInfo from './ServiceInfo.vue';
 import UserStatus from './UserStatus.vue';
 
 @Component({
   components: {
-    ServiceCreate,
+    ServiceCreateDialog,
     ServiceInfo,
     UserStatus,
   },
@@ -77,11 +77,15 @@ export default class Services extends Vue {
   @Getter('avaliableNodes') avaliableNodes: any;
   @Action(types.FETCH_SERVICES_OPTIONS) fetchServicesOptions: any;
   @Action(types.NODES_HEART) fetchNodesHeart: any;
+  @Action(types.LOADING) changeLoading: any;
 
   tableHeaders = [
     {
       text: '名称',
       value: 'name',
+    },
+    {
+      text: '节点状态',
     },
     { text: '用户访问地址', value: 'connection_address' },
     { text: '节点连接地址', value: 'request_address' },
@@ -91,7 +95,7 @@ export default class Services extends Vue {
   ];
 
   servers: object[] = [{}];
-  addServerDialogVis: boolean = false;
+  visServiceCreateDialog: boolean = false;
   serviceInfoVis: boolean = false;
   serviceInfo: any = null;
   ws: any = null;
@@ -124,9 +128,9 @@ export default class Services extends Vue {
       console.log('连接关闭');
     };
     sse.addEventListener('user_sync', (res: any) => {
-      const data = JSON.parse(res.data)[0];
-      console.log(data);
-      this.fetchNodesHeart(data);
+      const data = JSON.parse(res.data);
+      console.log(data)
+      this.fetchNodesHeart(data.node_service);
     });
     this.ws = sse;
   }
@@ -143,11 +147,18 @@ export default class Services extends Vue {
   }
   handleCreateService(id: string) {
     this.createNodeId = id;
-    this.addServerDialogVis = true;
+    this.visServiceCreateDialog = true;
   }
   handleSeeService(item: any) {
     this.serviceInfo = item;
     this.serviceInfoVis = true;
+  }
+
+  getNodesStatus(id: string) {
+    const item = this.nodesHeart.find((node: any) => node.node.id === id)
+    if (item) {
+      return item.node.available ? '正常' : '异常'
+    }
   }
 }
 </script>
