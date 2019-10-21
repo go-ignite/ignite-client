@@ -1,26 +1,5 @@
 <template>
   <div class="iadmin_usertable g_wrap">
-    <el-dialog
-      @close="cancelResetPassword"
-      :visible.sync="showModal"
-      title="重置密码"
-      width="400px"
-    >
-      <el-form
-        :model="form"
-        ref="ruleForm"
-        :rules="rules"
-        label-width="100px"
-        class="demo-ruleForm"
-      >
-        <el-form-item label="输入新的密码" prop="new_password">
-          <el-input type="password" v-model="form.new_password" autocomplete="off"></el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer">
-        <el-button type="primary" @click="doResetPassword">提交</el-button>
-      </span>
-    </el-dialog>
     <t-c-r :tableData="statusList" :tableCols="tableCols" :pagination="pagination">
       <template slot="operator" slot-scope="{ col, row }">
         <el-button size="mini" @click.native="handleResetPassword(row)">重置密码</el-button>
@@ -28,6 +7,7 @@
         <el-button size="mini" @click.native="handleRemoveService(row)">删除用户</el-button>
       </template>
     </t-c-r>
+    <reset-password-modal :user="selectUser" :visible.sync="visResetPassword"></reset-password-modal>
   </div>
 </template>
 
@@ -36,7 +16,8 @@ import format from 'date-fns/format'
 import TCR from '@/components/TableColumnRender.vue'
 import RenewForm from '@/components/RenewForm.vue'
 import request from '@/apis/request'
-import { getAccounts, putResetPassword, deleteAccounts } from '../apis'
+import { getAccounts, deleteAccounts } from '../apis'
+import ResetPasswordModal from './users/resetPasswordModal'
 
 export default {
   computed: {
@@ -96,26 +77,8 @@ export default {
       statusList: [],
       isSimple: false,
       showModal: false,
+      visResetPassword: false,
       selectUser: {},
-      form: {
-        new_password: '',
-      },
-      rules: {
-        new_password: [
-          {
-            trigger: 'blur',
-            validator: (rule, value, callback) => {
-              if (!value) {
-                callback(new Error('请输入密码'))
-              }
-              if (value.length < 6 || value.length > 12) {
-                callback(new Error('请输入长度为 6 ~ 12 位的密码'))
-              }
-              callback()
-            },
-          },
-        ],
-      },
     }
   },
   filters: {
@@ -149,25 +112,6 @@ export default {
       if (v === 1) return '运行中'
       return '已停止'
     },
-    handleResetPassword(item) {
-      this.selectUser = item
-      this.showModal = true
-    },
-    cancelResetPassword() {
-      this.form.new_password = ''
-      this.selectUser = {}
-      this.showModal = false
-    },
-    async doResetPassword() {
-      await this.$refs.ruleForm.validate()
-      await putResetPassword(this.form, {
-        urlParam: {
-          id: this.selectUser.id,
-        },
-      })
-      this.$message.success('重置密码成功')
-      this.cancelResetPassword()
-    },
     handleViewService({ id }) {
       this.$router.push({
         name: 'services',
@@ -191,12 +135,17 @@ export default {
         this.fetchData()
       }
     },
+    handleResetPassword(item) {
+      this.selectUser = item
+      this.visResetPassword = true
+    },
   },
   created() {
     this.fetchData()
   },
   components: {
     TCR,
+    ResetPasswordModal
   },
 }
 </script>
