@@ -1,13 +1,13 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { IndexContextProvider } from "../utils/indexContext"
-import Nav from "./nav"
+import Header from "./Header"
 
 const Layout = ({ children }) => {
   return (
     <div>
       <IndexContextProvider>
-        <Nav></Nav>
+        <Header></Header>
         <main>{children}</main>
       </IndexContextProvider>
     </div>

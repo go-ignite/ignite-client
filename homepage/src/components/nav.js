@@ -6,7 +6,7 @@ import MediaQuery from "react-responsive"
 // import LoginBtn from "./button"
 import Register from "./register"
 import logoUrl from "../images/ignite-icon.png"
-import { Wrap } from "./base"
+import { Wrap } from "./ui"
 import IndexContext from "../utils/indexContext"
 
 export default () => {
@@ -22,8 +22,7 @@ export default () => {
                 <NavLogo src={logoUrl}></NavLogo>
                 <NavRight>
                   <Ul>
-                    <Li onClick={() => ctx.setVisRegister(true)}>注册</Li>
-                    <Li onClick={() => ctx.setVisRegister(true)}>关于我们</Li>
+                    <Li onClick={() => ctx.setVisRegister(true)}>登陆</Li>
                   </Ul>
                   {/* <LoginBtn white={true} onClick={() => ctx.setVisLogin(true)}>
                     登陆
