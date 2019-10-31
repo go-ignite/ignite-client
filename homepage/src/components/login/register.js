@@ -3,10 +3,11 @@ import { toast } from "react-toastify"
 import Button from "@material-ui/core/Button"
 import TextField from "@material-ui/core/TextField"
 import Link from "@material-ui/core/Link"
+import Close from '@material-ui/icons/Close'
 import get from "lodash.get"
 import styled from "styled-components"
 import { postUserRegister } from "../../utils/request"
-import { LoginForm } from "./login"
+import { StyledLoginForm, StyledLoginTitle } from "./login"
 
 export default ({ backLogin }) => {
   const [username, setUsername] = useState("")
@@ -38,12 +39,6 @@ export default ({ backLogin }) => {
     }
     return formErrors
   }
-  const errorLine = error =>
-    error ? (
-      <ErrorLine>
-        <span>{error}</span>
-      </ErrorLine>
-    ) : null
 
   const handleSubmit = () => {
     setErrors(handleValidate({ username, password, invite_code }))
@@ -57,58 +52,59 @@ export default ({ backLogin }) => {
   }
 
   return (
-    <LoginForm title="注册">
-      <>
-        <TextField
-          label="用户名"
-          key="username"
-          variant="outlined"
-          value={username}
-          margin="dense"
-          onChange={e => setUsername(e.target.value)}
-          type="text"
-          fullWidth
-        />
-        {errorLine(errors.username)}
-      </>
-      <>
-        <TextField
-          margin="dense"
-          variant="outlined"
-          key="password"
-          onChange={e => setPassword(e.target.value)}
-          value={password}
-          label="密码"
-          fullWidth
-          type="password"
-        />
-        <div className="error-line"></div>
-        {errorLine(errors.password)}
-      </>
-      <>
-        <TextField
-          variant="outlined"
-          key="invite_code"
-          value={invite_code}
-          onChange={e => setInviteCode(e.target.value)}
-          margin="dense"
-          label="邀请码"
-          type="text"
-          fullWidth
-        />
-        {errorLine(errors.invite_code)}
-      </>
-      <div>
-        <Button onClick={() => handleSubmit()} color="primary">
-          提交
-        </Button>
-      </div>
-      <StyledCreateWrap>
-        <Link component="button" onClick={() => goLogin()}>
-          已有账号，立即登陆
-        </Link>
-      </StyledCreateWrap>
-    </LoginForm>
+    <div>
+      <StyledCard>
+        <StyledLoginTitle>注册
+          <StyledClose onClick={goLogin}></StyledClose>
+        </StyledLoginTitle>
+        <StyledLoginForm>
+          <>
+            <TextField
+              label="用户名"
+              key="username"
+              value={username}
+              onChange={e => setUsername(e.target.value)}
+              type="text"
+              fullWidth
+            />
+          </>
+          <>
+            <TextField
+              key="password"
+              onChange={e => setPassword(e.target.value)}
+              value={password}
+              label="密码"
+              fullWidth
+              type="password"
+            />
+            <div className="error-line"></div>
+          </>
+          <>
+            <TextField
+              variant="outlined"
+              key="invite_code"
+              value={invite_code}
+              onChange={e => setInviteCode(e.target.value)}
+              margin="dense"
+              label="邀请码"
+              type="text"
+              fullWidth
+            />
+          </>
+          <StyledRegisterLine>
+            <Button
+              variant="outlined"
+              color="primary"
+              size="large"
+              onClick={() => handleSubmit()}
+              color="primary"
+            >
+              提交
+            </Button>
+          </StyledRegisterLine>
+        </StyledLoginForm>
+      </StyledCard>
+    </div>
   )
 }
 
@@ -119,7 +115,30 @@ const ErrorLine = styled.div`
   color: #b5525c;
 `
 
-const StyledCreateWrap = styled.div`
-  text-align: right;
-  padding-top: 20px;
+const StyledRegisterLine = styled.div`
+  margin-top: 20px;
+  button {
+    width: 100%;
+  }
+`
+const StyledClose = styled(Close)`
+  font-size: 30px !important;
+  position: absolute;
+  top: 0;
+  right: 30px;
+  bottom: 0;
+  margin: auto;
+  cursor: pointer;
+`
+
+export const StyledCard = styled.div`
+  position: relative;
+  border-radius: 5px;
+  box-sizing: border-box;
+  transition: 0.3s ease;
+  ${props =>
+    props.isRegister &&
+    `
+    margin: 0 10px;
+  `}
 `
