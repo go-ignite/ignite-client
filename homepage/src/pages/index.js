@@ -3,7 +3,7 @@ import "normalize.css"
 import { ToastContainer } from "react-toastify"
 import styled from "styled-components"
 import "react-toastify/dist/ReactToastify.css"
-import Login from "../components/login/login"
+import Form from "../components/form"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import BannerRocket from "../components/BannerRocket/index"
@@ -24,7 +24,7 @@ const IndexPage = () => {
           </Wrap>
         </BannerRocket>
         <ToastContainer autoClose={4000}></ToastContainer>
-        <Login />
+        <Form />
       </div>
     </Layout>
   )

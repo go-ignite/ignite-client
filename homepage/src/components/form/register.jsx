@@ -1,19 +1,60 @@
 import React, { useState } from "react"
 import { toast } from "react-toastify"
+import { withStyles } from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
 import TextField from "@material-ui/core/TextField"
-import Link from "@material-ui/core/Link"
-import Close from '@material-ui/icons/Close'
+import Close from "@material-ui/icons/Close"
 import get from "lodash.get"
 import styled from "styled-components"
 import { postUserRegister } from "../../utils/request"
-import { StyledLoginForm, StyledLoginTitle } from "./login"
+import { StyledLoginForm, StyledErrorLine } from "."
+
+const WhiteTextField = withStyles({
+  root: {
+    color: "white",
+    "& .MuiInputBase-input": {
+      color: "#fff",
+    },
+    "& .MuiInput-underline:hover:not(.Mui-disabled):before": {
+      borderColor: "#fff",
+    },
+    "& .MuiFormLabel-root": {
+      color: "#fff",
+    },
+    "& MuiInputBase-input": {
+      color: "white !important",
+    },
+    "& MuiInput-root:after": {
+      borderBottomColor: "white",
+    },
+    "& label.Mui-focused": {
+      color: "white",
+    },
+    "& .MuiInput-underline:before": {
+      borderBottomColor: "white",
+    },
+    "& .MuiInput-underline:after": {
+      borderBottomColor: "white",
+    },
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: "red",
+      },
+      "&:hover fieldset": {
+        borderColor: "yellow",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "white",
+      },
+    },
+  },
+})(TextField)
 
 export default ({ backLogin }) => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [invite_code, setInviteCode] = useState("")
-  const [errors, setErrors] = useState({})
+  const [error, setError] = useState("")
   async function onSubmit(values) {
     try {
       await postUserRegister(values)
@@ -30,36 +71,35 @@ export default ({ backLogin }) => {
     }
   }
 
-  function handleValidate(values) {
-    const formErrors = {}
-    if (!values.password) {
-      formErrors.password = "请输入密码"
-    } else if (values.password.length < 6 || values.password.length > 12) {
-      formErrors.password = "请输入 6 ~ 12位的密码"
-    }
-    return formErrors
-  }
-
   const handleSubmit = () => {
-    setErrors(handleValidate({ username, password, invite_code }))
-    if (Object.keys(errors).length) {
+    if (!username || !username.length) {
+      setError("请输入用户名")
       return
     }
+    if (!password || !password.length) {
+      setError("请输入密码")
+      return
+    } else if (password.length < 6 || password.length > 12) {
+      setError("请输入 6 ~ 12位的密码")
+      return
+    }
+    if (!invite_code) {
+      setError("请输入邀请码")
+      return
+    }
+    setError("")
     onSubmit()
   }
-  const goLogin = () => {
-    backLogin()
-  }
-
   return (
     <div>
       <StyledCard>
-        <StyledLoginTitle>注册
-          <StyledClose onClick={goLogin}></StyledClose>
+        <StyledLoginTitle>
+          注册
+          <StyledClose onClick={backLogin}></StyledClose>
         </StyledLoginTitle>
         <StyledLoginForm>
           <>
-            <TextField
+            <WhiteTextField
               label="用户名"
               key="username"
               value={username}
@@ -69,7 +109,7 @@ export default ({ backLogin }) => {
             />
           </>
           <>
-            <TextField
+            <WhiteTextField
               key="password"
               onChange={e => setPassword(e.target.value)}
               value={password}
@@ -80,8 +120,7 @@ export default ({ backLogin }) => {
             <div className="error-line"></div>
           </>
           <>
-            <TextField
-              variant="outlined"
+            <WhiteTextField
               key="invite_code"
               value={invite_code}
               onChange={e => setInviteCode(e.target.value)}
@@ -97,28 +136,26 @@ export default ({ backLogin }) => {
               color="primary"
               size="large"
               onClick={() => handleSubmit()}
-              color="primary"
             >
               提交
             </Button>
           </StyledRegisterLine>
         </StyledLoginForm>
       </StyledCard>
+      <StyledErrorLine color="#fff">{error}</StyledErrorLine>
     </div>
   )
 }
-
-const ErrorLine = styled.div`
-  height: 15px;
-  line-height: 15px;
-  font-size: 12px;
-  color: #b5525c;
-`
 
 const StyledRegisterLine = styled.div`
   margin-top: 20px;
   button {
     width: 100%;
+    border-color: #fff;
+    color: #fff;
+    &:hover {
+      border-color: #fff;
+    }
   }
 `
 const StyledClose = styled(Close)`
@@ -141,4 +178,16 @@ export const StyledCard = styled.div`
     `
     margin: 0 10px;
   `}
+`
+
+export const StyledLoginTitle = styled.h2`
+  position: relative;
+  z-index: 1;
+  border-left: 5px solid #fff;
+  margin: 0 0 35px;
+  padding: 10px 0 10px 50px;
+  color: #fff;
+  font-size: 32px;
+  font-weight: 600;
+  text-transform: uppercase;
 `

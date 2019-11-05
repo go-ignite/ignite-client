@@ -1,7 +1,7 @@
 <template>
   <div class="detail">
     <v-row justify="center">
-      <v-expansion-panels popout :value="1">
+      <v-expansion-panels popout :value="[0,1]" multiple>
         <v-expansion-panel>
           <v-expansion-panel-header>用户信息</v-expansion-panel-header>
           <v-expansion-panel-content>

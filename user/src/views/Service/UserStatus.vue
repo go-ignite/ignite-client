@@ -1,30 +1,32 @@
 <template>
   <v-container>
     <v-row align="center">
-      <v-col :cols="2">
-        当月已使用流量 / 每月流量上限
+      <v-col :md="3" offset-md="3">
+        <v-progress-circular
+          :rotate="270"
+          :size="250"
+          :width="30"
+          :value="progressValue"
+          color="primary"
+        >
+        <div>
+          <p>当月已使用流量: {{ userInfo.month_traffic_used / 1024 / 1024 }} M</p>
+          <p>每月流量上限： {{ userInfo.package_limit }} G</p>
+        </div>
+        </v-progress-circular>
       </v-col>
-      <v-col :cols="8">
-        <v-progress-linear color="light-blue" height="10" :value="progressValue" striped></v-progress-linear>
-      </v-col>
-      <v-col :cols="2">
-        {{userInfo.month_traffic_used / 1024 / 1024}} M / {{userInfo.package_limit}} G
-      </v-col>
-    </v-row>
-    <v-row align="center">
-      <v-col :cols="1">
-        最近统计时间
-      </v-col>
-      <v-col :cols="8">
-        {{ lastStatsTime }}
-      </v-col>
-    </v-row>
-    <v-row align="center">
-      <v-col :cols="1">
-        创建时间
-      </v-col>
-      <v-col :cols="8">
-        {{ createdTime }}
+      <v-col :md="3">
+        <ul>
+          <li>姓名：{{}}</li>
+        </ul>
+        <v-row align="center">
+          最近统计时间：
+          {{ lastStatsTime }}
+        </v-row>
+        <v-row align="center">
+          创建时间：
+          {{ createdTime }}
+        </v-row>
       </v-col>
     </v-row>
   </v-container>
@@ -49,12 +51,13 @@ export default class UserStatus extends Vue {
     return time ? format(new Date(time), 'yyyy-MM-dd hh:mm:ss') : null;
   }
   get progressValue() {
-    const all = this.userInfo.month_traffic_used * 1024 * 1024 * 1024; // kb
-    return all ? this.userInfo.month_traffic_used / all : 0;
+    const used = this.userInfo.month_traffic_used || 1;
+    const all = used * 1024 * 1024 * 1024;
+    return all ? ((all - used) / all) * 100 : 0;
   }
   get createdTime() {
     const value = this.userInfo.created_at;
-    return value ? format(new Date(value), 'yyyy-MM-dd hh:mm:ss') : ''
+    return value ? format(new Date(value), 'yyyy-MM-dd hh:mm:ss') : '';
   }
 }
 </script>

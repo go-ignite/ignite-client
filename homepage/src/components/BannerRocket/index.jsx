@@ -3,7 +3,7 @@ import styled from "styled-components"
 import backgroundBg from "./imgs/rocket-background.jpg"
 import rocketBg from "./imgs/rocket.png"
 
-export default function({children}) {
+export default function({ children }) {
   return (
     <WrapStyle>
       <RocketStyle src={rocketBg} alt="" />
@@ -28,8 +28,4 @@ const WrapStyle = styled.div`
   background: url(${backgroundBg}) no-repeat;
   background-size: cover;
   position: relative;
-`
-
-const TitleStyle = styled.div`
-  padding-left: 
 `

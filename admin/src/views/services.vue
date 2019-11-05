@@ -23,8 +23,8 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="clearFilter">清除</el-button>
           <el-button type="primary" @click="fetchData(1)">查询</el-button>
+          <el-button @click="clearFilter">清除</el-button>
         </el-form-item>
       </el-form>
     </div>

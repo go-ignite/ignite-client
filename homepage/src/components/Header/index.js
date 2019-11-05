@@ -43,4 +43,5 @@ const NavItem = styled.li`
   color: #333;
   font-size: 14px;
   margin-left: 15px;
+  cursor: pointer;
 `
