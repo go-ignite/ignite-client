@@ -25,6 +25,16 @@ const Header = styled.div`
   background: #fff;
   z-index: 100;
   left: 0;
+  &::after {
+    background-color: #f0f0f2;
+    bottom: 0rem;
+    content: "";
+    height: 1px;
+    left: 0rem;
+    position: absolute;
+    right: 0rem;
+    z-index: -1;
+  }
 `
 const HeaderContent = styled(Wrap)`
   display: flex;

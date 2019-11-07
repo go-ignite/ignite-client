@@ -18,8 +18,9 @@ const RocketStyle = styled.img`
   bottom: 0;
   left: 0;
   object-fit: cover;
-  object-position: center center;
+  object-position: bottom center;
   width: 100%;
+  height: 100%;
 `
 const WrapStyle = styled.div`
   height: 100vh;

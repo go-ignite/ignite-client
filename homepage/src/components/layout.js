@@ -2,6 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import { IndexContextProvider } from "../utils/indexContext"
 import Header from "./Header"
+import Footer from "./Footer"
 
 const Layout = ({ children }) => {
   return (
@@ -9,6 +10,7 @@ const Layout = ({ children }) => {
       <IndexContextProvider>
         <Header></Header>
         <main>{children}</main>
+        <Footer></Footer>
       </IndexContextProvider>
     </div>
   )

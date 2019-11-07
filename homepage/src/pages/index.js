@@ -6,9 +6,10 @@ import "react-toastify/dist/ReactToastify.css"
 import Form from "../components/form"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import BannerRocket from "../components/BannerRocket/index"
 import "./index.less"
 import { Wrap } from "../components/ui"
+import BannerRocket from "../components/BannerRocket/index"
+import BannerIntro from "../components/BannerIntro/index"
 
 const IndexPage = () => {
   return (
@@ -19,10 +20,11 @@ const IndexPage = () => {
           <Wrap>
             <sc.MainWrap>
               <sc.Title>IGNITE</sc.Title>
-              <sc.Desc>A dockernized service for shadowsocks.</sc.Desc>
+              <sc.Desc>容器化管理 Shadowsocks 服务</sc.Desc>
             </sc.MainWrap>
           </Wrap>
         </BannerRocket>
+        <BannerIntro></BannerIntro>
         <ToastContainer autoClose={4000}></ToastContainer>
         <Form />
       </div>

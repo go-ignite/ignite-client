@@ -45,10 +45,14 @@ export default () => {
                   style={{ color: "black", margin: "15px" }}
                   fontSize={"middle"}
                 ></CloseIcon>
-                <MobileIcon src={logoUrl} ></MobileIcon>
+                <MobileIcon src={logoUrl}></MobileIcon>
                 <MobileUl>
-                  <MobileLi onClick={() => ctx.setVisLogin(true)}>登陆</MobileLi>
-                  <MobileLi onClick={() => ctx.setVisRegister(true)}>注册</MobileLi>
+                  <MobileLi onClick={() => ctx.setVisLogin(true)}>
+                    登陆
+                  </MobileLi>
+                  <MobileLi onClick={() => ctx.setVisRegister(true)}>
+                    注册
+                  </MobileLi>
                 </MobileUl>
               </MobileBody>
             </div>
@@ -68,6 +72,16 @@ const Nav = styled.nav`
   width: 100%;
   z-index: 5;
   padding: 0 15px 15px;
+  &::after {
+    background-color: #f0f0f2;
+    bottom: 0rem;
+    content: "";
+    height: 1px;
+    left: 0rem;
+    position: absolute;
+    right: 0rem;
+    z-index: -1;
+  }
 `
 const NavCenter = styled.div`
   display: flex;
