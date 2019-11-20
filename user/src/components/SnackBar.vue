@@ -11,7 +11,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { State } from 'vuex-class';
-import EventBus, { Event } from '@/utils/EventBus';
+import EventBus, { EventMap } from '@/utils/EventBus';
 
 const INIT_CONFIG = {
   direction: 'top',
@@ -31,7 +31,7 @@ export default class Register extends Vue {
 
 
   created() {
-    EventBus.on(Event.TOAST, (config: object) => {
+    EventBus.on(EventMap.TOAST, (config: object) => {
       this.config = Object.assign(this.config, config);
       this.show = true
     });

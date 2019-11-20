@@ -18,7 +18,10 @@
       <v-spacer></v-spacer>
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
-          <v-icon slot="activator" v-bind="attrs" v-on="on">account_circle</v-icon>
+          <div slot="activator" v-bind="attrs" v-on="on" class="profile_name">
+            欢迎您，{{userInfo.name}}
+            <v-icon>keyboard_arrow_down</v-icon>
+          </div>
         </template>
         <v-list>
           <v-list-item @click="resetPassVis = true">
@@ -43,6 +46,7 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import {State} from 'vuex-class'
 import { default as localforage } from 'localforage';
 import * as apis from '../apis/index';
 import ResetPasswordDialog from './ResetPasswordDialog.vue';
@@ -54,6 +58,7 @@ import { LOGIN_PAGE } from '@/config';
   },
 })
 export default class Profile extends Vue {
+  @State('userInfo') userInfo: any;
   drawer: boolean = false;
   resetPassVis: boolean = false;
   navs = [
@@ -98,6 +103,10 @@ export default class Profile extends Vue {
 }
 .profile_footer {
   padding-left: 10px;
+}
+.profile_name {
+  display: flex;
+  align-items: center;
 }
 </style>
   

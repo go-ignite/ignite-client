@@ -15,37 +15,24 @@
         </div>
         </v-progress-circular>
       </v-col>
-      <v-col :md="3">
+      <v-col :md="5">
         <ul>
-          <li>姓名：{{}}</li>
+          <li>最近统计时间：{{lastStatsTime}}</li>
+          <li>创建时间：{{createdTime}}</li>
         </ul>
-        <v-row align="center">
-          最近统计时间：
-          {{ lastStatsTime }}
-        </v-row>
-        <v-row align="center">
-          创建时间：
-          {{ createdTime }}
-        </v-row>
       </v-col>
     </v-row>
   </v-container>
 </template>
 <script lang="ts">
 import get from 'lodash/get';
+import { State } from 'vuex-class';
 import { format } from 'date-fns';
-import { fetchUserInfo } from '@/apis';
 import { Component, Vue } from 'vue-property-decorator';
 @Component
 export default class UserStatus extends Vue {
-  userInfo: any = {
-    month_traffic_used: 0,
-    package_limit: 0,
-    created_at: null,
-  };
-  async created() {
-    this.userInfo = await fetchUserInfo();
-  }
+  @State('userInfo') userInfo: any;
+
   get lastStatsTime() {
     const time = get(this.userInfo, 'last_stats_time', '');
     return time ? format(new Date(time), 'yyyy-MM-dd hh:mm:ss') : null;

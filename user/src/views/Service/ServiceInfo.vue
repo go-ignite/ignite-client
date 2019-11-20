@@ -10,10 +10,12 @@
         }}</v-btn>
       </v-card-title>
       <v-divider></v-divider>
-      <v-list dense v-if="!showQrcode">
+      <v-list dense v-show="!showQrcode">
         <v-list-item>
           <v-list-item-content>服务状态</v-list-item-content>
-          <v-list-item-content class="align-end">{{ getServiceStatus(service.id) }}</v-list-item-content>
+          <v-list-item-content class="align-end">{{
+            getServiceStatus(service.id)
+          }}</v-list-item-content>
         </v-list-item>
         <v-list-item>
           <v-list-item-content>用户访问地址</v-list-item-content>
@@ -40,7 +42,7 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-      <v-list v-else>
+      <v-list v-show="showQrcode">
         <div class="qr-wrap">
           <img :src="QRUrl" alt="" />
           <v-text-field
@@ -49,7 +51,12 @@
             label="Url"
             readonly
             placeholder="Placeholder"
-          ></v-text-field>
+          >
+          </v-text-field>
+          <div>
+            <v-btn class="COPY_BTN" :data-clipboard-text="service.url">复制 URL</v-btn>
+            <v-btn @click="handleDownloadPic(QRUrl)">下载二维码</v-btn>
+          </div>
         </div>
       </v-list>
     </v-card>
@@ -62,9 +69,11 @@ import { State, Action, Getter } from 'vuex-class';
 import { StateType } from '@/store/state';
 import { renameKey } from '@/utils/helper';
 import { postServiceCreate, postServices } from '@/apis';
+import EventBus, { EventMap } from '@/utils/EventBus';
 import types from '@/store/types';
 import get from 'lodash/get';
 import QRCode from 'qrcode';
+import Clipboard from 'clipboard';
 
 @Component({
   props: {
@@ -101,15 +110,36 @@ export default class ServerCreate extends Vue {
   }
 
   getServiceStatus(id: string) {
-    const item = this.nodesHeart.find((node: any) => node.service.id === id)
+    const item = this.nodesHeart.find((node: any) => node.service.id === id);
     if (item) {
-      return item.service.status === 'RUNNING' ? '正常' : '异常'
+      return item.service.status === 'RUNNING' ? '正常' : '异常';
     }
+  }
+
+  handleDownloadPic(url: string): void {
+    if (!url) return;
+    const link = document.createElement('a');
+    link.setAttribute('href', url)
+    link.setAttribute('download', 'ignite-scan.png');
+    link.click();
   }
 
   @Watch('service.url')
   async onUrlChange(val: string) {
     this.QRUrl = await this.generateQR(val);
+  }
+
+  @Watch('showQrcode')
+  initialButton(val: boolean) {
+    if (val) {
+      const cb = new Clipboard(document.querySelector('.COPY_BTN') as Element);
+      cb.on('success', () => {
+        EventBus.emit(EventMap.TOAST, { text: '复制成功' });
+      });
+      cb.on('fail', (e) => {
+        EventBus.emit(EventMap.TOAST, { text: '复制失败，请手动进行粘贴' });
+      });
+    }
   }
 }
 </script>

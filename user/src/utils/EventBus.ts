@@ -1,6 +1,6 @@
 import EventCycle from 'event-cycle';
 
-export const Event = {
+export const EventMap = {
   TOAST: 'show_toast',
 };
 

@@ -17,7 +17,9 @@ const mutations = {
   [types.FETCH_SERVICES_OPTIONS](state: StateType, servicesOptions: any) {
     state.servicesOptions = servicesOptions;
   },
-
+  [types.FETCH_USERINFO](state: StateType, userInfo: any) {
+    state.userInfo = userInfo;
+  },
 };
 
 export default mutations;

@@ -3,7 +3,7 @@
     <v-row justify="center">
       <v-expansion-panels popout :value="[0,1]" multiple>
         <v-expansion-panel>
-          <v-expansion-panel-header>用户信息</v-expansion-panel-header>
+          <v-expansion-panel-header>流量信息</v-expansion-panel-header>
           <v-expansion-panel-content>
             <UserStatus></UserStatus>
           </v-expansion-panel-content>
@@ -53,7 +53,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import { State, Action, Getter } from 'vuex-class';
 import { StateType } from '@/store/state';
 import { deleteServices, fetchUserInfo } from '@/apis';
-import EventBus, { Event } from '@/utils/EventBus';
+import EventBus, { EventMap } from '@/utils/EventBus';
 import types from '@/store/types';
 import eventsource from 'eventsource';
 import localforage from 'localforage';
@@ -73,6 +73,7 @@ export default class Services extends Vue {
   @State('nodesHeart') nodesHeart: any;
   // @Action('fetchNodes') fetchNodes: any;
   @Action('fetchServices') fetchServices: any;
+  @Action('fetchUserInfo') fetchUserInfo: any;
 
   @Getter('avaliableNodes') avaliableNodes: any;
   @Action(types.FETCH_SERVICES_OPTIONS) fetchServicesOptions: any;
@@ -109,7 +110,7 @@ export default class Services extends Vue {
   created() {}
   async mounted() {
     this.fetchServicesOptions();
-    // this.fetchNodes();
+    this.fetchUserInfo();
     this.fetchServices();
     const Authorization = await localforage.getItem('ignite_token');
     const sse = new eventsource('/api/user/services/sync', {
@@ -141,7 +142,7 @@ export default class Services extends Vue {
 
   handleDeleteService(item: any) {
     deleteServices(item.id).then(() => {
-      EventBus.emit(Event.TOAST, { text: '删除成功' });
+      EventBus.emit(EventMap.TOAST, { text: '删除成功' });
       this.fetchServices();
     });
   }
