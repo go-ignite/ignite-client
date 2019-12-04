@@ -9,7 +9,10 @@ export default function() {
   return (
     <Header>
       <HeaderContent>
-        <Logo src={logo}></Logo>
+        <LogoWrapStyle>
+          <LogoStyle src={logo} />
+          <span>IGNITE</span>
+        </LogoWrapStyle>
         <Nav>
           <NavItem onClick={() => ctx.setVisLogin(true)}>登陆</NavItem>
         </Nav>
@@ -42,7 +45,18 @@ const HeaderContent = styled(Wrap)`
   align-items: center;
 `
 
-const Logo = styled.img`
+const LogoWrapStyle  = styled.div`
+  display: flex;
+  align-items: center;
+  & > span {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    padding-left: 10px;
+  }
+`;
+
+const LogoStyle = styled.img`
   height: 60px;
 `
 const Nav = styled.ul`

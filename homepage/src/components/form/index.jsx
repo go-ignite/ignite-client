@@ -121,7 +121,8 @@ const StyledToggle = styled.div`
       : ""}
 `
 const StyledLoginWrap = styled.div`
-  width: 460px;
+  width: 80%;
+  max-width: 460px;
   position: relative;
 `
 const StyledCard = styled.div`

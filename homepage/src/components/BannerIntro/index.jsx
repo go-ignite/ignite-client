@@ -8,9 +8,9 @@ export default () => {
     <StyledWrap>
       <Wrap>
         <Grid container>
-          <Grid item xs={12} md={6} container justify="flex-start">
+          <StyledGrid item xs={12} md={6} container justify="flex-start">
             <StyledImgWrap></StyledImgWrap>
-          </Grid>
+          </StyledGrid>
           <Grid item xs={12} md={6}>
             <StyledTitle>功能完善</StyledTitle>
             <StyledContent>
@@ -21,9 +21,9 @@ export default () => {
           </Grid>
         </Grid>
         <Grid container direction="row-reverse" style={{ marginTop: "120px" }}>
-          <Grid item xs={12} md={6} container justify="flex-end">
+          <StyledGrid item xs={12} md={6} container justify="flex-end">
             <StyledImgWrap></StyledImgWrap>
-          </Grid>
+          </StyledGrid>
           <Grid item xs={12} md={6}>
             <StyledTitle>多节点支持</StyledTitle>
             <StyledContent>
@@ -72,4 +72,10 @@ const StyledImgWrap = styled.div`
   width: 400px;
   height: 400px;
   border: 1px solid black;
+`
+
+const StyledGrid = styled(Grid)`
+  @media(max-width: 960px) {
+    justify-content: center !important;
+  }
 `

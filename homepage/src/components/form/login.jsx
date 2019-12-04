@@ -114,4 +114,7 @@ const StyledLoginLine = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-top: 20px;
+  @media(max-width: 640px) {
+    flex-direction: column;
+  }
 `
